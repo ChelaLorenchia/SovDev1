@@ -1,0 +1,110 @@
+body {
+    background-color: #fff9f5;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .bg-pink {
+    background-color: #FFCDB2;
+  }
+
+  .product-scroll {
+    display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 16px;
+  padding-bottom: 8px;
+
+  /* Sembunyikan scrollbar di semua browser utama */
+  scrollbar-width: none;
+  }
+
+  .product-scroll .product-card {
+    min-width: 400px;
+    max-width: 500px;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    flex-shrink: 0;
+    background-color: #fff;
+    padding: 1rem;
+  }
+
+  .product-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .product-desc {
+    font-size: 0.85rem;
+    height: 60px;
+    overflow: hidden;
+  }
+
+  .btn-cart {
+    background-color: #f4c2c2;
+    color: black;
+    font-size: 0.8rem;
+  }
+
+  .footer {
+    background-color: #FBEDCD;
+    width: 100%;
+  }
+
+  .footer .social-icons i {
+    color: #000;
+  }
+
+  .qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+/* Home.html */
+body {
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  .hero-section {
+    background: linear-gradient(to right, #f8cdda, #f1a7f1);
+    padding: 4rem 0;
+  }
+  
+  .hero-section img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  
+  .section-title {
+    font-weight: 700;
+    color: #5c2a9d;
+  }
+  
+  .product-card img {
+    border-radius: 10px;
+  }
+  
+  .info-section {
+    padding: 3rem 0;
+  }
+  
+  .testimonial {
+    background-color: #f9f4ff;
+    padding: 3rem;
+    border-left: 5px solid #5c2a9d;
+    font-style: italic;
+  }
+  
+  footer {
+    background-color: #fff3f8;
+    color: #333;
+  }
+  
+  .social-icons a {
+    margin: 0 10px;
+    color: #5c2a9d;
+    text-decoration: none;
+  }
+  
