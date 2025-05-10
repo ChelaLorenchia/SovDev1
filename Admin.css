@@ -1,0 +1,84 @@
+body {
+  background-color: #fff9f5;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.bg-pink {
+  background-color: #ffcdb2;
+}
+
+h2 {
+  color: #4A1D1F;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+label {
+  margin-top: 15px;
+  font-weight: 600;
+  color: #4A1D1F;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+.desc {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+#deskripsi {
+  overflow: hidden;
+  resize: none;
+}
+
+.image-preview img {
+  width: 120px;
+  margin-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.image-preview .remove-button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  cursor: pointer;
+}
+
+.submit-button {
+  background-color: #FFA903;
+  color: rgb(0, 0, 0);
+  padding: 10px 25px;
+  margin-top: 25px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.submit-button:hover {
+  background-color: #ffcdb2;
+}
+
+.btn-back {
+  background-color: #ffc0cb;
+  color: #4A1D1F;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.btn-back:hover {
+  background-color: #ffb6c1;
+}
