@@ -2,6 +2,9 @@ body {
   background-color: #fff9f5;
   font-family: "Segoe UI", sans-serif;
 }
+h3{
+  color: #451313;
+}
 
 .bg-pink {
   background-color: #ffcdb2;
@@ -41,7 +44,7 @@ body {
 
 .btn-cart {
   background-color: #f4c2c2;
-  color: black;
+  color: #4A1D1F;
   font-size: 0.8rem;
 }
 
@@ -106,4 +109,32 @@ footer {
   margin: 0 10px;
   color: #4A1D1F;
   text-decoration: none;
+}
+
+
+/* BUAT TAMPILAN ADMIN */
+.search-container {
+  display: flex;
+  border: 1px solid #ccbcbc;
+  border-radius: 2px;
+  overflow: hidden;
+  width: 320px;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.search-container button {
+  background-color: #451313;
+  border: none;
+  padding: 0 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
