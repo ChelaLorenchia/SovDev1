@@ -25,8 +25,12 @@
           <li class="nav-item">
             <a class="nav-link" href="Home.html">Home</a>
           </li>
-          <li class="nav-item"><a class="nav-link" href="Menu.html">Menu</a></li>
-          <li class="nav-item"><a class="nav-link" href="AboutUs.html">About Us</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="Menu.html">Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="AboutUs.html">About Us</a>
+          </li>
         </ul>
         <div class="d-flex align-items-center gap-3">
           <input
@@ -36,7 +40,6 @@
           />
           <a href="Profil.html"><i class="bi bi-person fs-5 text-black"></i></a>
           <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
-
         </div>
       </div>
     </nav>
@@ -45,374 +48,502 @@
     <div class="container mt-5">
       <h3 class="fw-bold mb-4">Our Products</h3>
       <div class="mb-3">
-        <button class="btn btn-dark me-2" onclick="showCategory('asin')">Asin</button>
-        <button class="btn btn-dark" onclick="showCategory('manis')">Manis</button>
+        <button class="btn btn-dark me-2" onclick="showCategory('asin')">
+          Asin
+        </button>
+        <button class="btn btn-dark" onclick="showCategory('manis')">
+          Manis
+        </button>
       </div>
 
       <!-- Produk Asin -->
       <div class="product-category asin">
-      <h5 class="fw-semibold">Asin</h5>
-      <div class="product-scroll mb-5">
-        
-        <div class="d-flex flex-nowrap gap-4">
-          <!-- Card Produk Risol mayo-->
-          <div
-            class="product-card card p-3 d-flex flex-row gap-4"
-            style="
-              min-width: 650px;
-              border-radius: 20px;
-              border: 1px solid #f2bfbf;
-              background: #fffaf5;
-            "
-          >
-            <img
-              src="image/Risol Mayo.jpg"
-              alt="Risol"
-              style="
-                width: 150px;
-                height: 200px;
-                object-fit: cover;
-                border-radius: 16px;
-              "
-            />
+        <h5 class="fw-semibold">Asin</h5>
+        <div class="product-scroll mb-5">
+          <div class="d-flex flex-nowrap gap-4">
+            <!-- Card Produk Risol mayo-->
+            <div
+              id="preview-risol"
+              class="product-preview"
+              onclick="toggleDeskripsi('risol', true)"
+            >
+              <img
+                class="product-img-preview"
+                src="image/Risol Mayo.jpg"
+                alt="Risol Mayo"
+              />
 
-            <!-- Konten -->
-            <div class="d-flex flex-column justify-content-between flex-grow-1">
-              <!-- Deskripsi -->
-              <div>
-                <h6 class="fw-bold">Deskripsi Produk</h6>
-                <p class="text-muted small mb-3">
-                  Risol Mayo dengan kulit lembut dan renyah, berisi sosis sapi
-                  dan telur rebus, dipadukan dengan saus mayo keju yang gurih
-                  dan creamy. Cocok untuk camilan atau sajian spesial.
-                </p>
-              </div>
-
-              <div
-                class="d-flex justify-content-between align-items-center flex-wrap"
-              >
-                <!-- Nama dan Harga -->
-                <div class="hstack gap-3">
-                  <div>
-                    <h6 class="mb-0">Risol Mayo</h6>
-                    <p class="text-muted small mb-0">Harga: Rp 12.000</p>
-                  </div>
-
-                  <div class="d-flex align-items-center">
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, -1)"
-                    >
-                      −
-                    </button>
-                    <span class="mx-2 qty">0</span>
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, 1)"
-                    >
-                      +
-                    </button>
-                  </div>
+              <div class="desc-preview">
+                <div style="text-align: left">
+                  <h6 style="margin: 0">Risol Mayo</h6>
+                  <p class="text-muted" style="margin: 0">Harga: Rp 12.000</p>
                 </div>
 
-                <!-- Tombol Keranjang -->
-                <button class="btn btn-sm btn-cart mt-2 mt-md-0">
-                  Tambahkan ke Keranjang - Rp <span class="price" data-unit-price="12000">0</span>
-
+                <button
+                  class="cart-button-preview"
+                  onclick="addToCart(event, 'Risol Mayo', 12000, 'image/Risol Mayo.jpg')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="black"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 5H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 13H4a.5.5 0 0 1-.49-.402L1.61 2H.5a.5.5 0 0 1-.5-.5zm3.14 4l1.25 6h7.22l1.25-6H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
-          </div>
 
-          <!-- Card Produk Rougut-->
-          <div
-            class="product-card card p-3 d-flex flex-row gap-4"
-            style="
-              min-width: 650px;
-              border-radius: 20px;
-              border: 1px solid #f2bfbf;
-              background: #fffaf5;
-            "
-          >
-            <!-- Gambar Produk -->
-            <img
-              src="image/Rougut.jpg"
-              alt="Rougut"
-              style="
-                width: 150px;
-                height: 200px;
-                object-fit: cover;
-                border-radius: 16px;
-              "
-            />
-
-            <!-- Konten -->
-            <div class="d-flex flex-column justify-content-between flex-grow-1">
-              <!-- Deskripsi -->
-              <div>
-                <h6 class="fw-bold">Deskripsi Produk</h6>
-                <p class="text-muted small mb-3">
-                  Kulit risoles lembut dan lentur membungkus ragout gurih berisi
-                  ayam suwir, wortel, dan kentang. Tekstur creamy berpadu dengan
-                  isian sayuran segar dan bumbu yang pas, dibalut panir renyah
-                </p>
-              </div>
-
+            <!-- Kartu Deskripsi Produk (hidden) -->
+            <div
+              id="deskripsi-risol"
+              class="product-card deskripsi-produk card p-3 d-flex flex-row gap-4 d-none"
+            >
+              <img
+                src="image/Risol Mayo.jpg"
+                alt="Risol"
+                class="img-deskripsi"
+                onclick="toggleDeskripsi('risol', false)"
+              />
               <div
-                class="d-flex justify-content-between align-items-center flex-wrap"
+                class="d-flex flex-column justify-content-between flex-grow-1"
               >
-                <!-- Nama dan Harga -->
-                <div class="hstack gap-3">
-                  <div>
-                    <h6 class="mb-0">Rougut</h6>
-                    <p class="text-muted small mb-0">Harga: Rp 12.000</p>
-                  </div>
-
-                  <div class="d-flex align-items-center">
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, -1)"
-                    >
-                      −
-                    </button>
-                    <span class="mx-2 qty">0</span>
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, 1)"
-                    >
-                      +
-                    </button>
-                  </div>
+                <div>
+                  <h6 class="fw-bold">Deskripsi Produk</h6>
+                  <p class="text-muted small mb-3">
+                    Risol Mayo dengan kulit lembut dan renyah, berisi sosis sapi
+                    dan telur rebus, dipadukan dengan saus mayo keju yang gurih
+                    dan creamy. Cocok untuk camilan atau sajian spesial.
+                  </p>
                 </div>
 
-                <!-- Tombol Keranjang -->
-                <button class="btn btn-sm btn-cart mt-2 mt-md-0">
-                  Tambahkan ke Keranjang - Rp <span class="price" data-unit-price="12000">0</span>
+                <div
+                  class="d-flex justify-content-between align-items-center flex-wrap"
+                >
+                  <div class="hstack gap-3">
+                    <div>
+                      <h6 class="mb-0">Risol Mayo</h6>
+                      <p class="text-muted small mb-0">Harga: Rp 12.000</p>
+                    </div>
 
+                    <div class="d-flex align-items-center">
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, -1)"
+                      >
+                        −
+                      </button>
+                      <span class="mx-2 qty">0</span>
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, 1)"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-sm btn-cart mt-2 mt-md-0">
+                    Tambahkan ke Keranjang - Rp
+                    <span class="price" data-unit-price="12000">0</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Produk Rougut-->
+            <div
+              id="preview-Rougut"
+              class="product-preview"
+              onclick="toggleDeskripsi('Rougut', true)"
+            >
+              <img
+                class="product-img-preview"
+                src="image/Rougut.jpg"
+                alt="Rougut"
+              />
+
+              <div class="desc-preview">
+                <div style="text-align: left">
+                  <h6 style="margin: 0">Rougut</h6>
+                  <p class="text-muted" style="margin: 0">Harga: Rp 12.000</p>
+                </div>
+
+                <button
+                  class="cart-button-preview"
+                  onclick="addToCart(event, 'Rougut', 12000, 'image/Rougut.jpg')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="black"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 5H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 13H4a.5.5 0 0 1-.49-.402L1.61 2H.5a.5.5 0 0 1-.5-.5zm3.14 4l1.25 6h7.22l1.25-6H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
-          </div>
 
-          <!-- Card Produk Choi pan -->
-          <div
-            class="product-card card p-3 d-flex flex-row gap-4"
-            style="
-              min-width: 650px;
-              border-radius: 20px;
-              border: 1px solid #f2bfbf;
-              background: #fffaf5;
-            "
-          >
-            <!-- Gambar Produk -->
-            <img
-              src="image\Choipan.jpg"
-              alt="choipan"
-              style="
-                width: 150px;
-                height: 200px;
-                object-fit: cover;
-                border-radius: 16px;
-              "
-            />
-
-            <!-- Konten -->
-            <div class="d-flex flex-column justify-content-between flex-grow-1">
-              <!-- Deskripsi -->
-              <div>
-                <h6 class="fw-bold">Deskripsi Produk</h6>
-                <p class="text-muted small mb-3">
-                  Choipan khas Pontianak dengan kulit tipis dan lembut yang
-                  dikukus hingga transparan, berisi bengkuang serut dan rebon
-                  gurih beraroma khas. Disajikan dengan siraman minyak bawang
-                  harum serta sambal cocol pedas segar dari perasan jeruk
-                  sambal.
-                </p>
-              </div>
-
+            <!-- Kartu Deskripsi Produk (hidden) -->
+            <div
+              id="deskripsi-Rougut"
+              class="product-card deskripsi-produk card p-3 d-flex flex-row gap-4 d-none"
+            >
+              <img
+                src="image/Rougut.jpg"
+                alt="Rougut"
+                class="img-deskripsi"
+                onclick="toggleDeskripsi('Rougut', false)"
+              />
               <div
-                class="d-flex justify-content-between align-items-center flex-wrap"
+                class="d-flex flex-column justify-content-between flex-grow-1"
               >
-                <!-- Nama dan Harga -->
-                <div class="hstack gap-3">
-                  <div>
-                    <h6 class="mb-0">Choi Pan</h6>
-                    <p class="text-muted small mb-0">Harga: Rp 12.000</p>
-                  </div>
-
-                  <div class="d-flex align-items-center">
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, -1)"
-                    >
-                      −
-                    </button>
-                    <span class="mx-2 qty">0</span>
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, 1)"
-                    >
-                      +
-                    </button>
-                  </div>
+                <div>
+                  <h6 class="fw-bold">Deskripsi Produk</h6>
+                  <p class="text-muted small mb-3">
+                    Kulit risoles lembut dan lentur membungkus ragout gurih
+                    berisi ayam suwir, wortel, dan kentang. Tekstur creamy
+                    berpadu dengan isian sayuran segar dan bumbu yang pas,
+                    dibalut panir renyah
+                  </p>
                 </div>
 
-                <!-- Tombol Keranjang -->
-                <button class="btn btn-sm btn-cart mt-2 mt-md-0">
-                  Tambahkan ke Keranjang - Rp <span class="price" data-unit-price="12000">0</span>
+                <div
+                  class="d-flex justify-content-between align-items-center flex-wrap"
+                >
+                  <div class="hstack gap-3">
+                    <div>
+                      <h6 class="mb-0">Rougut</h6>
+                      <p class="text-muted small mb-0">Harga: Rp 12.000</p>
+                    </div>
 
+                    <div class="d-flex align-items-center">
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, -1)"
+                      >
+                        −
+                      </button>
+                      <span class="mx-2 qty">0</span>
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, 1)"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-sm btn-cart mt-2 mt-md-0">
+                    Tambahkan ke Keranjang - Rp
+                    <span class="price" data-unit-price="12000">0</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Produk Choi pan -->
+            <div
+              id="preview-Choipan"
+              class="product-preview"
+              onclick="toggleDeskripsi('Choipan', true)"
+            >
+              <img
+                class="product-img-preview"
+                src="image/Choipan.jpg"
+                alt="Choipan"
+              />
+
+              <div class="desc-preview">
+                <div style="text-align: left">
+                  <h6 style="margin: 0">Choipan</h6>
+                  <p class="text-muted" style="margin: 0">Harga: Rp 12.000</p>
+                </div>
+
+                <button
+                  class="cart-button-preview"
+                  onclick="addToCart(event, 'Choipan', 12000, 'image/Choipan.jpg')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="black"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 5H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 13H4a.5.5 0 0 1-.49-.402L1.61 2H.5a.5.5 0 0 1-.5-.5zm3.14 4l1.25 6h7.22l1.25-6H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
+                    />
+                  </svg>
                 </button>
+              </div>
+            </div>
+
+            <!-- Kartu Deskripsi Produk (hidden) -->
+            <div
+              id="deskripsi-Choipan"
+              class="product-card deskripsi-produk card p-3 d-flex flex-row gap-4 d-none"
+            >
+              <img
+                src="image/Choipan.jpg"
+                alt="Choipan"
+                class="img-deskripsi"
+                onclick="toggleDeskripsi('Choipan', false)"
+              />
+              <div
+                class="d-flex flex-column justify-content-between flex-grow-1"
+              >
+                <div>
+                  <h6 class="fw-bold">Deskripsi Produk</h6>
+                  <p class="text-muted small mb-3">
+                    Choipan khas Pontianak dengan kulit tipis dan lembut yang
+                    dikukus hingga transparan, berisi bengkuang serut dan rebon
+                    gurih beraroma khas. Disajikan dengan siraman minyak bawang
+                    harum serta sambal cocol pedas segar dari perasan jeruk
+                    sambal.
+                  </p>
+                </div>
+
+                <div
+                  class="d-flex justify-content-between align-items-center flex-wrap"
+                >
+                  <div class="hstack gap-3">
+                    <div>
+                      <h6 class="mb-0">Choipan</h6>
+                      <p class="text-muted small mb-0">Harga: Rp 12.000</p>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, -1)"
+                      >
+                        −
+                      </button>
+                      <span class="mx-2 qty">0</span>
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, 1)"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-sm btn-cart mt-2 mt-md-0">
+                    Tambahkan ke Keranjang - Rp
+                    <span class="price" data-unit-price="12000">0</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- Produk Manis -->
       <div class="product-category manis">
-      <h5 class="fw-semibold">Manis</h5>
-      <div class="product-scroll mb-5">
-        <div class="d-flex flex-nowrap gap-4">
+        <h5 class="fw-semibold">Manis</h5>
+        <div class="product-scroll mb-5">
+          <div class="d-flex flex-nowrap gap-4">
+            <!-- Card Produk Jongkong-->
+            <div
+              id="preview-Jongkong"
+              class="product-preview"
+              onclick="toggleDeskripsi('Jongkong', true)"
+            >
+              <img
+                class="product-img-preview"
+                src="image/Jongkong.jpg"
+                alt="Jongkong"
+              />
 
-          <!-- Card Produk Jongkong-->
-          <div
-            class="product-card card p-3 d-flex flex-row gap-4"
-            style="
-              min-width: 650px;
-              border-radius: 20px;
-              border: 1px solid #f2bfbf;
-              background: #fffaf5;
-            "
-          >
-            <!-- Gambar Produk -->
-            <img
-              src="image/Jongkong.jpg"
-              alt="Jongkong"
-              style="
-                width: 150px;
-                height: 200px;
-                object-fit: cover;
-                border-radius: 16px;
-              "
-            />
-
-            <!-- Konten -->
-            <div class="d-flex flex-column justify-content-between flex-grow-1">
-              <!-- Deskripsi -->
-              <div>
-                <h6 class="fw-bold">Deskripsi Produk</h6>
-                <p class="text-muted small mb-3">
-                    Kue tradisional khas bercita rasa manis dan gurih, terdiri dari tiga lapisan: gula merah cair di dasar, lapisan hijau pandan yang lembut, dan santan gurih di atasnya. Aroma daun pandan dan tekstur lumer
-                </p>
-              </div>
-
-              <div
-                class="d-flex justify-content-between align-items-center flex-wrap"
-              >
-                <!-- Nama dan Harga -->
-                <div class="hstack gap-3">
-                  <div>
-                    <h6 class="mb-0">Jongkong</h6>
-                    <p class="text-muted small mb-0">Harga: Rp 8.000</p>
-                  </div>
-
-                  <div class="d-flex align-items-center">
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, -1)"
-                    >
-                      −
-                    </button>
-                    <span class="mx-2 qty">0</span>
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, 1)"
-                    >
-                      +
-                    </button>
-                  </div>
+              <div class="desc-preview">
+                <div style="text-align: left">
+                  <h6 style="margin: 0">Jongkong</h6>
+                  <p class="text-muted" style="margin: 0">Harga: Rp 8.000</p>
                 </div>
 
-                <!-- Tombol Keranjang -->
-                <button class="btn btn-sm btn-cart mt-2 mt-md-0">
-                  Tambahkan ke Keranjang - Rp <span class="price" data-unit-price="8000">0</span>
-
+                <button
+                  class="cart-button-preview"
+                  onclick="addToCart(event, 'Jongkong', 12000, 'image/Jongkong.jpg')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="black"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 5H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 13H4a.5.5 0 0 1-.49-.402L1.61 2H.5a.5.5 0 0 1-.5-.5zm3.14 4l1.25 6h7.22l1.25-6H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
-          </div>
 
-          <!-- Card Produk Kue sus-->
-          <div
-            class="product-card card p-3 d-flex flex-row gap-4"
-            style="
-              min-width: 650px;
-              border-radius: 20px;
-              border: 1px solid #f2bfbf;
-              background: #fffaf5;
-            "
-          >
-            <!-- Gambar Produk -->
-            <img
-              src="image/Kue Sus.png"
-              alt="Kue sus"
-              style="
-                width: 150px;
-                height: 200px;
-                object-fit: cover;
-                border-radius: 16px;
-              "
-            />
-
-            <!-- Konten -->
-            <div class="d-flex flex-column justify-content-between flex-grow-1">
-              <!-- Deskripsi -->
-              <div>
-                <h6 class="fw-bold">Deskripsi Produk</h6>
-                <p class="text-muted small mb-3">
-                    Terbuat dari campuran tepung terigu protein tinggi, margarin, dan telur, kulit kue sus ini memiliki tekstur renyah di luar namun tetap lembut di dalam. Diisi dengan vla creamy yang dibuat dari susu cair, gula, dan tepung maizena, rasanya manis, lembut, dan lumer di mulut.
-                </p>
-              </div>
-
+            <!-- Kartu Deskripsi Produk (hidden) -->
+            <div
+              id="deskripsi-Jongkong"
+              class="product-card deskripsi-produk card p-3 d-flex flex-row gap-4 d-none"
+            >
+              <img
+                src="image/Jongkong.jpg"
+                alt="Jongkong"
+                class="img-deskripsi"
+                onclick="toggleDeskripsi('Jongkong', false)"
+              />
               <div
-                class="d-flex justify-content-between align-items-center flex-wrap"
+                class="d-flex flex-column justify-content-between flex-grow-1"
               >
-                <!-- Nama dan Harga -->
-                <div class="hstack gap-3">
-                  <div>
-                    <h6 class="mb-0">Kue Sus</h6>
-                    <p class="text-muted small mb-0">Harga: Rp 12.000</p>
-                  </div>
-
-                  <div class="d-flex align-items-center">
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, -1)"
-                    >
-                      −
-                    </button>
-                    <span class="mx-2 qty">0</span>
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      onclick="adjustQty(this, 1)"
-                    >
-                      +
-                    </button>
-                  </div>
+                <div>
+                  <h6 class="fw-bold">Deskripsi Produk</h6>
+                  <p class="text-muted small mb-3">
+                    Kue tradisional khas bercita rasa manis dan gurih, terdiri
+                    dari tiga lapisan: gula merah cair di dasar, lapisan hijau
+                    pandan yang lembut, dan santan gurih di atasnya. Aroma daun
+                    pandan dan tekstur lumer
+                  </p>
                 </div>
 
-                <!-- Tombol Keranjang -->
-                <button class="btn btn-sm btn-cart mt-2 mt-md-0">
-                  Tambahkan ke Keranjang - Rp <span class="price" data-unit-price="12000">0</span>
+                <div
+                  class="d-flex justify-content-between align-items-center flex-wrap"
+                >
+                  <div class="hstack gap-3">
+                    <div>
+                      <h6 class="mb-0">Jongkong</h6>
+                      <p class="text-muted small mb-0">Harga: Rp 8.000</p>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, -1)"
+                      >
+                        −
+                      </button>
+                      <span class="mx-2 qty">0</span>
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, 1)"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-sm btn-cart mt-2 mt-md-0">
+                    Tambahkan ke Keranjang - Rp
+                    <span class="price" data-unit-price="8000">0</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Produk Kue sus-->
+            <div
+              id="preview-Kue Sus"
+              class="product-preview"
+              onclick="toggleDeskripsi('Kue Sus', true)"
+            >
+              <img
+                class="product-img-preview"
+                src="image/Kue Sus.png"
+                alt="Kue Sus"
+              />
+
+              <div class="desc-preview">
+                <div style="text-align: left">
+                  <h6 style="margin: 0">Kue Sus</h6>
+                  <p class="text-muted" style="margin: 0">Harga: Rp 12.000</p>
+                </div>
+
+                <button
+                  class="cart-button-preview"
+                  onclick="addToCart(event, 'Kue Sus', 12000, 'image/Kue Sus.jpg')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="black"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 5H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 13H4a.5.5 0 0 1-.49-.402L1.61 2H.5a.5.5 0 0 1-.5-.5zm3.14 4l1.25 6h7.22l1.25-6H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
+                    />
+                  </svg>
                 </button>
+              </div>
+            </div>
+
+            <!-- Kartu Deskripsi Produk (hidden) -->
+            <div
+              id="deskripsi-Kue Sus"
+              class="product-card deskripsi-produk card p-3 d-flex flex-row gap-4 d-none"
+            >
+              <img
+                src="image/Kue Sus.png"
+                alt="Kue Sus"
+                class="img-deskripsi"
+                onclick="toggleDeskripsi('Kue Sus', false)"
+              />
+              <div
+                class="d-flex flex-column justify-content-between flex-grow-1"
+              >
+                <div>
+                  <h6 class="fw-bold">Deskripsi Produk</h6>
+                  <p class="text-muted small mb-3">
+                    Terbuat dari campuran tepung terigu protein tinggi, margarin, dan telur, kulit kue sus ini memiliki tekstur renyah di luar namun tetap lembut di dalam. Diisi dengan vla creamy yang dibuat dari susu cair, gula, dan tepung maizena, rasanya manis, lembut, dan lumer di mulut.
+                  </p>
+                </div>
+
+                <div
+                  class="d-flex justify-content-between align-items-center flex-wrap"
+                >
+                  <div class="hstack gap-3">
+                    <div>
+                      <h6 class="mb-0">Kue Sus</h6>
+                      <p class="text-muted small mb-0">Harga: Rp 12.000</p>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, -1)"
+                      >
+                        −
+                      </button>
+                      <span class="mx-2 qty">0</span>
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick="adjustQty(this, 1)"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-sm btn-cart mt-2 mt-md-0">
+                    Tambahkan ke Keranjang - Rp
+                    <span class="price" data-unit-price="12000">0</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
-      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer mt-5 py-5 text-center">

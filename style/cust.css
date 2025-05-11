@@ -2,7 +2,7 @@ body {
   background-color: #fff9f5;
   font-family: "Segoe UI", sans-serif;
 }
-h3{
+h3 {
   color: #451313;
 }
 
@@ -29,38 +29,56 @@ h3{
   padding: 1rem;
 }
 
-.product-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.product-desc {
-  font-size: 0.85rem;
-  height: 60px;
-  overflow: hidden;
-}
-
 .btn-cart {
   background-color: #f4c2c2;
-  color: #4A1D1F;
+  color: #4a1d1f;
   font-size: 0.8rem;
 }
 
-.footer {
-  background-color: #fbedcd;
-  width: 100%;
+/* Produc cart */
+.product-card.deskripsi-produk {
+  min-width: 650px;
+  border-radius: 20px;
+  border: 1px solid #f2bfbf;
+  background: #fffaf5;
+}
+.img-deskripsi {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px;
 }
 
-.footer .social-icons i {
-  color: #4A1D1F;
+/* preview before */
+.product-preview {
+  width: 240px;
+  cursor: pointer;
+  border-radius: 20px;
+  border: 1px solid #f2bfbf;
+  background: #fffaf5;
+  padding: 16px;
+  text-align: center;
 }
-
-.qty-controls {
+.product-img-preview {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+  margin: 0 auto 12px auto;
+}
+.desc-preview {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  margin-top: 12px;
+}
+.cart-button-preview {
+  background-color: #ffa903;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 /* Home.html */
@@ -78,16 +96,12 @@ h3{
   max-width: 100%;
   border-radius: 8px;
 }
-#img center{
+#img center {
   justify-content: center;
 }
 .section-title {
   font-weight: 700;
-  color: #4A1D1F;
-}
-
-.product-card img {
-  border-radius: 10px;
+  color: #4a1d1f;
 }
 
 .info-section {
@@ -96,45 +110,22 @@ h3{
 
 .testimonial {
   padding: 3rem;
-  border-left: 5px ;
+  border-left: 5px;
   font-style: italic;
 }
 
-footer {
-  background-color: #fff3f8;
-  color: #4A1D1F;
+/* Footer */
+.footer {
+  background-color: #fbedcd;
+  width: 100%;
+}
+
+.footer .social-icons i {
+  color: #4a1d1f;
 }
 
 .social-icons a {
   margin: 0 10px;
-  color: #4A1D1F;
+  color: #4a1d1f;
   text-decoration: none;
-}
-
-
-/* BUAT TAMPILAN ADMIN */
-.search-container {
-  display: flex;
-  border: 1px solid #ccbcbc;
-  border-radius: 2px;
-  overflow: hidden;
-  width: 320px;
-}
-
-.search-container input {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  outline: none;
-  font-size: 14px;
-}
-
-.search-container button {
-  background-color: #451313;
-  border: none;
-  padding: 0 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
