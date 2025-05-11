@@ -71,3 +71,4 @@
       el.style.display = el.classList.contains(category) ? 'block' : 'none';
     });
   }
+

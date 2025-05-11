@@ -45,7 +45,7 @@
         <h2 class="mb-0">Tambah Produk Baru</h2>
       </div>
 
-      <form action="#" method="POST" enctype="multipart/form-data">
+      <!-- <form action="#" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
           <label for="nama">Nama Produk</label>
           <input
@@ -141,6 +141,73 @@
         </div>
 
         <button type="submit" class="submit-button">Simpan</button>
+      </form> -->
+      <form id="productForm" enctype="multipart/form-data" method="POST">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nama Produk</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="price" class="form-label">Harga</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            name="price"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="category" class="form-label">Kategori</label>
+          <select class="form-select" id="category" name="category" required>
+            <option value="manis">Manis</option>
+            <option value="asin">Asin</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="stock" class="form-label">Stok</label>
+          <input
+            type="number"
+            class="form-control"
+            id="stock"
+            name="stock"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Deskripsi</label>
+          <textarea
+            class="form-control"
+            id="description"
+            name="description"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">Foto Produk</label>
+          <input
+            class="form-control"
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan</button>
       </form>
     </div>
     <script src="js/Admin.js"></script>
