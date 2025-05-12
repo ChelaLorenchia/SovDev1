@@ -7,8 +7,8 @@ body {
   background-color: #ffcdb2;
 }
 
-h2 {
-  color: #4A1D1F;
+h3 {
+  color: #4a1d1f;
   margin-bottom: 30px;
   font-weight: bold;
 }
@@ -16,7 +16,7 @@ h2 {
 label {
   margin-top: 15px;
   font-weight: 600;
-  color: #4A1D1F;
+  color: #4a1d1f;
 }
 
 input[type="text"],
@@ -30,7 +30,7 @@ select,
   background-color: #fff;
 }
 
-#deskripsi {
+#description {
   overflow: hidden;
   resize: none;
 }
@@ -56,7 +56,7 @@ select,
 }
 
 .submit-button {
-  background-color: #FFA903;
+  background-color: #ffa903;
   color: rgb(0, 0, 0);
   padding: 10px 25px;
   margin-top: 25px;
@@ -71,7 +71,7 @@ select,
 
 .btn-back {
   background-color: #ffc0cb;
-  color: #4A1D1F;
+  color: #4a1d1f;
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
@@ -129,13 +129,6 @@ select,
   padding: 1rem;
 }
 
-.product-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
 .product-desc {
   font-size: 0.85rem;
   height: 60px;
@@ -148,7 +141,6 @@ select,
   font-size: 0.8rem;
 }
 
-.btn-danger{
+.btn-danger {
   color: black;
 }
-  

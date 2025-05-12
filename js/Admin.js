@@ -24,7 +24,7 @@ function previewImage(event) {
 function removeImage() {
   const preview = document.getElementById("imgPreview");
   const wrapper = document.getElementById("imagePreviewWrapper");
-  document.getElementById("foto").value = "";
+  document.getElementById("image").value = "";
   preview.src = "";
   wrapper.style.display = "none";
 }
