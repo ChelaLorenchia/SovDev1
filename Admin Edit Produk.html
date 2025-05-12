@@ -23,37 +23,36 @@
         </a>
         <ul class="navbar-nav mx-auto mb-0">
           <li class="nav-item">
-            <a class="nav-link" href="Edit Produk.html">Products</a>
+            <a class="nav-link" href="Admin Home.html">Products</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Operasional Time.html"
+            <a class="nav-link" href="Admin Jam Operasional.html"
               >Operasional Time</a
             >
           </li>
         </ul>
         <div class="d-flex align-items-center gap-3">
-          <a href="Profil.html"><i class="bi bi-person fs-5 text-dark"></i></a>
+          <a href="Admin Profil.html"><i class="bi bi-person fs-5 text-dark"></i></a>
         </div>
       </div>
     </nav>
 
     <div class="container mt-4">
-      <div class="d-flex align-items-center gap-2 mb-3">
-        <a href="Admin Home.html" class="text-decoration-none text-dark fs-4">
-          <i class="bi bi-arrow-left"></i>
-        </a>
-        <h2 class="mb-0">Tambah Produk Baru</h2>
-      </div>
+        <div class="d-flex align-items-center gap-2 mb-3">
+            <a href="Admin Home.html" class="text-decoration-none text-dark fs-4">
+              <i class="bi bi-arrow-left"></i>
+            </a>
+            <h2 class="mb-0">Edit Produk</h2>
+          </div>
 
       <form action="#" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
           <label for="nama">Nama Produk</label>
-          <input
-            class="text-muted small"
+          <input class="text-muted small"
             type="text"
             id="nama"
             name="nama"
-            placeholder="Masukan Nama Produk Baru"
+            placeholder ="Masukan Nama Produk"
             class="form-control text-muted small"
             required
           />
@@ -65,29 +64,23 @@
             type="text"
             id="harga"
             name="harga"
-            placeholder="Masukan Harga Produk Baru"
+            placeholder ="Masukan Harga Produk"
             class="form-control text-muted small"
             required
           />
         </div>
 
         <div class="mb-3">
-          <label for="tipe">Kategori Produk</label>
-          <select
-            id="tipe"
-            name="tipe"
-            class="text-muted small form-select"
-            required
-          >
-            <option placeholder="Manis" selected>Manis</option>
-            <option placeholder="Asin">Asin</option>
+          <label for="tipe">Tipe Produk</label>
+          <select id="tipe" name="tipe" class="text-muted small form-select" required>
+            <option placeholder ="Manis" selected>Manis</option>
+            <option placeholder ="Asin">Asin</option>
           </select>
         </div>
 
         <div class="mb-3">
           <label for="stok">Stok Produk</label>
-          <input
-            class="text-muted small"
+          <input class="text-muted small"
             type="number"
             id="stok"
             name="stok"
@@ -97,16 +90,17 @@
         </div>
 
         <div class="mb-3">
-          <label for="deskripsi">Deskripsi Produk</label>
-          <textarea
-            class="text-muted small form-control"
-            id="deskripsi"
-            name="deskripsi"
-            placeholder="Masukkan Deskripsi Produk Baru"
-            oninput="autoResize(this)"
-            rows="1"
-          ></textarea>
-        </div>
+            <label for="deskripsi">Deskripsi Produk</label>
+            <textarea
+              class="text-muted small form-control"
+              id="deskripsi"
+              name="deskripsi"
+              placeholder="Masukkan Deskripsi Produk"
+              oninput="autoResize(this)"
+              rows="1"
+            ></textarea>
+          </div>
+          
 
         <div class="mb-3">
           <label for="foto">Foto Produk</label><br />
@@ -118,25 +112,9 @@
             accept="image/*"
             onchange="previewImage(event)"
           />
-          <div
-            id="imagePreviewWrapper"
-            class="image-preview mt-2 position-relative"
-            style="display: none"
-          >
-            <img
-              id="imgPreview"
-              src=""
-              alt="Preview"
-              class="img-thumbnail"
-              width="150"
-            />
-            <button
-              type="button"
-              class="btn btn-sm btn-danger position-absolute top-0 end-0"
-              onclick="removeImage()"
-            >
-              ✕
-            </button>
+          <div id="imagePreviewWrapper" class="image-preview mt-2 position-relative" style="display: none;">
+            <img id="imgPreview" src="" alt="Preview" class="img-thumbnail" width="150" />
+            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" onclick="removeImage()">✕</button>
           </div>
         </div>
 
@@ -144,5 +122,5 @@
       </form>
     </div>
     <script src="js/Admin.js"></script>
-  </body>
+</body>
 </html>
