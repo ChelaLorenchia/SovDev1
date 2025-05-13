@@ -28,36 +28,3 @@ function removeImage() {
   preview.src = "";
   wrapper.style.display = "none";
 }
-
-// Admin Home
-
-// tambah produk
-document
-  .getElementById("productForm")
-  .addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    try {
-      const res = await fetch("http://localhost:5000/api/menus", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Produk berhasil ditambahkan!");
-        window.location.href = "Admin Home.html";
-      } else {
-        alert("Gagal menambahkan produk: " + data.error);
-      }
-    } catch (err) {
-      alert("Terjadi kesalahan saat mengirim data.");
-      console.error(err);
-    }
-  });
-
-  
