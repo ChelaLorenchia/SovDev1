@@ -10,6 +10,20 @@ h3 {
   background-color: #ffcdb2;
 }
 
+/* Untuk link nav biasa */
+.nav-link.active {
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+
+/* Untuk ikon profil dan cart */
+.active-icon {
+  color: #000; /* warna tebal */
+  border-bottom: 2px solid black;
+  padding-bottom: 2px;
+}
+
+
 .product-scroll {
   display: flex;
   overflow-x: auto;

@@ -7,6 +7,7 @@ window.onload = () => {
   if (desc) autoResize(desc);
 };
 
+// Menampilkan gambar di edit dan tambah prodak
 function previewImage(event) {
   const input = event.target;
   const reader = new FileReader();
@@ -29,7 +30,23 @@ function removeImage() {
   wrapper.style.display = "none";
 }
 
-// Admin Home
+document.addEventListener("DOMContentLoaded", function () {
+  const currentUrl = window.location.href;
+  const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+
+  navLinks.forEach(link => {
+    if (link.href === currentUrl) {
+      link.classList.add("active");
+    }
+  });
+
+  // Untuk ikon profil
+  const profilLink = document.getElementById("profilLink");
+  if (profilLink && profilLink.href === currentUrl) {
+    profilLink.classList.add("active-profile");
+  }
+});
+
 
 // tambah produk
 document

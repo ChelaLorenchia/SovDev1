@@ -7,6 +7,21 @@ body {
   background-color: #ffcdb2;
 }
 
+#homeLink.active {
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+}
+
+#operationalLink.active {
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+}
+
+.active-profile{
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+}
+
 h3 {
   color: #4a1d1f;
   margin-bottom: 30px;
