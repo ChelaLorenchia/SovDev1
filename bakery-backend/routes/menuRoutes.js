@@ -57,12 +57,21 @@ router.delete("/:id", async (req, res) => {
 });
 
 // routes/menuRoutes.js
-router.get("/", async (req, res) => {
+// router.get("/", async (req, res) => {
+//   try {
+//     const menus = await Menu.find();
+//     res.json(menus);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
+
+router.get("/top6", async (req, res) => {
   try {
-    const menus = await Menu.find();
+    const menus = await Menu.find().limit(6);
     res.json(menus);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -73,6 +82,15 @@ router.get("/:id", async (req, res) => {
     if (!product)
       return res.status(404).json({ error: "Produk tidak ditemukan" });
     res.json(product);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const menus = await Menu.find();
+    res.json(menus);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

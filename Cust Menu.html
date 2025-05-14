@@ -23,10 +23,10 @@
         </a>
         <ul class="navbar-nav mx-auto mb-0">
           <li class="nav-item">
-            <a class="nav-link" href="Home.html">Home</a>
+            <a class="nav-link" href="Cust Home.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Menu.html">Menu</a>
+            <a class="nav-link" href="Cust Menu.html">Menu</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="AboutUs.html">About Us</a>
@@ -503,7 +503,11 @@
                 <div>
                   <h6 class="fw-bold">Deskripsi Produk</h6>
                   <p class="text-muted small mb-3">
-                    Terbuat dari campuran tepung terigu protein tinggi, margarin, dan telur, kulit kue sus ini memiliki tekstur renyah di luar namun tetap lembut di dalam. Diisi dengan vla creamy yang dibuat dari susu cair, gula, dan tepung maizena, rasanya manis, lembut, dan lumer di mulut.
+                    Terbuat dari campuran tepung terigu protein tinggi,
+                    margarin, dan telur, kulit kue sus ini memiliki tekstur
+                    renyah di luar namun tetap lembut di dalam. Diisi dengan vla
+                    creamy yang dibuat dari susu cair, gula, dan tepung maizena,
+                    rasanya manis, lembut, dan lumer di mulut.
                   </p>
                 </div>
 
@@ -562,6 +566,96 @@
     </footer>
 
     <!-- Script -->
+    <script>
+      fetch("http://localhost:5000/api/menus")
+        .then((res) => res.json())
+        .then((data) => {
+          const asinContainer = document.querySelector(
+            ".product-category.asin .d-flex"
+          );
+          const manisContainer = document.querySelector(
+            ".product-category.manis .d-flex"
+          );
+
+          data.forEach((product) => {
+            const idSafe = product.name.replace(/\s+/g, "");
+            const formattedPrice = product.price.toLocaleString("id-ID");
+
+            const previewCard = `
+          <div
+            id="preview-${idSafe}"
+            class="product-preview"
+            onclick="toggleDeskripsi('${idSafe}', true)"
+          >
+            <img
+              class="product-img-preview"
+              src="${product.image}"
+              alt="${product.name}"
+            />
+            <div class="desc-preview">
+              <div style="text-align: left">
+                <h6 style="margin: 0">${product.name}</h6>
+                <p class="text-muted" style="margin: 0">Harga: Rp ${formattedPrice}</p>
+              </div>
+              <button
+                class="cart-button-preview"
+                onclick="addToCart(event, '${product.name}', ${product.price}, '${product.image}')"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" viewBox="0 0 16 16">
+<path
+                      d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 5H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 13H4a.5.5 0 0 1-.49-.402L1.61 2H.5a.5.5 0 0 1-.5-.5zm3.14 4l1.25 6h7.22l1.25-6H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
+                    />
+                </svg>
+              </button>
+            </div>
+          </div>`;
+
+            const deskripsiCard = `
+          <div
+            id="deskripsi-${idSafe}"
+            class="product-card deskripsi-produk card p-3 d-flex flex-row gap-4 d-none"
+          >
+            <img
+              src="${product.image}"
+              alt="${product.name}"
+              class="img-deskripsi"
+              onclick="toggleDeskripsi('${idSafe}', false)"
+            />
+            <div class="d-flex flex-column justify-content-between flex-grow-1">
+              <div>
+                <h6 class="fw-bold">Deskripsi Produk</h6>
+                <p class="text-muted small mb-3">${product.description}</p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="hstack gap-3">
+                  <div>
+                    <h6 class="mb-0">${product.name}</h6>
+                    <p class="text-muted small mb-0">Harga: Rp ${formattedPrice}</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="adjustQty(this, -1)">−</button>
+                    <span class="mx-2 qty">0</span>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="adjustQty(this, 1)">+</button>
+                  </div>
+                </div>
+                <button class="btn btn-sm btn-cart mt-2 mt-md-0">
+                  Tambahkan ke Keranjang - Rp <span class="price" data-unit-price="${product.price}">0</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+
+            if (product.category === "asin") {
+              asinContainer.innerHTML += previewCard + deskripsiCard;
+            } else if (product.category === "manis") {
+              manisContainer.innerHTML += previewCard + deskripsiCard;
+            }
+          });
+        })
+        .catch((err) => console.error("Gagal memuat produk:", err));
+    </script>
+
     <script src="js/cust.js"></script>
   </body>
 </html>
