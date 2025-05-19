@@ -291,3 +291,7 @@ h6 span{
 	width: auto;
 	display: block;
 }
+
+.alert {
+  z-index: 9999 !important;
+}

@@ -39,7 +39,11 @@
                   <div class="card-front">
                     <div class="center-wrap">
                       <div class="section text-center">
-                        <form action="http://localhost:5000/login" method="POST">
+                        <form
+                          id="loginForm"
+                          action="http://localhost:5000/login"
+                          method="POST"
+                        >
                           <h4 class="mb-4 pb-3">Log In</h4>
                           <div class="form-group">
                             <input
@@ -73,7 +77,11 @@
                   <div class="card-back">
                     <div class="center-wrap">
                       <div class="section text-center">
-                        <form action="http://localhost:5000/register" method="POST">
+                        <form
+                          id="registerForm"
+                          action="http://localhost:5000/register"
+                          method="POST"
+                        >
                           <h4 class="mb-4 pb-3">Sign Up</h4>
                           <div class="form-group">
                             <input
@@ -119,5 +127,70 @@
         </div>
       </div>
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const regForm = document.querySelector(
+          'form[action="http://localhost:5000/register"]'
+        );
+        if (regForm) {
+          regForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const username = this.username.value;
+            const email = this.email.value;
+            const password = this.password.value;
+
+            try {
+              const res = await fetch("http://localhost:5000/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password }),
+              });
+
+              const result = await res.json();
+              if (!res.ok) return showNotification(result.error);
+              window.location.href = "/login";
+            } catch (err) {
+              showNotification("Tidak dapat terhubung ke server");
+            }
+          });
+        }
+
+        const loginForm = document.querySelector(
+          'form[action="http://localhost:5000/login"]'
+        );
+        if (loginForm) {
+          loginForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const email = this.email.value;
+            const password = this.password.value;
+
+            try {
+              const res = await fetch("http://localhost:5000/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+              });
+
+              const result = await res.json();
+              if (!res.ok) return showNotification(result.error);
+              window.location.href = result.redirect;
+            } catch (err) {
+              showNotification("Tidak dapat terhubung ke server");
+            }
+          });
+        }
+
+        function showNotification(message) {
+          const notif = document.createElement("div");
+          notif.innerText = message;
+          notif.className =
+            "alert alert-danger position-fixed top-0 start-50 translate-middle-x mt-3 shadow";
+          notif.style.zIndex = 10000;
+          document.body.appendChild(notif);
+          setTimeout(() => notif.remove(), 4000);
+        }
+      });
+    </script>
   </body>
 </html>
