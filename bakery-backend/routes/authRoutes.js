@@ -6,18 +6,22 @@ const bcrypt = require('bcryptjs');
 
 // Tampilkan halaman login
 router.get('/login', (req, res) => {
+  res.redirect('http://localhost:5503/login.html');
   // res.sendFile(path.join(__dirname, '../../login.html'));
-  res.redirect('SovDev1/login.html');
+  // res.redirect('/login.html');
 });
 
 // Tampilkan halaman customer setelah login
 router.get('/custhome', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../Cust Home.html'));
+  res.redirect('http://localhost:5503/Cust%20Home.html');
+  // res.sendFile(path.join(__dirname, '../../Cust Home.html'));
 });
 
 // Tampilkan halaman admin (opsional)
 router.get('/admin', (req, res) => {
-  res.send('../../Admin Home.html');
+  res.redirect('http://localhost:5503/Admin%20Home.html');
+  // res.sendFile(path.join(__dirname, '../../Admin Home.html'));
+  // res.send('../../Admin Home.html');
 });
 
 // REGISTER
@@ -71,7 +75,7 @@ router.post('/login', async (req, res) => {
     if (user.role === 'admin') {
       return res.redirect('/admin');
     } else {
-      return res.redirect('../../Cust Home.html');
+      return res.redirect('/custhome');
     }
   } catch (err) {
     console.error(err);
