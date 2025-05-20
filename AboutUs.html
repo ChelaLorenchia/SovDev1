@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NY DIO Bakery - About Us</title>
+
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style/About Us.css" />
+    <link rel="icon" href="image/Logo.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="gradient"></div>
+
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img
+            src="image/Logo.png"
+            alt="logo"
+            style="width: 60px; height: auto"
+          />
+        </div>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+          <a href="Cust Home.html">Home</a>
+          <a href="Cust Menu.html ">Menu</a>
+          <a href="About Us.html">About Us</a>
+        </div>
+
+        <div class="navbar-right">
+          <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-button">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+          <div class="user-actions">
+            <a href="Profil.html"><i class="fa-regular fa-user"></i></a>
+            <a href="Cart.html" class="container-cart">
+              <i class="fa-solid fa-cart-shopping cart-icon"></i>
+              <span class="cart-count">1</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="content">
+      <h1 class="about-header">About us</h1>
+
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            Didirikan sejak..........oleh Nyonya Dio, toko bakery ini hadir
+            sebagai wujud kecintaan terhadap jelang pasar tradisional yang
+            otentik. Berawal dari dapur rumah sederhana, semua kue dibuat
+            sendiri oleh tangan terampil Nyonya Dio, dengan resep keluarga yang
+            telah dijaga kesasianya.
+          </p>
+          <br />
+          <p>
+            Kami berkomitmen menghadirkan kue-kue dengan cita rasa yang otentik
+            dengan bahan pilihan terbaik, untuk menjaga kualitas dengan
+            mengunakan alat dan bahan terbaik serta menjaga kue bebas pengawet.
+            Demi menjadi tempat menyajikan semata rasa yang dirindukan.
+          </p>
+        </div>
+        <div class="about-map">
+          <div class="embed-map-fixed">
+            <div class="embed-map-container">
+              <iframe
+                class="embed-map-frame"
+                frameborder="0"
+                scrolling="no"
+                marginheight="0"
+                marginwidth="0"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1983.5017092468438!2d106.9231638!3d-6.1302409!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698b40c73fd7a9%3A0xc73996e988783973!2sDapoer%20Ny.%20Djoe%20(Choipan%20Pontianak)!5e0!3m2!1sid!2sid!4v1747768276022!5m2!1sid!2sid"
+                width="600"
+                height="450"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              >
+                ></iframe
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="operational-header">Operasional Time</h2>
+
+      <table class="operational-table">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Jam Buka</th>
+            <th>Jam Tutup</th>
+          </tr>
+        </thead>
+        <tbody id="operational-data">
+          <!-- <tr>
+            <td>SENIN</td>
+            <td>09:00</td>
+            <td>17:00</td>
+          </tr>
+          <tr>
+            <td>SELASA</td>
+            <td>09:00</td>
+            <td>17:00</td>
+          </tr>
+          <tr>
+            <td>RABU</td>
+            <td>09:00</td>
+            <td>17:00</td>
+          </tr>
+          <tr>
+            <td>KAMIS</td>
+            <td>09:00</td>
+            <td>17:00</td>
+          </tr>
+          <tr>
+            <td>JUMAT</td>
+            <td>09:00</td>
+            <td>17:00</td>
+          </tr>
+          <tr>
+            <td>SABTU</td>
+            <td>09:00</td>
+            <td>15:00</td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      <div class="cta-section">
+        <div class="logo cta-logo">
+          <img
+            src="image/Logo.png"
+            alt="logo"
+            style="width: 100px; height: auto"
+          />
+        </div>
+        <p class="cta-text">UNTUK PEMESANAN DIATAS 50 PCS</p>
+        <p>silahkan kunjungi toko kami</p>
+        <br />
+        <button class="cta-button">Contact Us Now</button>
+      </div>
+      <div class="footer-copyright">
+        <p>© 2021 by By.Djo Bakery. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-solid fa-phone-volume"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        const navLinks = document.getElementById("navLinks");
+        navLinks.classList.toggle("active");
+      }
+
+      async function loadOperationalHours() {
+        try {
+          const response = await fetch("http://localhost:5000/api/about");
+          const data = await response.json();
+          const tbody = document.getElementById("operational-data");
+
+          const openingHours = data.openingHours;
+
+          if (openingHours && typeof openingHours === "object") {
+            tbody.innerHTML = "";
+            for (const [day, hours] of Object.entries(openingHours)) {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+            <td>${day.toUpperCase()}</td>
+            <td>${hours[0]}</td>
+            <td>${hours[1]}</td>
+          `;
+              tbody.appendChild(row);
+            }
+          }
+        } catch (error) {
+          console.error("Gagal mengambil data jam operasional:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", loadOperationalHours);
+    </script>
+  </body>
+</html>
