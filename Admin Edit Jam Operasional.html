@@ -23,10 +23,15 @@
         </a>
         <ul class="navbar-nav mx-auto mb-0">
           <li class="nav-item">
-            <a class="nav-link" href="Admin Edit Produk.html" id="homeLink">Products</a>
+            <a class="nav-link" href="Admin Edit Produk.html" id="homeLink"
+              >Products</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Admin Jam Operasional.html" id="operationalLink"
+            <a
+              class="nav-link"
+              href="Admin Jam Operasional.html"
+              id="operationalLink"
               >Operasional Time</a
             >
           </li>
@@ -196,6 +201,64 @@
               alert("Terjadi kesalahan saat menyimpan data.");
             });
         });
+
+      // Fungsi untuk membuat baris jam operasional
+      function createJamRow(hari = "", buka = "", tutup = "") {
+        const row = document.createElement("div");
+        row.className = "row mb-2 jamRow";
+        row.innerHTML = `
+      <div class="col">
+        <select name="hari[]" class="form-select" required>
+          ${hariOptions}
+        </select>
+      </div>
+      <div class="col">
+        <input type="time" name="buka[]" class="form-control" value="${buka}" required>
+      </div>
+      <div class="col">
+        <input type="time" name="tutup[]" class="form-control" value="${tutup}" required>
+      </div>
+      <div class="col-auto">
+        <button type="button" class="btn btn-danger btn-sm removeRow">Hapus</button>
+      </div>
+    `;
+        jamContainer.appendChild(row);
+
+        // Set opsi hari yang sesuai
+        const select = row.querySelector('select[name="hari[]"]');
+        select.value = hari;
+      }
+
+      // Ambil data dari server saat halaman dimuat
+      window.addEventListener("DOMContentLoaded", () => {
+        fetch("http://localhost:5000/api/about")
+          .then((response) => {
+            if (!response.ok)
+              throw new Error("Gagal mengambil data dari server");
+            return response.json();
+          })
+          .then((data) => {
+            const openingHours = data.openingHours || {};
+
+            // Kosongkan container dulu
+            jamContainer.innerHTML = "";
+
+            // Tambahkan baris untuk setiap hari dari database
+            for (const [hari, [buka, tutup]] of Object.entries(openingHours)) {
+              createJamRow(hari, buka, tutup);
+            }
+
+            // Jika tidak ada data, tambahkan satu baris kosong default
+            if (Object.keys(openingHours).length === 0) {
+              createJamRow();
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("Gagal memuat jam operasional dari server.");
+            createJamRow(); // fallback baris default jika gagal fetch
+          });
+      });
     </script>
 
     <script src="js/Admin.js"></script>
