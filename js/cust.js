@@ -10,7 +10,7 @@
     });
 
     // Highlight icon Profil
-    const profilIcon = document.querySelector('a[href="Profil.html"] i');
+    const profilIcon = document.querySelector('a[href="Cust Profil.html"] i');
     if (profilIcon && profilIcon.parentElement.pathname === currentPath) {
       profilIcon.classList.add("active-icon");
     }
