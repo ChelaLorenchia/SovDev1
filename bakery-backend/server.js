@@ -41,6 +41,9 @@ app.use('/api/about', aboutRoutes);
 const authRoutes = require('./routes/authRoutes');
 app.use('/', authRoutes);
 
+const adminRoutes = require('./routes/adminRoutes');
+app.use('/api/admin', adminRoutes);
+
 // Jalankan server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
