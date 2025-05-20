@@ -60,6 +60,7 @@ table td {
   margin: 10px 0;
 }
 
+/* btn */
 .buttons-area {
   display: flex;
   justify-content: space-between;
@@ -95,6 +96,13 @@ table td {
   -o-border-radius: 20px;
 }
 
+table tbody tr {
+  cursor: pointer;
+}
+
+table tbody tr:hover {
+  background-color: #f0f0f0;
+}
 @media (max-width: 768px) {
   .main {
     max-width: 100%;
