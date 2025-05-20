@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NY DIO Bakery - Profil</title>
+
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/styles/main/cart.css" />
+    <link rel="icon" href="/assets/logo.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="gradient"></div>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img
+            src="/assets/logo.png"
+            alt="logo"
+            style="width: 60px; height: auto"
+          />
+        </div>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+          <a href="#">Home</a>
+          <a href="#">Menu</a>
+          <a href="#">About Us</a>
+        </div>
+
+        <div class="navbar-right">
+          <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-button">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+          <div class="user-actions">
+            <a href="#"><i class="fa-regular fa-user"></i></a>
+            <a href="#" class="container-cart">
+              <i class="fa-solid fa-cart-shopping cart-icon"></i>
+              <span class="cart-count">1</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="content">
+      <h1>Cart</h1>
+      <div class="wrapper">
+        <div class="left-content">
+          <div class="card-container">
+            <div class="card-product">
+              <div class="img-container">
+                <img src="/assets/product/risol.png" alt="" />
+              </div>
+              <div class="card-content">
+                <div class="card-title">
+                  <h2>Ragout</h2>
+                  <p>Harga Rp 12.000</p>
+                </div>
+                <div class="card-action">
+                  <div class="quantity">
+                    <button>-</button>
+                    <p>1</p>
+                    <button>+</button>
+                  </div>
+                  <div class="total">
+                    <p>Total Rp 12.000</p>
+                  </div>
+                  <div class="delete">
+                    <button>
+                      <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-product">
+              <div class="img-container">
+                <img src="/assets/product/kue-sus.png" alt="" />
+              </div>
+              <div class="card-content">
+                <div class="card-title">
+                  <h2>Kue Sus</h2>
+                  <p>Harga Rp 12.000</p>
+                </div>
+                <div class="card-action">
+                  <div class="quantity">
+                    <button>-</button>
+                    <p>1</p>
+                    <button>+</button>
+                  </div>
+                  <div class="total">
+                    <p>Total Rp 12.000</p>
+                  </div>
+                  <div class="delete">
+                    <button>
+                      <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right-content">
+          <div class="payment-container">
+            <div class="summary-box">
+              <h3>Ringkasan Pesanan</h3>
+              <div class="summary-item">
+                <span>Ragout</span>
+                <span>1 X</span>
+                <span>Rp 12.000</span>
+              </div>
+              <div class="summary-item">
+                <span>Kue Sus</span>
+                <span>1 X</span>
+                <span>Rp 12.000</span>
+              </div>
+              <hr />
+              <div class="total">
+                <span>Total Bayar</span>
+                <span>Rp 24.000</span>
+              </div>
+            </div>
+
+            <div class="payment-method-box">
+              <h3>Metode Pembayaran</h3>
+              <label class="radio-option">
+                <input type="radio" name="payment" checked />
+                <img src="/assets/icons/qris.png" alt="QRIS" />
+                QRIS
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="payment" />
+                Bayar Kasir
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="payment" />
+                <img src="/assets/icons/bca.png" alt="BCA" />
+                Bca Virtual Account
+              </label>
+            </div>
+
+            <button class="pay-button">Bayar Sekarang</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="cta-section">
+        <div class="logo cta-logo">
+          <img
+            src="/assets/logo.png"
+            alt="logo"
+            style="width: 100px; height: auto"
+          />
+        </div>
+        <p class="cta-text">UNTUK PEMESANAN DIATAS 50 PCS</p>
+        <p>silahkan kunjungi toko kami</p>
+        <br />
+        <button class="cta-button">Contact Us Now</button>
+      </div>
+      <div class="footer-copyright">
+        <p>© 2021 by By.Djo Bakery. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-solid fa-phone-volume"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        const navLinks = document.getElementById("navLinks");
+        navLinks.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>
