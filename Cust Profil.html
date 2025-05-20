@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style/Admin.css" />
+    <link rel="stylesheet" href="style/cust.css" />
 
     <style>
       .form-box {
@@ -39,28 +40,34 @@
         </a>
         <ul class="navbar-nav mx-auto mb-0">
           <li class="nav-item">
-            <a class="nav-link" href="Admin Home.html">Products</a>
+            <a class="nav-link" href="Cust Home.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Admin Jam Operasional.html"
-              >Operasional Time</a
-            >
+            <a class="nav-link" href="Cust Menu.html">Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="AboutUs.html">About Us</a>
           </li>
         </ul>
         <div class="d-flex align-items-center gap-3">
-          <a href="Admin Profil.html" id="profilLink">
-            <i class="bi bi-person fs-5 text-dark"></i>
-          </a>
+          <input
+            type="text"
+            class="form-control form-control-sm w-auto"
+            id="homeSearchInput"
+            placeholder="Cari menu..."
+            onkeypress="if(event.key === 'Enter') searchFromHome()"
+          />
+          <a href="Cust Profil.html"><i class="bi bi-person fs-5 text-black"></i></a>
+          <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
         </div>
       </div>
     </nav>
-
     <!-- Main Content -->
     <div class="container mt-5">
       <h2 class="fw-bold text-dark mb-3">Profil</h2>
       <div class="form-box">
-        <p><strong>Username :</strong> <span id="adminUsername"></span></p>
-        <p><strong>Email :</strong> <span id="adminEmail"></span></p>
+        <p><strong>Username :</strong> <span id="customerUsername"></span></p>
+        <p><strong>Email :</strong> <span id="customerEmail"></span></p>
       </div>
 
       <h2 class="fw-bold text-dark mb-3">Change Password</h2>
@@ -119,6 +126,37 @@
       </button>
     </div>
 
+    <footer class="footer mt-5 py-5 text-center">
+      <img src="image/Logo.png" alt="Logo" height="50" class="mb-3" />
+      <h5 class="fw-bold">UNTUK PEMESANAN DIATAS 50 PCS</h5>
+      <p>silahkan kunjungi toko kami</p>
+      <a
+        href="https://api.whatsapp.com/send/?phone=62818657198&text&type=phone_number&app_absent=0"
+        class="btn btn-dark"
+        target="_blank"
+        >Contact Us Now</a
+      >
+      <div class="social-icons mt-3">
+        <a
+          href="https://www.instagram.com/dapoer.ny.djoe?igsh=MXZwdjRxcTF1ZzExNg=="
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="bi bi-instagram fs-4"></i>
+        </a>
+
+        <a
+          href="https://api.whatsapp.com/send/?phone=62818657198&text&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="bi bi-whatsapp fs-4"></i>
+        </a>
+      </div>
+      <p class="text-muted small mt-3">
+        © 2025 Ny.Djo Bakery.
+      </p>
+    </footer>
     <!-- Script -->
     <script>
       function togglePassword(id, spanElement) {
@@ -131,43 +169,15 @@
         icon.classList.toggle("bi-eye-slash", !isPassword);
       }
 
-      // document
-      //   .getElementById("passwordForm")
-      //   .addEventListener("submit", function (e) {
-      //     e.preventDefault();
-      //     const oldPass = document.getElementById("oldPassword").value;
-      //     const newPass = document.getElementById("newPassword").value;
-      //     const confirmPass = document.getElementById("confirmPassword").value;
-
-      //     if (newPass !== confirmPass) {
-      //       alert("Password baru dan konfirmasi tidak cocok!");
-      //       return;
-      //     }
-
-      //     // Validasi password baru
-      //     const passwordValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(
-      //       newPassword
-      //     );
-      //     if (!passwordValid) {
-      //       alert(
-      //         "Password harus minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka."
-      //       );
-      //       return;
-      //     }
-
-      //     // Simulasi penyimpanan
-      //     alert("Password berhasil diubah!");
-      //     // Tambahkan AJAX/fetch untuk integrasi backend di sini
-      //   });
     </script>
 
     <script>
       // Ambil profil admin
-      fetch("http://localhost:5000/api/admin/profile")
+      fetch("http://localhost:5000/api/customer/profile")
         .then((res) => res.json())
         .then((data) => {
-          document.getElementById("adminUsername").textContent = data.username;
-          document.getElementById("adminEmail").textContent = data.email;
+          document.getElementById("customerUsername").textContent = data.username;
+          document.getElementById("customerEmail").textContent = data.email;
         });
 
       // Ganti password
@@ -196,7 +206,7 @@
             return;
           }
 
-          fetch("http://localhost:5000/api/admin/change-password", {
+          fetch("http://localhost:5000/api/customer/change-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ oldPassword, newPassword }),
@@ -215,7 +225,7 @@
       document
         .getElementById("logoutBtn")
         .addEventListener("click", function () {
-          fetch("http://localhost:5000/api/admin/logout", {
+          fetch("http://localhost:5000/api/customer/logout", {
             method: "POST",
           })
             .then((res) => res.json())
@@ -224,8 +234,18 @@
               window.location.href = "Login.html"; // arahkan ke login page
             });
         });
+
+      // search
+      function searchFromHome() {
+        const query = document.getElementById("homeSearchInput").value;
+        if (query.trim() !== "") {
+          window.location.href = `Cust Menu.html?search=${encodeURIComponent(
+            query
+          )}`;
+        }
+      }
     </script>
 
-    <script src="js/Admin.js"></script>
+    <script src="js/cust.js"></script>
   </body>
 </html>
