@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NY DIO Bakery - Profil</title>
+
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/styles/main/profil.css" />
+    <link rel="icon" href="/assets/logo.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="gradient"></div>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img
+            src="/assets/logo.png"
+            alt="logo"
+            style="width: 60px; height: auto"
+          />
+        </div>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+          <a href="#">Home</a>
+          <a href="#">Menu</a>
+          <a href="#">About Us</a>
+        </div>
+
+        <div class="navbar-right">
+          <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-button">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+          <div class="user-actions">
+            <a href="#"><i class="fa-regular fa-user"></i></a>
+            <a href="#" class="container-cart">
+              <i class="fa-solid fa-cart-shopping cart-icon"></i>
+              <span class="cart-count">1</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="content">
+      <h1>Profile</h1>
+      <div class="card-container">
+        <table>
+          <tr>
+            <td width="50%">Nama</td>
+            <td>customer</td>
+          </tr>
+          <tr>
+            <td>email</td>
+            <td>customer@gmail.com</td>
+          </tr>
+          <tr>
+            <td>No Telepon</td>
+            <td>08123123122</td>
+          </tr>
+        </table>
+      </div>
+      <h1 style="margin-top: 60px">Change Password</h1>
+      <div class="card-container">
+        <table>
+          <tr>
+            <td width="50%">Password Lama</td>
+            <td><input type="text" name="" id="" placeholder="..." /></td>
+          </tr>
+          <tr>
+            <td>Password Baru</td>
+            <td><input type="text" name="" id="" placeholder="..." /></td>
+          </tr>
+          <tr>
+            <td>Konfirmasi Password</td>
+            <td><input type="text" name="" id="" placeholder="..." /></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <footer>
+      <div class="cta-section">
+        <div class="logo cta-logo">
+          <img
+            src="/assets/logo.png"
+            alt="logo"
+            style="width: 100px; height: auto"
+          />
+        </div>
+        <p class="cta-text">UNTUK PEMESANAN DIATAS 50 PCS</p>
+        <p>silahkan kunjungi toko kami</p>
+        <br />
+        <button class="cta-button">Contact Us Now</button>
+      </div>
+      <div class="footer-copyright">
+        <p>© 2021 by By.Djo Bakery. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-solid fa-phone-volume"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        const navLinks = document.getElementById("navLinks");
+        navLinks.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>
