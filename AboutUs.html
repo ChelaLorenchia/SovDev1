@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NY DIO Bakery - About Us</title>
 
-    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/style/cust.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="style/About Us.css" />
     <link rel="icon" href="image/Logo.png" />
@@ -13,50 +13,47 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+        <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="gradient"></div>
 
-    <header>
-      <nav class="navbar">
-        <div class="logo">
-          <img
-            src="image/Logo.png"
-            alt="logo"
-            style="width: 60px; height: auto"
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-pink shadow-sm">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="#">
+          <img src="image/Logo.png" alt="Logo" height="50" />
+        </a>
+        <ul class="navbar-nav mx-auto mb-0">
+          <li class="nav-item">
+            <a class="nav-link" href="Cust Home.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Cust Menu.html">Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="AboutUs.html">About Us</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <input
+            type="text"
+            class="form-control form-control-sm w-auto"
+            id="homeSearchInput"
+            placeholder="Cari menu..."
+            onkeypress="if(event.key === 'Enter') searchFromHome()"
           />
+          <a href="Cust Profil.html"><i class="bi bi-person fs-5 text-black"></i></a>
+          <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
         </div>
-
-        <div class="menu-toggle" onclick="toggleMenu()">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-
-        <div class="nav-links" id="navLinks">
-          <a href="Cust Home.html">Home</a>
-          <a href="Cust Menu.html ">Menu</a>
-          <a href="About Us.html">About Us</a>
-        </div>
-
-        <div class="navbar-right">
-          <div class="search-container">
-            <input type="text" class="search-box" placeholder="Search..." />
-            <button class="search-button">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </div>
-          <div class="user-actions">
-            <a href="Profil.html"><i class="fa-regular fa-user"></i></a>
-            <a href="Cart.html" class="container-cart">
-              <i class="fa-solid fa-cart-shopping cart-icon"></i>
-              <span class="cart-count">1</span>
-            </a>
-          </div>
-        </div>
-      </nav>
-    </header>
-
+      </div>
+    </nav>
     <div class="content">
       <h1 class="about-header">About us</h1>
 
@@ -146,28 +143,37 @@
       </table>
     </div>
 
-    <footer>
-      <div class="cta-section">
-        <div class="logo cta-logo">
-          <img
-            src="image/Logo.png"
-            alt="logo"
-            style="width: 100px; height: auto"
-          />
-        </div>
-        <p class="cta-text">UNTUK PEMESANAN DIATAS 50 PCS</p>
-        <p>silahkan kunjungi toko kami</p>
-        <br />
-        <button class="cta-button">Contact Us Now</button>
+    <!-- Footer -->
+   <footer class="footer mt-5 py-5 text-center">
+      <img src="image/Logo.png" alt="Logo" height="50" class="mb-3" />
+      <h5 class="fw-bold">UNTUK PEMESANAN DIATAS 50 PCS</h5>
+      <p>silahkan kunjungi toko kami</p>
+      <a
+        href="https://api.whatsapp.com/send/?phone=62818657198&text&type=phone_number&app_absent=0"
+        class="btn btn-dark"
+        target="_blank"
+        >Contact Us Now</a
+      >
+      <div class="social-icons mt-3">
+        <a
+          href="https://www.instagram.com/dapoer.ny.djoe?igsh=MXZwdjRxcTF1ZzExNg=="
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="bi bi-instagram fs-4"></i>
+        </a>
+
+        <a
+          href="https://api.whatsapp.com/send/?phone=62818657198&text&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="bi bi-whatsapp fs-4"></i>
+        </a>
       </div>
-      <div class="footer-copyright">
-        <p>© 2021 by By.Djo Bakery. All rights reserved.</p>
-        <div class="footer-social">
-          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#"><i class="fa-solid fa-phone-volume"></i></a>
-          <a href="#"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-      </div>
+      <p class="text-muted small mt-3">
+        © 2025 Ny.Djo Bakery.
+      </p>
     </footer>
 
     <script>
@@ -202,6 +208,17 @@
       }
 
       document.addEventListener("DOMContentLoaded", loadOperationalHours);
+
+            function searchFromHome() {
+        const query = document.getElementById("homeSearchInput").value;
+        if (query.trim() !== "") {
+          window.location.href = `Cust Menu.html?search=${encodeURIComponent(
+            query
+          )}`;
+        }
+      }
     </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script scr="js/cust.js"></script>
   </body>
 </html>

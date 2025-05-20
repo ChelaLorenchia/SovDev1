@@ -11,11 +11,6 @@
   padding: 30px;
 }
 
-.about-header {
-  color: var(--brown);
-  margin-bottom: 20px;
-  font-size: 2rem;
-}
 
 .about-content {
   display: flex;
