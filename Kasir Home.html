@@ -65,7 +65,7 @@
                 >Online Payment</a
               >
               <a
-                href="#"
+                href="Riwayat Transaksi Tunai.html"
                 class="nav-link text-dark"
                 onclick="loadRiwayatTransaksi()"
                 >Riwayat Transaksi</a
@@ -108,32 +108,32 @@
 
       function loadTransaksiBaruGrid() {
         const konten = `
-        <h2 class="mb-4">Transaksi Baru</h2>
-        <div class="row">
-          <div class="col-md-5">
-            <table class="table table-bordered">
-              <thead class="table-light">
-                <tr><th>Item</th><th>Qty</th><th>Total</th></tr>
-              </thead>
-              <tbody id="ringkasan-pesanan"></tbody>
-              <tfoot>
-                <tr><td colspan="2"><strong>Total</strong></td><td><strong id="total-ringkasan">0</strong></td></tr>
-              </tfoot>
-            </table>
-            <div class="d-flex justify-content-between mb-3">
-              <button class="btn btn-warning" onclick="setMetodePembayaran('Tunai')">Tunai</button>
-              <button class="btn btn-warning" onclick="setMetodePembayaran('QRIS')">QRIS</button>
-              <button class="btn btn-danger" onclick="resetKeranjang()">Cancel</button>
-            </div>
-            <div class="text-center">
-              <button class="btn btn-custom" onclick="konfirmasiPembayaran()">Confirm</button>
-            </div>
+      <h2 class="mb-4">Transaksi Baru</h2>
+      <div class="row">
+        <div class="col-md-5">
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr><th>Item</th><th>Qty</th><th>Total</th></tr>
+            </thead>
+            <tbody id="ringkasan-pesanan"></tbody>
+            <tfoot>
+              <tr><td colspan="2"><strong>Total</strong></td><td><strong id="total-ringkasan">0</strong></td></tr>
+            </tfoot>
+          </table>
+          <div class="d-flex justify-content-between mb-3">
+            <button class="btn btn-warning" onclick="setMetodePembayaran('Tunai')">Tunai</button>
+            <button class="btn btn-warning" onclick="setMetodePembayaran('QRIS')">QRIS</button>
+            <button class="btn btn-danger" onclick="resetKeranjang()">Cancel</button>
           </div>
-          <div class="col-md-7">
-            <div class="row" id="produk-grid"></div>
+          <div class="text-center">
+            <button class="btn btn-custom" onclick="konfirmasiPembayaran()">Confirm</button>
           </div>
         </div>
-      `;
+        <div class="col-md-7">
+          <div class="row" id="produk-grid"></div>
+        </div>
+      </div>
+    `;
         document.getElementById("konten-kanan").innerHTML = konten;
         keranjang = {};
         metode = "";
@@ -151,43 +151,32 @@
           const card = document.createElement("div");
           card.className = "col-6 col-lg-4 mb-3";
           card.innerHTML = `
-      <div class="card h-100 text-center">
-        <img src="${produk.image}" class="card-img-top" alt="${produk.name}" />
-        <div class="card-body p-2">
-          <h6 class="card-title mb-1">${produk.name}</h6>
-          <p class="card-text mb-1">Rp ${produk.price.toLocaleString(
-            "id-ID"
-          )}</p>
-          <p class="text-muted" style="font-size: 0.85em;">Stok: ${
-            produk.stock - qty
-          }</p>
-          <div class="d-flex justify-content-center align-items-center gap-2">
-            <button class="btn btn-sm btn-outline-danger" onclick="kurangiDariKeranjang('${
-              produk._id
-            }')" ${qty === 0 ? "disabled" : ""}>−</button>
-            <span class="fw-bold">${qty}</span>
-            <button class="btn btn-sm btn-outline-success" onclick="tambahKeKeranjang('${
-              produk._id
-            }')" ${disabled}>+</button>
+        <div class="card h-100 text-center">
+          <img src="${produk.image}" class="card-img-top" alt="${
+            produk.name
+          }" />
+          <div class="card-body p-2">
+            <h6 class="card-title mb-1">${produk.name}</h6>
+            <p class="card-text mb-1">Rp ${produk.price.toLocaleString(
+              "id-ID"
+            )}</p>
+            <p class="text-muted" style="font-size: 0.85em;">Stok: ${
+              produk.stock - qty
+            }</p>
+            <div class="d-flex justify-content-center align-items-center gap-2">
+              <button class="btn btn-sm btn-outline-danger" onclick="kurangiDariKeranjang('${
+                produk._id
+              }')" ${qty === 0 ? "disabled" : ""}>−</button>
+              <span class="fw-bold">${qty}</span>
+              <button class="btn btn-sm btn-outline-success" onclick="tambahKeKeranjang('${
+                produk._id
+              }')" ${disabled}>+</button>
+            </div>
           </div>
         </div>
-      </div>
-    `;
+      `;
           grid.appendChild(card);
         });
-      }
-
-      function kurangiDariKeranjang(id) {
-        if (!keranjang[id]) return;
-
-        keranjang[id].qty--;
-
-        if (keranjang[id].qty <= 0) {
-          delete keranjang[id];
-        }
-
-        renderProdukGrid();
-        updateRingkasanPesanan();
       }
 
       function tambahKeKeranjang(id) {
@@ -204,21 +193,35 @@
         updateRingkasanPesanan();
       }
 
+      function kurangiDariKeranjang(id) {
+        if (!keranjang[id]) return;
+
+        keranjang[id].qty--;
+
+        if (keranjang[id].qty <= 0) {
+          delete keranjang[id];
+        }
+
+        renderProdukGrid();
+        updateRingkasanPesanan();
+      }
+
       function updateRingkasanPesanan() {
         const tbody = document.getElementById("ringkasan-pesanan");
         let total = 0;
         tbody.innerHTML = "";
-        Object.values(keranjang).forEach((item) => {
-          const line = item.qty * item.price;
-          total += line;
-          tbody.innerHTML += `
-          <tr>
-            <td>${item.name}</td>
-            <td>${item.qty}</td>
-            <td>${line.toLocaleString("id-ID")}</td>
-          </tr>
-        `;
-        });
+        for (const id in keranjang) {
+          const item = keranjang[id];
+          const totalItem = item.qty * item.price;
+          total += totalItem;
+          const row = document.createElement("tr");
+          row.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.qty}</td>
+        <td>${totalItem.toLocaleString("id-ID")}</td>
+      `;
+          tbody.appendChild(row);
+        }
         document.getElementById("total-ringkasan").innerText =
           total.toLocaleString("id-ID");
       }
@@ -238,104 +241,19 @@
         if (!Object.keys(keranjang).length) return alert("Keranjang kosong!");
         if (!metode) return alert("Pilih metode pembayaran!");
 
-        transaksi = Object.values(keranjang).map((item) => ({
+        transaksi = Object.entries(keranjang).map(([id, item]) => ({
+          productId: id,
           item: item.name,
           qty: item.qty,
           price: item.price,
         }));
 
         if (metode === "Tunai") {
-          // Simpan ke localStorage
           localStorage.setItem("transaksiTunai", JSON.stringify(transaksi));
           window.location.href = "Kasir Transaksi Baru.html";
         } else {
           alert("QRIS belum tersedia.");
         }
-      }
-
-      function loadPembayaranTunai() {
-        const konten = `
-        <h2 class="mb-4">Transaksi Baru</h2>
-        <div class="mb-3"><a href="Kasir Home.html" class="text-decoration-none text-dark fs-4">
-                <i class="bi bi-arrow-left" onclick="history.back()" style="cursor:pointer;">Tunai</i>
-
-        <div class="table-responsive mb-4">
-          <table class="table table-bordered align-middle">
-            <thead class="table-light">
-              <tr><th>Item</th><th>Qty</th><th>Harga</th><th>Total</th></tr>
-            </thead>
-            <tbody id="item-list"></tbody>
-            <tfoot>
-              <tr><td colspan="3"><strong>Total Bayar</strong></td><td><strong id="total-bayar">0</strong></td></tr>
-              <tr><td colspan="3"><strong>Cash</strong></td><td><input type="number" id="cash-input" class="form-control" /></td></tr>
-              <tr><td colspan="3"><strong>Kembalian</strong></td><td><strong id="kembalian">0</strong></td></tr>
-            </tfoot>
-          </table>
-        </div>
-        <div class="text-center">
-          <button class="btn btn-custom" onclick="cetakStruk()">Cetak Struk</button>
-        </div>
-      `;
-        document.getElementById("konten-kanan").innerHTML = konten;
-        updateTabel();
-      }
-
-      function updateTabel() {
-        const tbody = document.getElementById("item-list");
-        tbody.innerHTML = "";
-        let total = 0;
-        transaksi.forEach((i) => {
-          const t = i.qty * i.price;
-          total += t;
-          tbody.innerHTML += `
-          <tr>
-            <td>${i.item}</td>
-            <td>${i.qty}</td>
-            <td>${formatRupiah(i.price)}</td>
-            <td>${formatRupiah(t)}</td>
-          </tr>
-        `;
-        });
-        document.getElementById("total-bayar").innerText = formatRupiah(total);
-        document.getElementById("cash-input").addEventListener("input", (e) => {
-          const kembali = parseInt(e.target.value || 0) - total;
-          document.getElementById("kembalian").innerText = formatRupiah(
-            kembali > 0 ? kembali : 0
-          );
-        });
-      }
-
-      function cetakStruk() {
-        alert("Struk berhasil dicetak!");
-      }
-
-      function loadOnlinePayment() {
-        document.getElementById("konten-kanan").innerHTML = `
-        <h2 class="mb-4">Online Payment</h2>
-        <p>Fitur ini akan segera tersedia.</p>
-      `;
-      }
-
-      function loadRiwayatTransaksi() {
-        document.getElementById("konten-kanan").innerHTML = `
-        <h2 class="mb-4">Riwayat Transaksi</h2>
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <thead class="table-light">
-              <tr><th>#</th><th>Tanggal</th><th>Item</th><th>Total</th><th>Metode</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>2024-05-20</td>
-                <td>Choi Pan x2, Roti Keju x1</td>
-                <td>Rp 35.000</td>
-                <td>Cash</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      `;
       }
     </script>
   </body>
