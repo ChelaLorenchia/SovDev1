@@ -1,47 +1,288 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Profil - Ny.Djo Bakery</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style/Kasir.css">
-  </head>
-  <body>
-    <div class="container-fluid min-vh-100">
-      <div class="row h-100">
-        <!-- Sidebar -->
-        <div class="col-12 col-md-3 col-lg-2 sidebar d-flex flex-column justify-content-between">
-          <div>
-            <div class="logo text-center mb-4">
-              <img src="image/logo.png" alt="NYDIO Bakery Logo" class="img-fluid" />
-            </div>
-            <div class="px-3">
-              <a href="Kasir Transaksi Baru.html">Transaksi Baru</a>
-              <a href="Kasir Online Payment.html">Online Payment</a>
-              <a href="Kasir Riwayat Transaksi.html">Riwayat Transaksi</a>
-            </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kasir - Ny.Djo Bakery</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style/Kasir.css" />
+  <style>
+    .btn-custom {
+      background-color: #d98e8e;
+      color: white;
+      border-radius: 20px;
+      padding: 10px 30px;
+      font-weight: bold;
+      border: none;
+    }
+    .table td, .table th {
+      vertical-align: middle;
+    }
+    .nav-link {
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .card img {
+      height: 120px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid min-vh-100">
+    <div class="row h-100">
+      <!-- Sidebar -->
+      <div class="col-12 col-md-3 col-lg-2 sidebar d-flex flex-column justify-content-between">
+        <div>
+          <div class="logo text-center mb-4">
+            <img src="image/logo.png" alt="NYDIO Bakery Logo" class="img-fluid" />
           </div>
-          <div class="px-3">
-            <a href="Kasir Profil.html" class="text-danger">Logout</a>
+          <div class="px-3 d-flex flex-column gap-2">
+            <a href="#" class="nav-link text-dark" onclick="loadTransaksiBaruGrid()">Transaksi Baru</a>
+            <a href="#" class="nav-link text-dark" onclick="loadOnlinePayment()">Online Payment</a>
+            <a href="#" class="nav-link text-dark" onclick="loadRiwayatTransaksi()">Riwayat Transaksi</a>
           </div>
         </div>
-
-        <!-- Konten utama -->
-        <div class="col d-flex flex-column">
-          <div class="main-title">Kasir</div>
-          <div class="flex-grow-1 d-flex align-items-center justify-content-center">
-            <div class="cashier-label">CASHIER</div>
-          </div>
+        <div class="px-3">
+          <a href="Kasir Profil.html" class="text-danger">Logout</a>
         </div>
       </div>
+
+      <!-- Konten Kanan -->
+      <div class="col d-flex flex-column p-4" id="konten-kanan">
+        <h2 class="mb-4">Selamat Datang di Kasir</h2>
+        <p>Silakan pilih menu di sidebar untuk memulai transaksi.</p>
+      </div>
     </div>
-  </body>
+  </div>
+
+  <!-- Script -->
+  <script>
+    let transaksi = [];
+
+    const produkList = [
+      { id: 'choipan', name: 'Choi Pan', price: 12000, img: 'image/choipan.jpg', stock: 20 },
+      { id: 'jongkong', name: 'jongkong', price: 8000, img: 'image/Jongkong.jpg', stock: 15 },
+      { id: 'kue sus', name: 'kue sus', price: 12000, img: 'image/Kue Sus.png', stock: 10 },
+      { id: 'risol mayo', name: 'risol mayo', price: 12000, img: 'image/Risol Mayo.jpg', stock: 25 },
+      { id: 'rogut', name: 'rogut', price: 12000, img: 'image/Rougut.jpg', stock: 18 }
+    ];
+
+    let keranjang = {};
+    let metode = '';
+
+    function formatRupiah(num) {
+      return num.toLocaleString('id-ID');
+    }
+
+    function updateTabel() {
+      const tbody = document.getElementById("item-list");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+      let total = 0;
+
+      transaksi.forEach(item => {
+        const totalItem = item.qty * item.price;
+        total += totalItem;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.item}</td>
+          <td>${item.qty}</td>
+          <td>${formatRupiah(item.price)}</td>
+          <td>${formatRupiah(totalItem)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById("total-bayar").innerText = formatRupiah(total);
+
+      const cashInput = document.getElementById("cash-input");
+      if (cashInput) {
+        cashInput.addEventListener("input", () => {
+          const cash = parseInt(cashInput.value || "0");
+          const kembali = cash - total;
+          document.getElementById("kembalian").innerText = formatRupiah(kembali > 0 ? kembali : 0);
+        });
+      }
+    }
+
+    function cetakStruk() {
+      alert("Struk berhasil dicetak!");
+    }
+
+    function loadOnlinePayment() {
+      const konten = `
+        <h2 class="mb-4">Online Payment</h2>
+        <p>Fitur ini akan segera tersedia.</p>
+      `;
+      document.getElementById("konten-kanan").innerHTML = konten;
+    }
+
+    function loadRiwayatTransaksi() {
+      const konten = `
+        <h2 class="mb-4">Riwayat Transaksi</h2>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead class="table-light">
+              <tr><th>#</th><th>Tanggal</th><th>Item</th><th>Total</th><th>Metode</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td><td>2024-05-20</td><td>Choi Pan x2, Roti Keju x1</td><td>Rp 35.000</td><td>Cash</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+      document.getElementById("konten-kanan").innerHTML = konten;
+    }
+
+    function loadTransaksiBaruGrid() {
+      const konten = `
+        <h2 class="mb-4">Transaksi Baru</h2>
+        <div class="row">
+          <div class="col-md-5">
+            <table class="table table-bordered">
+              <thead class="table-light">
+                <tr><th>Item</th><th>Qty</th><th>Total</th></tr>
+              </thead>
+              <tbody id="ringkasan-pesanan"></tbody>
+              <tfoot>
+                <tr><td colspan="2"><strong>Total</strong></td><td><strong id="total-ringkasan">0</strong></td></tr>
+              </tfoot>
+            </table>
+            <div class="d-flex justify-content-between mb-3">
+              <button class="btn btn-warning" onclick="setMetodePembayaran('Tunai')">Tunai</button>
+              <button class="btn btn-warning" onclick="setMetodePembayaran('QRIS')">QRIS</button>
+              <button class="btn btn-danger" onclick="resetKeranjang()">Cancel</button>
+            </div>
+            <div class="text-center">
+              <button class="btn btn-custom" onclick="konfirmasiPembayaran()">Confirm</button>
+            </div>
+          </div>
+          <div class="col-md-7">
+            <div class="row" id="produk-grid"></div>
+          </div>
+        </div>
+      `;
+      document.getElementById("konten-kanan").innerHTML = konten;
+      renderProdukGrid();
+      updateRingkasanPesanan();
+    }
+
+    function renderProdukGrid() {
+      const grid = document.getElementById("produk-grid");
+      grid.innerHTML = '';
+      produkList.forEach(produk => {
+        const qty = keranjang[produk.id]?.qty || 0;
+        const disabled = qty >= produk.stock ? 'disabled' : '';
+        const btnText = qty > 0 ? `+ ${qty}` : '+';
+
+        const card = document.createElement("div");
+        card.className = "col-6 col-lg-4 mb-3";
+        card.innerHTML = `
+          <div class="card h-100 text-center">
+            <img src="${produk.img}" class="card-img-top" alt="${produk.name}" />
+            <div class="card-body p-2">
+              <h6 class="card-title mb-1">${produk.name}</h6>
+              <p class="card-text mb-1">Rp ${produk.price.toLocaleString('id-ID')}</p>
+              <p class="text-muted" style="font-size: 0.85em;">Stok: ${produk.stock - qty}</p>
+              <button class="btn btn-sm btn-outline-success" onclick="tambahKeKeranjang('${produk.id}')" ${disabled}>${btnText}</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function tambahKeKeranjang(id) {
+      const produk = produkList.find(p => p.id === id);
+      if (!keranjang[id]) {
+        keranjang[id] = { name: produk.name, qty: 1, price: produk.price };
+      } else {
+        if (keranjang[id].qty >= produk.stock) {
+          alert("Stok habis untuk produk ini!");
+          return;
+        }
+        keranjang[id].qty++;
+      }
+      renderProdukGrid();
+      updateRingkasanPesanan();
+    }
+
+    function updateRingkasanPesanan() {
+      const tbody = document.getElementById("ringkasan-pesanan");
+      let total = 0;
+      tbody.innerHTML = '';
+      for (const key in keranjang) {
+        const item = keranjang[key];
+        const totalItem = item.qty * item.price;
+        total += totalItem;
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.qty}</td>
+          <td>${totalItem.toLocaleString('id-ID')}</td>
+        `;
+        tbody.appendChild(row);
+      }
+      document.getElementById("total-ringkasan").innerText = total.toLocaleString('id-ID');
+    }
+
+    function setMetodePembayaran(val) {
+      metode = val;
+      alert("Metode dipilih: " + val);
+    }
+
+    function resetKeranjang() {
+      keranjang = {};
+      metode = '';
+      loadTransaksiBaruGrid();
+    }
+
+    function konfirmasiPembayaran() {
+      if (!Object.keys(keranjang).length) return alert("Keranjang kosong!");
+      if (!metode) return alert("Pilih metode pembayaran!");
+
+      transaksi = Object.values(keranjang).map(item => ({
+        item: item.name,
+        qty: item.qty,
+        price: item.price
+      }));
+
+      if (metode === 'Tunai') {
+        loadPembayaranTunai();
+      } else if (metode === 'QRIS') {
+        alert("QRIS belum tersedia.");
+      }
+    }
+
+    function loadPembayaranTunai() {
+      const konten = `
+        <h2 class="mb-4">Transaksi Baru</h2>
+        <div class="mb-3"><h5>← Tunai</h5></div>
+        <div class="table-responsive mb-4">
+          <table class="table table-bordered align-middle">
+            <thead class="table-light">
+              <tr><th>Item</th><th>Qty</th><th>Harga</th><th>Total</th></tr>
+            </thead>
+            <tbody id="item-list"></tbody>
+            <tfoot>
+              <tr><td colspan="3"><strong>Total Bayar</strong></td><td><strong id="total-bayar">0</strong></td></tr>
+              <tr><td colspan="3"><strong>Cash</strong></td><td><input type="number" id="cash-input" class="form-control" /></td></tr>
+              <tr><td colspan="3"><strong>Kembalian</strong></td><td><strong id="kembalian">0</strong></td></tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-custom" onclick="cetakStruk()">Cetak Struk</button>
+        </div>
+      `;
+      document.getElementById("konten-kanan").innerHTML = konten;
+      updateTabel();
+    }
+  </script>
+</body>
 </html>
