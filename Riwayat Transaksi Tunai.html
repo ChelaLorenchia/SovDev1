@@ -12,6 +12,14 @@
     .table th, .table td {
       vertical-align: middle;
     }
+    .badge-item {
+      background-color: #d9d9d9;
+      margin: 2px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
   </style>
 </head>
 <body>
@@ -62,7 +70,9 @@
         }
 
         data.forEach((trx, index) => {
-          const itemList = trx.items.map(i => `${i.item} x${i.qty}`).join(", ");
+          const itemList = trx.items.map(i => 
+            `<span class="badge-item">${i.item} x${i.qty}</span>`).join(" ");
+
           const row = document.createElement("tr");
           row.innerHTML = `
             <td>${index + 1}</td>
