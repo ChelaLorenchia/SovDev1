@@ -24,52 +24,88 @@
     </style>
   </head>
   <body>
-    <div class="container mt-5">
-      <h2 class="mb-4 text-center">Transaksi Baru</h2>
+    <div class="container-fluid min-vh-100">
+    <div class="row h-100">
+      <!-- Sidebar -->
+      <div
+          class="col-12 col-md-3 col-lg-2 sidebar d-flex flex-column justify-content-between"
+        >
+          <div>
+            <div class="logo text-center mb-4">
+              <img
+                src="image/logo.png"
+                alt="NYDIO Bakery Logo"
+                class="img-fluid"
+              />
+            </div>
+            <div class="px-3 d-flex flex-column gap-2">
+              <a
+                href="#"
+                class="nav-link text-dark"
+                onclick="loadTransaksiBaruGrid()"
+                >Transaksi Baru</a
+              >
+              <a
+                href="#"
+                class="nav-link text-dark"
+                onclick="loadOnlinePayment()"
+                >Online Payment</a
+              >
+              <a
+                href="Riwayat Transaksi Tunai.html"
+                class="nav-link text-dark"
+                onclick="loadRiwayatTransaksi()"
+                >Riwayat Transaksi</a
+              >
+            </div>
+          </div>
+          <div class="px-3">
+            <a href="Kasir Profil.html" class="text-danger">Logout</a>
+          </div>
+        </div>
 
-      <div class="mb-3">
-        <a href="Admin Home.html" class="text-decoration-none text-dark fs-4">
-          <i class="bi bi-arrow-left"> Tunai</i>
-        </a>
-      </div>
+      <!-- Konten -->
+      <div class="col d-flex flex-column p-4">
+        <h2 class="mb-4 text-center">Transaksi Baru</h2>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Qty</th>
-            <th>Harga</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody id="item-list">
-          <!-- Data akan diisi via JavaScript -->
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3"><strong>Total Bayar</strong></td>
-            <td><strong id="total-bayar">0</strong></td>
-          </tr>
-          <tr>
-            <td colspan="3"><strong>Cash</strong></td>
-            <td>
-              <input type="number" id="cash-input" class="form-control" />
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3"><strong>Kembalian</strong></td>
-            <td><strong id="kembalian">0</strong></td>
-          </tr>
-        </tfoot>
-      </table>
+        <div class="mb-3">
+          <a href="Kasir Home.html" class="text-decoration-none text-dark fs-4">
+            <i class="bi bi-arrow-left"> Tunai</i>
+          </a>
+        </div>
 
-      <div class="text-center mt-4">
-        <button class="btn btn-custom" onclick="cetakStruk()">
-          Cetak Struk
-        </button>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Harga</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="item-list"></tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3"><strong>Total Bayar</strong></td>
+              <td><strong id="total-bayar">0</strong></td>
+            </tr>
+            <tr>
+              <td colspan="3"><strong>Cash</strong></td>
+              <td><input type="number" id="cash-input" class="form-control" /></td>
+            </tr>
+            <tr>
+              <td colspan="3"><strong>Kembalian</strong></td>
+              <td><strong id="kembalian">0</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div class="text-center mt-4">
+          <button class="btn btn-custom" onclick="cetakStruk()">Cetak Struk</button>
+        </div>
       </div>
     </div>
-
+  </div>
     <script>
       const transaksi =
         JSON.parse(localStorage.getItem("transaksiTunai")) || [];
