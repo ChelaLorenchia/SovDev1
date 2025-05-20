@@ -237,13 +237,20 @@
       function konfirmasiPembayaran() {
         if (!Object.keys(keranjang).length) return alert("Keranjang kosong!");
         if (!metode) return alert("Pilih metode pembayaran!");
-        transaksi = Object.values(keranjang).map((i) => ({
-          item: i.name,
-          qty: i.qty,
-          price: i.price,
+
+        transaksi = Object.values(keranjang).map((item) => ({
+          item: item.name,
+          qty: item.qty,
+          price: item.price,
         }));
-        if (metode === "Tunai") loadPembayaranTunai();
-        else alert("QRIS belum tersedia.");
+
+        if (metode === "Tunai") {
+          // Simpan ke localStorage
+          localStorage.setItem("transaksiTunai", JSON.stringify(transaksi));
+          window.location.href = "Kasir Transaksi Baru.html";
+        } else {
+          alert("QRIS belum tersedia.");
+        }
       }
 
       function loadPembayaranTunai() {
