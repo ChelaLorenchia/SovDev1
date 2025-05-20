@@ -1,66 +1,65 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Online Payment - NYDJO Bakery</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="style/style.css" />
-    <link rel="stylesheet" href="style/Online Payment.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-  </head>
-
-  <body>
-    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-    <div class="sidebar" id="sidebar">
-      <div class="logo-section">
-        <img src="image/Logo.png" alt="Logo" class="logo" />
-        <nav class="nav-links">
-          <a href="Transaksi Baru.html">Transaksi Baru</a>
-          <a href="Online Payment.html">Online Payment</a>
-          <a href="Riwayat Transaksi.html">Riwayat Transaksi</a>
-        </nav>
-      </div>
-      <a href="#" class="logout">Logout</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Online Payment - NYDJO Bakery</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style/Online Payment.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  <div class="sidebar" id="sidebar">
+    <div class="logo-section">
+      <img src="image/Logo.png" alt="Logo" class="logo" />
+      <nav class="nav-links">
+        <a href="Transaksi Baru.html">Transaksi Baru</a>
+        <a href="Online Payment.html">Online Payment</a>
+        <a href="Riwayat Transaksi.html">Riwayat Transaksi</a>
+      </nav>
     </div>
+    <a href="#" class="logout">Logout</a>
+  </div>
 
-    <div class="content">
-      <div class="title">Online Payment</div>
-      <div class="main">
-        <table>
-          <thead>
-            <tr>
-              <th>Nama</th>
-              <th>Kode</th>
-              <th>Total Bayar</th>
-              <th>Tanggal</th>
-              <th>Jam Order</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Syanti Padesti</td>
-              <td>10021</td>
-              <td>24.000</td>
-              <td>12/05/2025</td>
-              <td>09.42</td>
-            </tr>
-            <tr>
-              <td>Syanti Padesti</td>
-              <td>10021</td>
-              <td>24.000</td>
-              <td>12/05/2025</td>
-              <td>09.42</td>
-            </tr>
-          </tbody>
-          <tbody id="orderItems"></tbody>
-        </table>
-      </div>
+  <div class="content">
+    <div class="title">Online Payment</div>
+    <div class="main">
+      <table>
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Kode</th>
+            <th>Total Bayar</th>
+            <th>Tanggal</th>
+            <th>Jam Order</th>
+          </tr>
+        </thead>
+        <tbody id="paymentTableBody">
+          <tr data-nama="Syanti Padesti" data-kode="10021" data-total="24000" data-tanggal="12/05/2025" data-jam="09.42">
+            <td>Syanti Padesti</td>
+            <td>10021</td>
+            <td>24.000</td>
+            <td>12/05/2025</td>
+            <td>09.42</td>
+          </tr>
+          <tr data-nama="Budi Pratama" data-kode="10022" data-total="36000" data-tanggal="13/05/2025" data-jam="10.15">
+            <td>Budi Pratama</td>
+            <td>10022</td>
+            <td>36.000</td>
+            <td>13/05/2025</td>
+            <td>10.15</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 
-    <script src="js/sidebar.js"></script>
-  </body>
+  <script>
+
+  </script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/kasir.js"></script>
+</body>
 </html>
