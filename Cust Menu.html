@@ -222,11 +222,15 @@
                         <button class="btn btn-sm btn-outline-secondary" onclick="adjustQty(this, 1)">+</button>
                         </div>
                       </div>
-                        <button class="btn btn-sm btn-cart mt-2 mt-md-0" 
-                          ${product.stock === 0 ? "disabled" : ""}>
-                          Tambahkan ke Keranjang - Rp 
-                          <span class="price" data-unit-price="${product.price}">0</span>
-                        </button>
+<a 
+  href="cart.html" 
+  class="btn btn-sm btn-cart mt-2 mt-md-0 ${
+    product.stock === 0 ? "disabled" : ""
+  }">
+  Tambahkan ke Keranjang - Rp 
+  <span class="price" data-unit-price="${product.price}">0</span>
+</a>
+
                       </div>
                     </div>
                   </div>

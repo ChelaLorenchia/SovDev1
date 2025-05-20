@@ -56,7 +56,7 @@ function addToCart(event, productName, price, imageSrc) {
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  window.location.href = "keranjang.html";
+  window.location.href = "cart.html";
 }
 
 // Fungsi untuk menyesuaikan jumlah produk dan total harganya
