@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaksi Baru - NYDJO Bakery</title>
+    <link rel="stylesheet" href="/styles/dashboard/style.css" />
+    <link rel="stylesheet" href="/styles/dashboard/transaksi-baru-item.css" />
+  </head>
+
+  <body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="sidebar" id="sidebar">
+      <div class="logo-section">
+        <img src="/assets/logo.png" alt="Logo" class="logo" />
+        <nav class="nav-links">
+          <a href="#">Transaksi Baru</a>
+          <a href="#">Online Payment</a>
+          <a href="#">Riwayat Transaksi</a>
+        </nav>
+      </div>
+      <a href="#" class="logout">Logout</a>
+    </div>
+
+    <div class="content">
+      <div class="title">Transaksi Baru</div>
+      <div class="main">
+        <div class="order-summary">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="orderItems"></tbody>
+          </table>
+          <div class="total">
+            Total Bayar: <span id="totalAmount">Rp 0</span>
+          </div>
+          <div class="buttons">
+            <button class="cash">Tunai</button>
+            <button class="qris">QRIS</button>
+            <button class="cancel">Cancel Order</button>
+          </div>
+          <button class="confirm">Confirm</button>
+        </div>
+        <div class="item-container">
+          <h2>Item</h2>
+          <div class="item-list" id="itemList"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/script/sidebar.js"></script>
+    <script>
+      const items = [
+        { name: "Chai Pan", price: 12000, img: "/assets/product/kue.png" },
+        { name: "Jongkong", price: 10000, img: "/assets/product/kue.png" },
+        { name: "Roti Mayo", price: 13000, img: "/assets/product/kue.png" },
+        { name: "Roti Tawar", price: 11000, img: "/assets/product/kue.png" },
+        { name: "Brownies", price: 15000, img: "/assets/product/kue.png" },
+        { name: "Roti Keju", price: 10000, img: "/assets/product/kue.png" },
+        { name: "Roti Coklat", price: 10000, img: "/assets/product/kue.png" },
+        { name: "Roti Susu", price: 10000, img: "/assets/product/kue.png" },
+        { name: "Bundle A", price: 13000, img: "/assets/product/kue.png" },
+        { name: "Bundle B", price: 17000, img: "/assets/product/kue.png" },
+        { name: "Bundle C", price: 19000, img: "/assets/product/kue.png" },
+      ];
+
+      const itemList = document.getElementById("itemList");
+      const orderItems = document.getElementById("orderItems");
+      const totalAmount = document.getElementById("totalAmount");
+
+      const order = {};
+
+      function renderItems() {
+        items.forEach((item, index) => {
+          const div = document.createElement("div");
+          div.className = "item";
+          div.innerHTML = `
+          <img src="${item.img}" alt="${item.name}" />
+          <div>${item.name}</div>
+          <div>Rp ${item.price.toLocaleString()}</div>
+        `;
+          div.addEventListener("click", () => addItemToOrder(item));
+          itemList.appendChild(div);
+        });
+      }
+
+      function addItemToOrder(item) {
+        if (order[item.name]) {
+          order[item.name].qty++;
+        } else {
+          order[item.name] = { ...item, qty: 1 };
+        }
+        renderOrder();
+      }
+
+      function renderOrder() {
+        orderItems.innerHTML = "";
+        let total = 0;
+        Object.values(order).forEach((item) => {
+          const tr = document.createElement("tr");
+          const itemTotal = item.qty * item.price;
+          total += itemTotal;
+          tr.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.qty}</td>
+          <td>Rp ${itemTotal.toLocaleString()}</td>
+        `;
+          orderItems.appendChild(tr);
+        });
+        totalAmount.textContent = `Rp ${total.toLocaleString()}`;
+      }
+
+      renderItems();
+    </script>
+  </body>
+</html>
