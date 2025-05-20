@@ -121,8 +121,8 @@
             </tfoot>
           </table>
           <div class="d-flex justify-content-between mb-3">
-            <button class="btn btn-warning" onclick="setMetodePembayaran('Tunai')">Tunai</button>
-            <button class="btn btn-warning" onclick="setMetodePembayaran('QRIS')">QRIS</button>
+            <button id="btnTunai" class="btn btn-warning" onclick="setMetodePembayaran('Tunai')">Tunai</button>
+            <button id="btnQRIS" class="btn btn-warning" onclick="setMetodePembayaran('QRIS')">QRIS</button>
             <button class="btn btn-danger" onclick="resetKeranjang()">Cancel</button>
           </div>
           <div class="text-center">
@@ -229,6 +229,17 @@
       function setMetodePembayaran(val) {
         metode = val;
         alert("Metode dipilih: " + val);
+
+        // Reset semua tombol
+        document.getElementById("btnTunai").classList.remove("metode-selected");
+        document.getElementById("btnQRIS").classList.remove("metode-selected");
+
+        // Tambahkan class ke tombol yang dipilih
+        if (val === "Tunai") {
+          document.getElementById("btnTunai").classList.add("metode-selected");
+        } else if (val === "QRIS") {
+          document.getElementById("btnQRIS").classList.add("metode-selected");
+        }
       }
 
       function resetKeranjang() {
