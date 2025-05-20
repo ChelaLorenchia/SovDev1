@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Payment Detail - NYDJO Bakery</title>
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style/Online Payment Detail.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="sidebar" id="sidebar">
+      <div class="logo-section">
+        <img src="image/Logo.png" alt="Logo" class="logo" />
+        <nav class="nav-links">
+          <a href="Transaksi Baru.html">Transaksi Baru</a>
+          <a href="Online Payment.html">Online Payment</a>
+          <a href="Riwayat Transaksi.html">Riwayat Transaksi</a>
+        </nav>
+      </div>
+      <a href="#" class="logout">Logout</a>
+    </div>
+
+    <div class="content">
+      <div class="title">Online Payment</div>
+      <h2>
+        <i class="fa-solid fa-arrow-left"></i>Syanti Padesti |
+        <span>10021</span>
+      </h2>
+      <p class="date">12/05/2025</p>
+      <div class="main">
+        <div class="order-summary">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th></th>
+                <th style="text-align: right">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Choi Pan</td>
+                <td>2x</td>
+                <td>12.000</td>
+                <td style="text-align: right">24.000</td>
+              </tr>
+              <tr>
+                <td>Roti Keju</td>
+                <td>1x</td>
+                <td>11.000</td>
+                <td style="text-align: right">11.000</td>
+              </tr>
+              <tr>
+                <td>Bundle A</td>
+                <td>3x</td>
+                <td>13.000</td>
+                <td style="text-align: right">39.000</td>
+              </tr>
+            </tbody>
+            <tbody id="orderItems"></tbody>
+          </table>
+          <div class="total">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Total Bayar</td>
+                  <td style="text-align: right">74.000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="buttons-area">
+          <div class="method-payment">
+            <span class="method">Tunai</span>
+            <span class="method">QRIS</span>
+          </div>
+          <button class="cancel-button">Cancel Order</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/sidebar.js"></script>
+  </body>
+</html>
