@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NY DIO Bakery - Cart</title>
+    <title>NY DIO Bakery - Profil</title>
 
-    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="style/style.css" />
-    <link rel="stylesheet" href="style/Cart.css" />
-    <link rel="icon" href="image/Logo.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style/cust.css" />
+    <link rel="stylesheet" href="style/Profil.css" />
+    <link rel="icon" href="image/logo.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -20,7 +21,7 @@
       <nav class="navbar">
         <div class="logo">
           <img
-            src="image/Logo.png"
+            src="image/logo.png"
             alt="logo"
             style="width: 60px; height: auto"
           />
@@ -46,8 +47,8 @@
             </button>
           </div>
           <div class="user-actions">
-            <a href="#"><i class="fa-regular fa-user"></i></a>
-            <a href="#" class="container-cart">
+            <a href="Profil.html"><i class="fa-regular fa-user"></i></a>
+            <a href="Cart.html" class="container-cart">
               <i class="fa-solid fa-cart-shopping cart-icon"></i>
               <span class="cart-count">1</span>
             </a>
@@ -185,11 +186,6 @@
       </div>
     </footer>
 
-    <script>
-      function toggleMenu() {
-        const navLinks = document.getElementById("navLinks");
-        navLinks.classList.toggle("active");
-      }
-    </script>
+    <script scr="js/cust.js"></script>
   </body>
 </html>
