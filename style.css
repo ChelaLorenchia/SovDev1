@@ -24,7 +24,7 @@
   filter: blur(100px);
   z-index: -1;
   right: 0;
-  top: 500;
+  top: 500px;
   -webkit-filter: blur(100px);
 }
 
