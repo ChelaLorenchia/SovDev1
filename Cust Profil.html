@@ -57,7 +57,9 @@
             placeholder="Cari menu..."
             onkeypress="if(event.key === 'Enter') searchFromHome()"
           />
-          <a href="Cust Profil.html"><i class="bi bi-person fs-5 text-black"></i></a>
+          <a href="Cust Profil.html"
+            ><i class="bi bi-person fs-5 text-black"></i
+          ></a>
           <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
         </div>
       </div>
@@ -153,9 +155,7 @@
           <i class="bi bi-whatsapp fs-4"></i>
         </a>
       </div>
-      <p class="text-muted small mt-3">
-        © 2025 Ny.Djo Bakery.
-      </p>
+      <p class="text-muted small mt-3">© 2025 Ny.Djo Bakery.</p>
     </footer>
     <!-- Script -->
     <script>
@@ -169,6 +169,76 @@
         icon.classList.toggle("bi-eye-slash", !isPassword);
       }
 
+      // document.addEventListener("DOMContentLoaded", async () => {
+      //   try {
+      //     const res = await fetch("/api/user/profile");
+      //     if (!res.ok) throw new Error("Gagal mengambil profil");
+
+      //     const data = await res.json();
+      //     document.getElementById("customerUsername").textContent =
+      //       data.username;
+      //     document.getElementById("customerEmail").textContent = data.email;
+      //   } catch (err) {
+      //     console.error(err);
+      //     alert("Silakan login terlebih dahulu.");
+      //     window.location.href = "/login.html";
+      //   }
+      // });
+
+      // document
+      //   .getElementById("passwordForm")
+      //   .addEventListener("submit", async (e) => {
+      //     e.preventDefault();
+      //     const oldPassword = document.getElementById("oldPassword").value;
+      //     const newPassword = document.getElementById("newPassword").value;
+      //     const confirmPassword =
+      //       document.getElementById("confirmPassword").value;
+
+      //     if (newPassword !== confirmPassword) {
+      //       alert("Password baru dan konfirmasi tidak cocok");
+      //       return;
+      //     }
+
+      //     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+      //     if (!passwordRegex.test(newPassword)) {
+      //       alert(
+      //         "Password harus minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka."
+      //       );
+      //       return;
+      //     }
+
+      //     try {
+      //       const res = await fetch("/api/user/change-password", {
+      //         method: "POST",
+      //         headers: { "Content-Type": "application/json" },
+      //         body: JSON.stringify({ oldPassword, newPassword }),
+      //       });
+
+      //       const result = await res.json();
+      //       if (!res.ok) throw new Error(result.error);
+
+      //       alert("Password berhasil diubah");
+      //       e.target.reset();
+      //     } catch (err) {
+      //       alert(err.message);
+      //     }
+      //   });
+
+      // document
+      //   .getElementById("logoutBtn")
+      //   .addEventListener("click", async () => {
+      //     try {
+      //       const res = await fetch("/logout", { method: "POST" });
+      //       if (res.ok) {
+      //         window.location.href = "/login.html";
+      //       } else {
+      //         alert("Gagal logout");
+      //       }
+      //     } catch (err) {
+      //       console.error(err);
+      //       alert("Terjadi kesalahan saat logout");
+      //     }
+      //   });
     </script>
 
     <script>
@@ -176,7 +246,8 @@
       fetch("http://localhost:5000/api/customer/profile")
         .then((res) => res.json())
         .then((data) => {
-          document.getElementById("customerUsername").textContent = data.username;
+          document.getElementById("customerUsername").textContent =
+            data.username;
           document.getElementById("customerEmail").textContent = data.email;
         });
 

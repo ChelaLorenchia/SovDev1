@@ -92,4 +92,56 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get("/api/user/profile", async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ error: "Unauthorized" });
+
+    const user = await User.findById(userId).select("username email");
+    if (!user) return res.status(404).json({ error: "User tidak ditemukan" });
+
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Gagal mengambil profil user" });
+  }
+});
+
+router.post("/api/user/change-password", async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ error: "Unauthorized" });
+
+    const user = await User.findById(userId);
+    const match = await bcrypt.compare(oldPassword, user.password);
+    if (!match) return res.status(400).json({ error: "Password lama salah" });
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      return res.status(400).json({
+        error: "Password harus minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka.",
+      });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.json({ message: "Password berhasil diubah" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Gagal mengubah password" });
+  }
+});
+
+router.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ error: "Gagal logout" });
+    }
+    res.clearCookie("connect.sid");
+    res.status(200).json({ message: "Logout berhasil" });
+  });
+});
+
 module.exports = router;
