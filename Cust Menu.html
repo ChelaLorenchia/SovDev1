@@ -233,16 +233,14 @@
                         <button class="btn btn-sm btn-outline-secondary" onclick="adjustQty(this, 1)">+</button>
                         </div>
                       </div>
-<a 
-  href="#" 
-  class="btn btn-sm btn-cart mt-2 mt-md-0 ${product.stock === 0 ? "disabled" : ""}"
-  onclick="addToCartFromDeskripsi(event, '${product.name}', ${product.price}, '${product.image}', '${idSafe}')"
->
-  Tambahkan ke Keranjang - Rp 
-  <span class="price" data-unit-price="${product.price}">0</span>
-</a>
-
-
+                        <a 
+                          href="#" 
+                          class="btn btn-sm btn-cart mt-2 mt-md-0 ${product.stock === 0 ? "disabled" : ""}"
+                          onclick="addToCartFromDeskripsi(event, '${product.name}', ${product.price}, '${product.image}', '${idSafe}')"
+                        >
+                          Tambahkan ke Keranjang - Rp 
+                          <span class="price" data-unit-price="${product.price}">0</span>
+                        </a>
                       </div>
                     </div>
                   </div>
