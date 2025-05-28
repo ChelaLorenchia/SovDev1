@@ -123,16 +123,9 @@
         <div class="col-md-5">
           <div
             class="p-3 border rounded mb-3"
-            style="
-              background: #fdf5e6;
-              border: 2px solid #f5d4ca;
-              border-radius: 15px;
-            "
+            style="background: #fdf5e6; border: 2px solid #f5d4ca; border-radius: 15px;"
           >
-            <div
-              class="py-2 px-3 mb-3 text-white fw-bold"
-              style="background-color: #a1737a; border-radius: 10px"
-            >
+            <div class="py-2 px-3 mb-3 text-white fw-bold" style="background-color: #a1737a; border-radius: 10px">
               Ringkasan Pesanan
             </div>
             <div id="ringkasan-pesanan"></div>
@@ -143,61 +136,25 @@
           </div>
 
           <!-- Metode Pembayaran -->
-          <div
-            class="py-2 px-3 mb-3 text-white fw-bold"
-            style="background-color: #a1737a; border-radius: 10px"
-          >
+          <div class="py-2 px-3 mb-3 text-white fw-bold" style="background-color: #a1737a; border-radius: 10px">
             Metode Pembayaran
           </div>
-          <div class="form-check mb-2 d-flex align-items-center">
-            <input
-              class="form-check-input me-2"
-              type="radio"
-              name="metode"
-              id="qris"
-              checked
-            />
-            <label
-              class="form-check-label d-flex align-items-center"
-              for="qris"
-            >
-              <img
-                src="image/qris logo.png"
-                alt="QRIS"
-                height="25"
-                class="me-2"
-              />
-              <span>QRIS</span>
-            </label>
-          </div>
+
+          <!-- Hanya Kasir dan BCA -->
           <div class="form-check mb-2">
-            <input
-              class="form-check-input me-2"
-              type="radio"
-              name="metode"
-              id="kasir"
-            />
+            <input class="form-check-input me-2" type="radio" name="metode" id="kasir" checked />
             <label class="form-check-label" for="kasir">Bayar Kasir</label>
           </div>
           <div class="form-check mb-2 d-flex align-items-center">
-            <input
-              class="form-check-input me-2"
-              type="radio"
-              name="metode"
-              id="bca"
-            />
+            <input class="form-check-input me-2" type="radio" name="metode" id="bca" />
             <label class="form-check-label d-flex align-items-center" for="bca">
-              <img
-                src="image/bca logo.jpg"
-                alt="BCA"
-                height="25"
-                class="me-2"
-              />
+              <img src="image/bca logo.jpg" alt="BCA" height="25" class="me-2" />
               <span>BCA Transfer</span>
             </label>
           </div>
 
-          <button class="btn btn-danger w-100">Bayar Sekarang</button>
+          <!-- Tombol Bayar Sekarang -->
+          <button type="button" class="btn btn-danger w-100" onclick="handleBayar()">Bayar Sekarang</button>
         </div>
       </div>
     </main>
@@ -219,9 +176,6 @@
     </footer>
 
     <!-- Script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/cust.js"></script>
-
     <script>
       const products = {
         rogut: { name: "Rogut", price: 12000, qty: 1 },
@@ -268,6 +222,26 @@
         if (products[key].qty > 0) {
           products[key].qty--;
           updateDisplay();
+        }
+      }
+
+      function saveTotal() {
+        const total = document.getElementById("total-bayar").innerText;
+        localStorage.setItem("totalBayar", total);
+      }
+
+      function handleBayar() {
+        saveTotal();
+        const metode = document.querySelector('input[name="metode"]:checked');
+        if (!metode) {
+          alert("Silakan pilih metode pembayaran terlebih dahulu.");
+          return;
+        }
+
+        if (metode.id === "kasir") {
+          window.location.href = "BayarKasir.html";
+        } else if (metode.id === "bca") {
+          window.location.href = "pembayaran transfer.html";
         }
       }
 
