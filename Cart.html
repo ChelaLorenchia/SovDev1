@@ -40,7 +40,9 @@
             placeholder="Cari menu..."
             onkeypress="if(event.key === 'Enter') searchFromHome()"
           />
-          <a href="Cust Profil.html"><i class="bi bi-person fs-5 text-black"></i></a>
+          <a href="Cust Profil.html"
+            ><i class="bi bi-person fs-5 text-black"></i
+          ></a>
           <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
         </div>
       </div>
@@ -48,7 +50,13 @@
 
     <!-- Cart Content -->
     <main class="container my-4">
-      <h3 class="mb-4" style="color: #5e2728">Cart</h3>
+      <div class="mb-4 d-flex align-items-center">
+        <a href="Cust Menu.html" class="me-3 text-decoration-none text-dark">
+          <i class="bi bi-arrow-left fs-4"></i>
+        </a>
+        <h3 class="mb-0" style="color: #5e2728">Keranjang</h3>
+      </div>
+
       <div class="row">
         <!-- Cart Items -->
         <div class="col-md-7">
@@ -59,9 +67,16 @@
         <div class="col-md-5">
           <div
             class="p-3 border rounded mb-3"
-            style="background: #fdf5e6; border: 2px solid #f5d4ca; border-radius: 15px;"
+            style="
+              background: #fdf5e6;
+              border: 2px solid #f5d4ca;
+              border-radius: 15px;
+            "
           >
-            <div class="py-2 px-3 mb-3 text-white fw-bold" style="background-color: #a1737a; border-radius: 10px">
+            <div
+              class="py-2 px-3 mb-3 text-white fw-bold"
+              style="background-color: #a1737a; border-radius: 10px"
+            >
               Ringkasan Pesanan
             </div>
             <div id="ringkasan-pesanan"></div>
@@ -72,25 +87,50 @@
           </div>
 
           <!-- Metode Pembayaran -->
-          <div class="py-2 px-3 mb-3 text-white fw-bold" style="background-color: #a1737a; border-radius: 10px">
+          <div
+            class="py-2 px-3 mb-3 text-white fw-bold"
+            style="background-color: #a1737a; border-radius: 10px"
+          >
             Metode Pembayaran
           </div>
 
           <!-- Hanya Kasir dan BCA -->
           <div class="form-check mb-2">
-            <input class="form-check-input me-2" type="radio" name="metode" id="kasir" checked />
+            <input
+              class="form-check-input me-2"
+              type="radio"
+              name="metode"
+              id="kasir"
+              checked
+            />
             <label class="form-check-label" for="kasir">Bayar Kasir</label>
           </div>
           <div class="form-check mb-2 d-flex align-items-center">
-            <input class="form-check-input me-2" type="radio" name="metode" id="bca" />
+            <input
+              class="form-check-input me-2"
+              type="radio"
+              name="metode"
+              id="bca"
+            />
             <label class="form-check-label d-flex align-items-center" for="bca">
-              <img src="image/bca logo.jpg" alt="BCA" height="25" class="me-2" />
+              <img
+                src="image/bca logo.jpg"
+                alt="BCA"
+                height="25"
+                class="me-2"
+              />
               <span>BCA Transfer</span>
             </label>
           </div>
 
           <!-- Tombol Bayar Sekarang -->
-          <button type="button" class="btn btn-danger w-100" onclick="handleBayar()">Bayar Sekarang</button>
+          <button
+            type="button"
+            class="btn btn-danger w-100"
+            onclick="handleBayar()"
+          >
+            Bayar Sekarang
+          </button>
         </div>
       </div>
     </main>
@@ -112,9 +152,7 @@
     </footer>
 
     <!-- Script -->
-    
-
-    <script>
+    <!-- <script>
       const products = {
         rogut: { name: "Rogut", price: 12000, qty: 1 },
         kuesus: { name: "Kue Sus", price: 12000, qty: 1 },
@@ -187,37 +225,39 @@
     </script> -->
 
     <script>
-  function formatRupiah(number) {
-    return "Rp " + number.toLocaleString("id-ID");
-  }
+      function formatRupiah(number) {
+        return "Rp " + number.toLocaleString("id-ID");
+      }
 
-  function renderCart() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const container = document.getElementById("cart-items-container");
-    const ringkasan = document.getElementById("ringkasan-pesanan");
-    const totalBayar = document.getElementById("total-bayar");
+      function renderCart() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const container = document.getElementById("cart-items-container");
+        const ringkasan = document.getElementById("ringkasan-pesanan");
+        const totalBayar = document.getElementById("total-bayar");
 
-    container.innerHTML = "";
-    ringkasan.innerHTML = "";
+        container.innerHTML = "";
+        ringkasan.innerHTML = "";
 
-    let total = 0;
+        let total = 0;
 
-    if (cart.length === 0) {
-      container.innerHTML = "<p class='text-muted'>Keranjang kosong.</p>";
-      totalBayar.innerText = "Rp 0";
-      return;
-    }
+        if (cart.length === 0) {
+          container.innerHTML = "<p class='text-muted'>Keranjang kosong.</p>";
+          totalBayar.innerText = "Rp 0";
+          return;
+        }
 
-    cart.forEach((item, index) => {
-      const id = `item-${index}`;
-      const subtotal = item.price * item.qty;
-      total += subtotal;
+        cart.forEach((item, index) => {
+          const id = `item-${index}`;
+          const subtotal = item.price * item.qty;
+          total += subtotal;
 
-      // Cart item display
-      const div = document.createElement("div");
-      div.className = "p-3 border rounded mb-3 d-flex";
-      div.innerHTML = `
-        <img src="${item.image}" alt="${item.name}" class="img-thumbnail me-3" style="width: 120px; height: 120px; object-fit: cover">
+          // Cart item display
+          const div = document.createElement("div");
+          div.className = "p-3 border rounded mb-3 d-flex";
+          div.innerHTML = `
+        <img src="${item.image}" alt="${
+            item.name
+          }" class="img-thumbnail me-3" style="width: 120px; height: 120px; object-fit: cover">
         <div class="flex-grow-1">
           <h5>${item.name}</h5>
           <p>Harga: ${formatRupiah(item.price)}</p>
@@ -225,45 +265,48 @@
             <button class="btn btn-outline-secondary btn-sm" onclick="changeQty(${index}, -1)">−</button>
             <span class="mx-2" id="${id}-qty">${item.qty}</span>
             <button class="btn btn-outline-secondary btn-sm" onclick="changeQty(${index}, 1)">+</button>
-            <span class="ms-auto" id="${id}-subtotal">${formatRupiah(subtotal)}</span>
+            <span class="ms-auto" id="${id}-subtotal">${formatRupiah(
+            subtotal
+          )}</span>
             <button class="btn btn-link text-danger ms-3" onclick="removeItem(${index})">
               <i class="bi bi-trash3"></i>
             </button>
           </div>
         </div>
       `;
-      container.appendChild(div);
+          container.appendChild(div);
 
-      // Ringkasan pesanan
-      const summaryItem = document.createElement("div");
-      summaryItem.className = "d-flex justify-content-between";
-      summaryItem.innerHTML = `<span>${item.name}</span><span>${item.qty} x ${formatRupiah(item.price)}</span>`;
-      ringkasan.appendChild(summaryItem);
-    });
+          // Ringkasan pesanan
+          const summaryItem = document.createElement("div");
+          summaryItem.className = "d-flex justify-content-between";
+          summaryItem.innerHTML = `<span>${item.name}</span><span>${
+            item.qty
+          } x ${formatRupiah(item.price)}</span>`;
+          ringkasan.appendChild(summaryItem);
+        });
 
-    totalBayar.innerText = formatRupiah(total);
-  }
+        totalBayar.innerText = formatRupiah(total);
+      }
 
-  function changeQty(index, delta) {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (!cart[index]) return;
+      function changeQty(index, delta) {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        if (!cart[index]) return;
 
-    cart[index].qty += delta;
-    if (cart[index].qty < 1) cart[index].qty = 1;
+        cart[index].qty += delta;
+        if (cart[index].qty < 1) cart[index].qty = 1;
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    renderCart();
-  }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
 
-  function removeItem(index) {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    renderCart();
-  }
+      function removeItem(index) {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
 
-  document.addEventListener("DOMContentLoaded", renderCart);
-</script>
-
+      document.addEventListener("DOMContentLoaded", renderCart);
+    </script>
   </body>
 </html>

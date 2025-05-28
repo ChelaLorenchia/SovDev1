@@ -33,22 +33,36 @@ function toggleDeskripsi(id, showDeskripsi = true, presetQty = false) {
       preview.classList.add("d-none");
       deskripsi.classList.remove("d-none");
 
-      // Jika presetQty true, set qty jadi 1 dan update harga
       if (presetQty) {
         const qtySpan = deskripsi.querySelector(".qty");
         const priceSpan = deskripsi.querySelector(".price");
         const unitPrice = parseInt(priceSpan.getAttribute("data-unit-price"));
 
-        qtySpan.textContent = "1";
-        priceSpan.textContent = unitPrice;
-      }
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const itemName = deskripsi.querySelector("h6.mb-0").textContent;
+        const existing = cart.find((item) => item.name === itemName);
 
+        let qty = existing ? existing.qty : 1;
+        qtySpan.textContent = qty;
+        priceSpan.textContent = unitPrice * qty;
+
+        const button = deskripsi.querySelector(".btn-cart");
+        if (existing) {
+          button.innerHTML = `Perbarui Keranjang - Rp <span class="price" data-unit-price="${unitPrice}">${unitPrice * qty}</span>`;
+          button.setAttribute("data-update", "true");
+        } else {
+          button.innerHTML = `Tambahkan ke Keranjang - Rp <span class="price" data-unit-price="${unitPrice}">${unitPrice * qty}</span>`;
+          button.removeAttribute("data-update");
+        }
+      }
     } else {
       deskripsi.classList.add("d-none");
       preview.classList.remove("d-none");
     }
   }
 }
+
+
 
 
 function addToCart(event, productName, price, imageSrc) {
@@ -200,14 +214,17 @@ function addToCartFromDeskripsi(event, productName, price, imageSrc, id) {
   const deskripsi = document.getElementById("deskripsi-" + id);
   const qtySpan = deskripsi.querySelector(".qty");
   const qty = parseInt(qtySpan.textContent);
-
   if (qty === 0) return;
 
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const button = deskripsi.querySelector(".btn-cart");
+  const isUpdate = button.hasAttribute("data-update");
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
   const existing = cart.find(item => item.name === productName);
 
-  if (existing) {
-    existing.qty += qty;
+  if (isUpdate && existing) {
+    existing.qty = qty;
+    alert(`"${productName}" diperbarui ke jumlah ${qty}.`);
   } else {
     cart.push({
       name: productName,
@@ -215,10 +232,9 @@ function addToCartFromDeskripsi(event, productName, price, imageSrc, id) {
       qty: qty,
       image: imageSrc,
     });
+    alert(`"${productName}" telah ditambahkan ke keranjang!`);
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
-
-  alert(`"${productName}" telah ditambahkan ke keranjang!`);
 }
