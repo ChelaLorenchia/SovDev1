@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Riwayat Transaksi - NYDJO Bakery</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/Riwayat Transaksi.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="sidebar" id="sidebar">
+      <div class="logo-section">
+        <img src="image/Logo.png" alt="Logo" class="logo" />
+        <nav class="nav-links">
+          <a href="Kasir Home.html">Transaksi Baru</a>
+          <a href="Online Payment.html">Online Payment</a>
+          <a href="Riwayat Transaksi.html">Riwayat Transaksi</a>
+        </nav>
+      </div>
+      <a href="#" class="logout">Logout</a>
+    </div>
+
+    <div class="content">
+      <div class="title">Riwayat Transaksi</div>
+      <div class="main">
+        <table>
+          <thead>
+            <tr>
+              <th>Kode</th>
+              <th>Total Bayar</th>
+              <th>Tanggal</th>
+              <th>Jam</th>
+              <th>Metode Pembayaran</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="window.location.href='Riwayat Transaksi Detail.html?kode=10021'">
+              <td>10021</td>
+              <td>24.000</td>
+              <td>12/05/2025</td>
+              <td>09.42</td>
+              <td>QRIS</td>
+            </tr>
+            <tr onclick="window.location.href='Riwayat Transaksi Detail.html?kode=112021'">
+              <td>112021</td>
+              <td>32.000</td>
+              <td>12/05/2025</td>
+              <td>10.42</td>
+              <td>TUNAI</td>
+            </tr>
+            <tr onclick="window.location.href='Riwayat Transaksi Detail.html?kode=112521'">
+              <td>112521</td>
+              <td>54.000</td>
+              <td>12/05/2025</td>
+              <td>10.55</td>
+              <td>TUNAI</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="/js/sidebar.js"></script>
+  </body>
+</html>

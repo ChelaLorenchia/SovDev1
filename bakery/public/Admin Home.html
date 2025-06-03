@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ny.Djo Bakery</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="style/Admin.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-pink shadow-sm">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="#">
+          <img src="image/Logo.png" alt="Logo" height="50" />
+        </a>
+        <ul class="navbar-nav mx-auto mb-0">
+          <li class="nav-item">
+            <a class="nav-link" href="Admin Home.html" id="homeLink">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Admin Jam Operasional.html" id="operationalLink"
+              >Operasional Time</a
+            >
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <a href="Admin Profil.html"><i class="bi bi-person fs-5 text-dark"></i></a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Produk Section -->
+    <div class="container mt-5">
+      <h2 class="fw-bold mb-4">Products</h2>
+      <div
+        class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3"
+      >
+        <a
+          href="Admin Tambah Produk.html"
+          class="btn btn-warning fw-semibold text-dark"
+          >Tambah Produk</a
+        >
+        <div class="search-container">
+          <input type="text" placeholder="Search" />
+          <button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#F8E1C1"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.397h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242.656a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Produk Asin -->
+      <div class="product-category asin">
+        <h5 class="fw-semibold">Asin</h5>
+        <div class="product-scroll mb-5">
+          <div class="d-flex flex-nowrap gap-4">
+          </div>
+        </div>
+      </div>
+
+      <!-- Produk Manis -->
+      <div class="product-category manis">
+        <h5 class="fw-semibold">Manis</h5>
+        <div class="product-scroll mb-5">
+          <div class="d-flex flex-nowrap gap-4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+  let allProducts = [];
+
+  async function fetchProducts() {
+    try {
+      const response = await fetch("http://localhost:5000/api/menus");
+      const products = await response.json();
+      allProducts = products; // Simpan semua produk untuk pencarian
+
+      renderProducts(products);
+    } catch (err) {
+      console.error("Gagal memuat produk:", err);
+    }
+  }
+
+  function renderProducts(products) {
+    const asinContainer = document.querySelector(
+      ".product-category.asin .d-flex.flex-nowrap"
+    );
+    const manisContainer = document.querySelector(
+      ".product-category.manis .d-flex.flex-nowrap"
+    );
+
+    asinContainer.innerHTML = "";
+    manisContainer.innerHTML = "";
+
+    products.forEach((product) => {
+      const card = document.createElement("div");
+      card.className = "product-card card p-3 d-flex flex-row gap-4";
+      card.style =
+        "min-width: 650px; border-radius: 20px; border: 1px solid #f2bfbf; background: #fffaf5;";
+
+      card.innerHTML = `
+        <img src="${product.image}" alt="${
+        product.name
+      }" style="width: 150px; height: 200px; object-fit: cover; border-radius: 16px;" />
+        <div class="d-flex flex-column justify-content-between flex-grow-1">
+          <div>
+            <h6 class="fw-bold">Deskripsi Produk</h6>
+            <p class="text-muted small mb-3">${product.description}</p>
+          </div>
+          <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div class="hstack gap-3">
+              <div>
+                <h6 class="mb-0">${product.name}</h6>
+                <p class="text-muted small mb-0">Harga: Rp ${product.price.toLocaleString()}</p>
+                <p class="text-muted small mb-0">Stok: ${product.stock}</p>
+              </div>
+            </div>
+            <div class="d-flex flex-column mt-3 mt-md-0 gap-2">
+              <a href="Admin Edit Produk.html?id=${product._id}" class="btn btn-sm btn-cart">Edit Produk</a>
+              <button class="btn btn-sm btn-danger btn-delete" data-id="${product._id}">Hapus Produk</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      if (product.category === "manis") {
+        manisContainer.appendChild(card);
+      } else if (product.category === "asin") {
+        asinContainer.appendChild(card);
+      }
+    });
+  }
+
+  document.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("btn-delete")) {
+      const id = e.target.getAttribute("data-id");
+      const confirmDelete = confirm("Yakin ingin menghapus produk ini?");
+      if (!confirmDelete) return;
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/menus/${id}`, {
+          method: "DELETE",
+        });
+
+        if (res.ok) {
+          alert("Produk berhasil dihapus");
+          fetchProducts();
+        } else {
+          const err = await res.json();
+          alert("Gagal hapus produk: " + err.error);
+        }
+      } catch (err) {
+        console.error("Error hapus:", err);
+        alert("Terjadi kesalahan saat menghapus.");
+      }
+    }
+  });
+
+  // 🔍 Tambahkan event listener untuk pencarian
+  document.addEventListener("DOMContentLoaded", () => {
+    fetchProducts();
+
+    const searchInput = document.querySelector(".search-container input");
+    searchInput.addEventListener("input", () => {
+      const keyword = searchInput.value.toLowerCase();
+      const filteredProducts = allProducts.filter((product) =>
+        product.name.toLowerCase().includes(keyword)
+      );
+      renderProducts(filteredProducts);
+    });
+  });
+</script>
+
+
+    <script src="js/cust.js"></script>
+    <script src="js/Admin.js"></script>
+  </body>
+</html>
