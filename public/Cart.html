@@ -225,19 +225,18 @@
     </script> -->
     <script>
   async function handleBayar() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (cart.length === 0) return alert("Keranjang kosong.");
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  if (cart.length === 0) return alert("Keranjang kosong.");
 
-    const metode = document.querySelector('input[name="metode"]:checked');
-    if (!metode || metode.id !== "kasir") {
-      alert("Silakan pilih metode pembayaran 'Bayar Kasir'.");
-      return;
-    }
+  const metode = document.querySelector('input[name="metode"]:checked');
+  if (!metode) return alert("Silakan pilih metode pembayaran.");
 
-    const kodePemesanan = "KSR" + Math.random().toString(36).substr(2, 8).toUpperCase();
-    const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-    const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
+  const kodePemesanan = "KSR" + Math.random().toString(36).substr(2, 8).toUpperCase();
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
+  if (metode.id === "kasir") {
+    // Simpan ke pesanan
     const pesanan = {
       userId,
       kode: kodePemesanan,
@@ -265,7 +264,43 @@
       alert("Terjadi kesalahan saat memproses pesanan.");
       console.error(err);
     }
+
+  } else if (metode.id === "bca") {
+    // Simpan ke transfer
+    const kodeTransfer = "TRF" + Math.random().toString(36).substr(2, 8).toUpperCase();
+
+    const transferData = {
+      userId,
+      kode: kodeTransfer,
+      items: cart,
+      total: `RP ${total.toLocaleString("id-ID")}`,
+      status: "belum diambil",
+      tanggal: new Date().toISOString(),
+      bukti: null // nanti upload bukti di halaman pembayaran transfer
+    };
+
+    try {
+      const res = await fetch("http://localhost:5000/api/transfer", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(transferData)
+      });
+
+      if (!res.ok) throw new Error("Gagal menyimpan data transfer.");
+localStorage.setItem("totalBayar", `Rp ${total.toLocaleString("id-ID")}`);
+      localStorage.removeItem("cart");
+      localStorage.setItem("lastOrder", JSON.stringify(transferData));
+      window.location.href = "pembayaran transfer.html";
+    } catch (err) {
+      alert("Terjadi kesalahan saat memproses pembayaran transfer.");
+      console.error(err);
+    }
+  } else {
+    alert("Metode pembayaran tidak dikenali.");
   }
+}
+
 </script>
 
 

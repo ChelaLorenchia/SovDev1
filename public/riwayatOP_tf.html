@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pesanan Belum Diambil - NYDJO Bakery</title>
+  <title>Pesanan Sudah Diambil - NYDJO Bakery</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="style/style.css" />
   <link rel="stylesheet" href="style/Riwayat Transaksi.css" />
@@ -14,39 +14,33 @@
       padding: 20px;
     }
 
-    .order-card {
-      background-color: #fff7f0;
-      border: 1px solid #ffcc99;
-      border-radius: 10px;
-      padding: 16px;
+    .pesanan-item {
       margin-bottom: 16px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
     }
 
-    .order-card strong {
-      font-size: 16px;
-      display: block;
-      margin-bottom: 4px;
+    .pesanan-item strong {
+      color: #333;
     }
 
-    .order-card a {
+    .pesanan-item a {
+      display: inline-block;
+      margin-top: 8px;
       color: #ff9900;
       font-weight: bold;
       text-decoration: none;
     }
 
-    .order-card a:hover {
+    .pesanan-item a:hover {
       text-decoration: underline;
     }
 
     @media (max-width: 768px) {
       .main-content {
         margin-left: 0;
-        padding: 20px;
-      }
-
-      .sidebar {
-        width: 200px;
       }
     }
   </style>
@@ -68,33 +62,32 @@
 
   <!-- Konten utama -->
   <div class="main-content">
-    <h2>Pesanan Belum Diambil</h2>
-    <div id="list-belum-diambil"></div>
+    <h2>Pesanan Sudah Diambil</h2>
+    <div id="list-diambil"></div>
   </div>
 
   <script src="js/sidebar.js"></script>
+  <script src="js/kasir.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      const container = document.getElementById("list-belum-diambil");
+      const container = document.getElementById("list-diambil");
 
       try {
         const res = await fetch("http://localhost:5000/api/transfer");
         const data = await res.json();
-        const filtered = data.filter(p => p.status === "belum diambil");
+        const filtered = data.filter(p => p.status === "sudah diambil");
 
         if (filtered.length === 0) {
-          container.innerHTML = "<p>Tidak ada pesanan yang belum diambil.</p>";
-          return;
+          container.innerHTML = "<p>Tidak ada pesanan yang sudah diambil.</p>";
         }
 
         filtered.forEach(p => {
           const item = document.createElement("div");
-          item.className = "order-card";
+          item.className = "pesanan-item";
           item.innerHTML = `
-            <strong>${p.userId?.username}</strong>
-            Kode: ${p.kode}<br />
-            Tanggal: ${new Date(p.tanggal).toLocaleString("id-ID")}<br />
-            <a href="detailTf.html?kode=${p.kode}">Lihat Detail</a>
+            <strong>${p.userId?.username || "User"}</strong> - ${p.kode}<br>
+            ${new Date(p.tanggal).toLocaleString("id-ID")}<br>
+            <a href="detailRiwayat_OP_tf.html?kode=${p.kode}">Lihat Detail</a>
           `;
           container.appendChild(item);
         });

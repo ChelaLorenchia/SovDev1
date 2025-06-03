@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detail Pesanan - NYDJO Bakery</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style/Riwayat Transaksi.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .bukti-img {
+      max-width: 300px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .button-group {
+      margin-top: 20px;
+    }
+
+    .button-group button {
+      margin-right: 10px;
+      padding: 10px 20px;
+      background-color: #ff9900;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .button-group button:hover {
+      background-color: #e68a00;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+  <div class="sidebar" id="sidebar">
+    <div class="logo-section">
+      <img src="image/Logo.png" alt="Logo" class="logo" />
+      <nav class="nav-links">
+        <a href="Kasir Home.html">Transaksi Baru</a>
+        <a href="Online Payment.html">Online Payment</a>
+        <a href="Riwayat Transaksi Tunai.html">Riwayat Transaksi</a>
+      </nav>
+    </div>
+    <a href="#" class="logout">Logout</a>
+  </div>
+
+  <!-- Konten utama -->
+  <div class="main-content">
+    <div id="detail-pesanan"></div>
+    <div class="button-group">
+      <button onclick="window.history.back()">Kembali</button>
+      <button id="ambilBtn">Sudah Diambil</button>
+    </div>
+  </div>
+
+  <script src="js/sidebar.js"></script>
+  <!-- <script src="js/kasir.js"></script> -->
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const kode = urlParams.get("kode");
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const container = document.getElementById("detail-pesanan");
+
+      try {
+        const res = await fetch("http://localhost:5000/api/transfer");
+        const data = await res.json();
+        const pesanan = data.find(p => p.kode === kode);
+
+        if (!pesanan) {
+          container.innerHTML = "<p>Pesanan tidak ditemukan.</p>";
+          return;
+        }
+
+        container.innerHTML = `
+          <h2>Detail Pesanan</h2>
+          <p><strong>Nama:</strong> ${pesanan.userId?.username || "Tidak diketahui"}</p>
+          <p><strong>Kode:</strong> ${pesanan.kode}</p>
+          <p><strong>Tanggal:</strong> ${new Date(pesanan.tanggal).toLocaleString("id-ID")}</p>
+          <p><strong>Rincian Belanja:</strong></p>
+          <ul>
+            ${pesanan.items.map(item => `<li>${item.name} (${item.qty}) - Rp ${item.price}</li>`).join('')}
+          </ul>
+          <p><strong>Bukti Pembayaran:</strong><br>
+            <img class="bukti-img" src="http://res.cloudinary.com/your_cloud_name/image/upload/${pesanan.bukti}" alt="Bukti Pembayaran" />
+          </p>
+        `;
+
+        document.getElementById("ambilBtn").addEventListener("click", async () => {
+          const update = await fetch(`http://localhost:5000/api/transfer/${pesanan._id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "sudah diambil" })
+          });
+
+          if (update.ok) {
+            alert("Status diubah menjadi sudah diambil.");
+            window.location.href = "OP_tf.html";
+          } else {
+            alert("Gagal memperbarui status.");
+          }
+        });
+      } catch (error) {
+        container.innerHTML = "<p style='color:red;'>Gagal memuat data pesanan.</p>";
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>

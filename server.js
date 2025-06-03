@@ -67,6 +67,9 @@ app.use('/api/pemesanan', pesananRoutes);
 const paymentRoutes = require('./routes/paymentRoutes');
 app.use('/api/payment', paymentRoutes);
 
+const transferRoutes = require("./routes/transferRoutes");
+app.use(transferRoutes);
+
 // Jalankan server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

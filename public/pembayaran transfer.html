@@ -1,140 +1,265 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pembayaran - Ny.Djo Bakery</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      background: linear-gradient(to bottom, #fff8f2, #fff4e6);
-      font-family: 'Segoe UI', sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pembayaran - Ny.Djo Bakery</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(to bottom, #fff8f2, #fff4e6);
+        font-family: "Segoe UI", sans-serif;
+      }
 
-    .main-content {
-      flex: 1;
-    }
+      .main-content {
+        flex: 1;
+      }
 
-    .payment-box {
-      border: 1px solid #f5d4ca;
-      border-radius: 15px;
-      padding: 30px;
-      background-color: white;
-      max-width: 600px;
-      margin: 40px auto;
-    }
+      .payment-box {
+        border: 1px solid #f5d4ca;
+        border-radius: 15px;
+        padding: 30px;
+        background-color: white;
+        max-width: 600px;
+        margin: 40px auto;
+      }
 
-    .navbar {
-      background-color: #ffcdb2;
-    }
+      .navbar {
+        background-color: #ffcdb2;
+      }
 
-    .footer {
-      background-color: #fef1d3;
-      padding: 60px 20px;
-      text-align: center;
-      width: 100%;
-    }
+      .footer {
+        background-color: #fef1d3;
+        padding: 60px 20px;
+        text-align: center;
+        width: 100%;
+      }
 
-    .footer img {
-      height: 50px;
-      margin-bottom: 15px;
-    }
+      .footer img {
+        height: 50px;
+        margin-bottom: 15px;
+      }
 
-    .social-icons a {
-      margin: 0 10px;
-      color: #000;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
+      .social-icons a {
+        margin: 0 10px;
+        color: #000;
+        text-decoration: none;
+      }
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg shadow-sm">
-    <div class="container d-flex justify-content-between align-items-center">
-      <a class="navbar-brand" href="#">
-        <img src="image/Logo.png" alt="Logo" height="50" />
-      </a>
-      <ul class="navbar-nav mx-auto mb-0">
-        <li class="nav-item">
-          <a class="nav-link" href="Cust Home.html">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="Cust Menu.html">Menu</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="AboutUs.html">About Us</a>
-        </li>
-      </ul>
-      <div class="d-flex align-items-center gap-3">
-        <input type="text" class="form-control form-control-sm w-auto" placeholder="Cari menu..." />
-        <a href="Cust Profil.html"><i class="bi bi-person fs-5 text-black"></i></a>
-        <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
+      #preview-container img {
+        max-width: 100%;
+        height: auto;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg shadow-sm">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="#">
+          <img src="image/Logo.png" alt="Logo" height="50" />
+        </a>
+        <ul class="navbar-nav mx-auto mb-0">
+          <li class="nav-item">
+            <a class="nav-link" href="Cust Home.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Cust Menu.html">Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="AboutUs.html">About Us</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <input
+            type="text"
+            class="form-control form-control-sm w-auto"
+            placeholder="Cari menu..."
+          />
+          <a href="Cust Profil.html"
+            ><i class="bi bi-person fs-5 text-black"></i
+          ></a>
+          <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Konten -->
+    <div class="main-content container">
+      <h3 class="fw-bold mb-4 text-center mt-5" style="color: #5e2728">
+        Pembayaran
+      </h3>
+      <div class="payment-box">
+        <p>
+          <strong>Kode Transaksi:</strong> <span id="kode-transaksi">-</span>
+        </p>
+
+        <p>
+          Nomor Rekening BCA: <strong>5566778899</strong>
+          <button id="copyRek" class="btn btn-sm btn-outline-primary ms-2">
+            Copy
+          </button>
+        </p>
+
+        <p>
+          <strong>Harga: <span id="total-bayar">RP 0</span></strong>
+        </p>
+        <p>Silakan upload bukti pembayaran Anda.</p>
+
+        <!-- Upload Bukti -->
+        <div class="mb-2">
+          <label class="btn btn-outline-secondary d-inline-flex align-items-center">
+            <i class="bi bi-upload me-2"></i> Pilih Gambar
+            <input type="file" id="bukti" hidden accept="image/*" />
+          </label>
+          <button class="btn btn-outline-danger btn-sm ms-2 hidden" id="hapusGambar">
+            <i class="bi bi-trash"></i> Hapus
+          </button>
+        </div>
+
+        <div id="preview-container" class="mb-3">
+          <small class="text-muted" id="preview-label">Belum ada gambar dipilih.</small>
+        </div>
+
+        <!-- Tombol Submit -->
+        <div class="text-center">
+          <button
+            id="submitBtn"
+            class="btn btn-primary"
+            style="background-color: indianred"
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </div>
-  </nav>
 
-  <!-- Konten -->
-  <div class="main-content container">
-    <h3 class="fw-bold mb-4 text-center mt-5" style="color: #5e2728">Pembayaran</h3>
-    <div class="payment-box">
-      <p>Silahkan melakukan pembayaran ke rekening BCA <strong>5566778899</strong></p>
-      <p><strong>Harga: <span id="total-bayar">RP 0</span></strong></p>
-      <p>Silahkan Upload bukti pembayaran di bawah ini</p>
-
-      <!-- Upload Bukti Pembayaran -->
-      <label class="btn btn-outline-secondary d-inline-flex align-items-center">
-        <i class="bi bi-upload me-2"></i> bukti pembayaran
-        <input type="file" id="buktiPembayaran" hidden />
-      </label>
-
-      <!-- Tombol Submit -->
-      <div class="mt-3 text-center">
-        <button id="submitBtn" class="btn btn-primary">Submit</button>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="text-center">
+        <img src="image/Logo.png" alt="Logo" />
+        <h5 class="fw-bold mt-3">UNTUK PEMESANAN DIATAS 50 PCS</h5>
+        <p>silahkan kunjungi toko kami</p>
+        <button class="btn btn-dark mb-3">Contact Us Now</button>
+        <div class="social-icons mb-3">
+          <a href="#"><i class="bi bi-facebook fs-4"></i></a>
+          <a href="#"><i class="bi bi-instagram fs-4"></i></a>
+          <a href="#"><i class="bi bi-whatsapp fs-4"></i></a>
+        </div>
+        <p class="text-muted small">
+          © 2025 Ny.Djo Bakery. All rights reserved.
+        </p>
       </div>
-    </div>
-  </div>
+    </footer>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="text-center">
-      <img src="image/Logo.png" alt="Logo" />
-      <h5 class="fw-bold mt-3">UNTUK PEMESANAN DIATAS 50 PCS</h5>
-      <p>silahkan kunjungi toko kami</p>
-      <button class="btn btn-dark mb-3">Contact Us Now</button>
-      <div class="social-icons mb-3">
-        <a href="#"><i class="bi bi-facebook fs-4"></i></a>
-        <a href="#"><i class="bi bi-instagram fs-4"></i></a>
-        <a href="#"><i class="bi bi-whatsapp fs-4"></i></a>
-      </div>
-      <p class="text-muted small">© 2025 Ny.Djo Bakery. All rights reserved.</p>
-    </div>
-  </footer>
+    <!-- Script -->
+    <script>
+      let kodeTransaksi = "";
 
-  <!-- Script -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const total = localStorage.getItem("totalBayar") || "RP 0";
-      document.getElementById("total-bayar").innerText = total;
+      document.addEventListener("DOMContentLoaded", function () {
+        const total = localStorage.getItem("totalBayar") || "Rp 0";
+        document.getElementById("total-bayar").innerText = total;
 
-      document.getElementById("submitBtn").addEventListener("click", function () {
-        const fileInput = document.getElementById("buktiPembayaran");
-        if (!fileInput.files.length) {
-          alert("Silakan upload bukti pembayaran terlebih dahulu.");
-          return;
-        }
+        kodeTransaksi =
+          "TRF" + Math.random().toString(36).substr(2, 8).toUpperCase();
+        document.getElementById("kode-transaksi").innerText = kodeTransaksi;
 
-        alert("Bukti pembayaran berhasil dikirim!");
-        // Di sini kamu bisa tambahkan AJAX untuk mengirim data ke server
+        document.getElementById("copyRek").addEventListener("click", () => {
+          navigator.clipboard
+            .writeText("5566778899")
+            .then(() => alert("Nomor rekening disalin!"))
+            .catch(() => alert("Gagal menyalin nomor rekening."));
+        });
+
+        const fileInput = document.getElementById("bukti");
+        const previewContainer = document.getElementById("preview-container");
+        const previewLabel = document.getElementById("preview-label");
+        const hapusBtn = document.getElementById("hapusGambar");
+
+        fileInput.addEventListener("change", () => {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              previewContainer.innerHTML =
+                `<img src="${e.target.result}" alt="Preview Bukti Pembayaran" />`;
+              hapusBtn.classList.remove("hidden");
+            };
+            reader.readAsDataURL(file);
+          } else {
+            previewContainer.innerHTML =
+              '<small class="text-muted" id="preview-label">Belum ada gambar dipilih.</small>';
+            hapusBtn.classList.add("hidden");
+          }
+        });
+
+        hapusBtn.addEventListener("click", () => {
+          fileInput.value = "";
+          previewContainer.innerHTML =
+            '<small class="text-muted" id="preview-label">Belum ada gambar dipilih.</small>';
+          hapusBtn.classList.add("hidden");
+        });
+
+        let isSubmitting = false;
+
+        document.getElementById("submitBtn").addEventListener("click", async function () {
+          if (isSubmitting) return; // mencegah klik kedua
+  isSubmitting = true;
+          if (!fileInput.files.length) {
+            alert("Silakan upload bukti pembayaran terlebih dahulu.");
+            return;
+          }
+
+          const formData = new FormData();
+          const userId = localStorage.getItem("userId");
+          const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+          const total = localStorage.getItem("totalBayar");
+
+          formData.append("userId", userId);
+          formData.append("kode", kodeTransaksi);
+          formData.append("total", total);
+          formData.append("items", JSON.stringify(cart));
+          formData.append("status", "belum diambil");
+          formData.append("tanggal", new Date().toISOString());
+          formData.append("bukti", fileInput.files[0]);
+
+          try {
+            const res = await fetch("http://localhost:5000/api/transfer", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (!res.ok) throw new Error("Gagal menyimpan data.");
+
+            alert("Bukti pembayaran berhasil dikirim!");
+            localStorage.removeItem("cart");
+            window.location.href = "Cust Home.html";
+          } catch (err) {
+            alert("Terjadi kesalahan saat mengirim data.");
+            console.error(err);
+          }
+        });
       });
-    });
-  </script>
-
-</body>
+    </script>
+  </body>
 </html>
