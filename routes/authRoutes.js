@@ -82,13 +82,19 @@ router.post("/login", async (req, res) => {
 
     // Redirect info dalam JSON
     const redirectUrl =
-      user.role === "admin" ? "Admin Home.html" : "Cust Home.html";
+      user.role === "admin"
+        ? "Admin Home.html"
+        : user.role === "kasir"
+        ? "Kasir Home.html"
+        : "Cust Home.html";
+
     res.status(200).json({ success: true, redirect: redirectUrl });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Terjadi kesalahan saat login" });
   }
 });
+
 
 router.get("/api/user/profile", async (req, res) => {
   try {
