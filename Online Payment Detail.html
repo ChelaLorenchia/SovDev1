@@ -1,100 +1,109 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ny.Djo Bakery - Transaksi Online</title>
-  <link rel="stylesheet" href="style/style.css" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="style/Transaksi Detail.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-</head>
-<body>
-  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-  <div class="sidebar" id="sidebar">
-    <div class="logo-section">
-      <img src="image/Logo.png" alt="Logo" class="logo" />
-      <nav class="nav-links">
-        <a href="Kasir Home.html">Transaksi Baru</a>
-        <a href="Online Payment.html">Transaksi Online</a>
-        <a href="Riwayat Transaksi.html">Riwayat Transaksi</a>
-      </nav>
-    </div>
-    <a href="#" class="logout">Logout</a>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ny.Djo Bakery - Transaksi Online</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/Transaksi Detail.css" />
+        <link rel="stylesheet" href="style/Kasir.css" />
 
-  <div class="content">
-    <div class="title">Transaksi Online</div>
-    <h2>
-      <i class="fa-solid fa-arrow-left" onclick="history.back()"></i>
-      <span id="namaKode"></span>
-    </h2>
-    <p class="date" id="tanggal"></p>
-    <div class="main">
-      <div class="order-summary">
-        <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Qty</th>
-              <th></th>
-              <th style="text-align: right">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Contoh isi, bisa diganti dinamis jika mau -->
-            <tr>
-              <td>Choi Pan</td>
-              <td>2x</td>
-              <td>12.000</td>
-              <td style="text-align: right">24.000</td>
-            </tr>
-            <tr>
-              <td>Roti Keju</td>
-              <td>1x</td>
-              <td>11.000</td>
-              <td style="text-align: right">11.000</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="total">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="sidebar" id="sidebar">
+      <div class="logo-section">
+        <img src="image/Logo.png" alt="Logo" class="logo" />
+        <nav class="nav-links">
+          <a href="Kasir Home.html">Transaksi Baru</a>
+          <a href="Online Payment.html">Transaksi Online</a>
+          <a href="Riwayat Transaksi.html">Riwayat Transaksi</a>
+        </nav>
+      </div>
+      <a href="login.html" class="logout" style="color: red;">Logout</a>
+    </div>
+
+    <div class="content">
+      <div class="title">Transaksi Online</div>
+      <h2>
+        <i class="fa-solid fa-arrow-left" onclick="history.back()"></i>
+        <span id="namaKode"></span>
+      </h2>
+      <p class="date" id="tanggal"></p>
+      <div class="main">
+        <div class="order-summary">
           <table>
-            <tbody>
+            <thead>
               <tr>
-                <td>Total Bayar</td>
-                <td style="text-align: right" id="totalBayar">-</td>
+                <th>Item</th>
+                <th>Qty</th>
+                <th></th>
+                <th style="text-align: right">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Contoh isi, bisa diganti dinamis jika mau -->
+              <tr>
+                <td>Choi Pan</td>
+                <td>2x</td>
+                <td>12.000</td>
+                <td style="text-align: right">24.000</td>
+              </tr>
+              <tr>
+                <td>Roti Keju</td>
+                <td>1x</td>
+                <td>11.000</td>
+                <td style="text-align: right">11.000</td>
               </tr>
             </tbody>
           </table>
+          <div class="total">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Total Bayar</td>
+                  <td style="text-align: right" id="totalBayar">-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-      <div class="buttons-area">
-        <div class="method-payment">
-          <span class="method" onclick="window.location.href='tunai.html'">Tunai</span>
-          <span class="method"onclick="window.location.href='Qris.html'">QRIS</span>
+        <div class="buttons-area">
+          <div class="method-payment">
+            <span class="method" onclick="window.location.href='tunai.html'"
+              >Tunai</span
+            >
+            <span class="method" onclick="window.location.href='Qris.html'"
+              >QRIS</span
+            >
+          </div>
+          <button class="cancel-button">Cancel Order</button>
         </div>
-        <button class="cancel-button">Cancel Order</button>
       </div>
     </div>
-  </div>
 
-  <script>
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
+    <script>
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
 
-    // Ambil data dari URL
-    const nama = getQueryParam("nama");
-    const kode = getQueryParam("kode");
-    const total = getQueryParam("total");
-    const tanggal = getQueryParam("tanggal");
+      // Ambil data dari URL
+      const nama = getQueryParam("nama");
+      const kode = getQueryParam("kode");
+      const total = getQueryParam("total");
+      const tanggal = getQueryParam("tanggal");
 
-    // Tampilkan datanya
-    document.getElementById("namaKode").textContent = `${nama} | ${kode}`;
-    document.getElementById("tanggal").textContent = tanggal;
-    document.getElementById("totalBayar").textContent = total;
-  </script>
-  <script src="js/sidebar.js"></script>
-</body>
+      // Tampilkan datanya
+      document.getElementById("namaKode").textContent = `${nama} | ${kode}`;
+      document.getElementById("tanggal").textContent = tanggal;
+      document.getElementById("totalBayar").textContent = total;
+    </script>
+    <script src="js/sidebar.js"></script>
+  </body>
 </html>
