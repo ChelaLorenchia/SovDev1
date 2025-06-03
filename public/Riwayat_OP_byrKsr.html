@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Riwayat Transaksi Tunai - NYDJO Bakery</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style/Riwayat Transaksi.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    .table thead th {
+      background-color: #ffcc99;
+    }
+
+    .btn-detail {
+      background-color: #f39c12;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+  <div class="sidebar" id="sidebar">
+    <div class="logo-section">
+      <img src="image/Logo.png" alt="Logo" class="logo" />
+      <nav class="nav-links">
+        <a href="Kasir Home.html">Transaksi Baru</a>
+        <a href="Online Payment.html">Online Payment</a>
+        <a href="Riwayat Transaksi Tunai.html" class="active">Riwayat Transaksi</a>
+      </nav>
+    </div>
+    <a href="#" class="logout">Logout</a>
+  </div>
+
+  <div class="main-content">
+    <h2 class="mb-4">Riwayat Transaksi Tunai</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+            <th>Customer</th>
+          <th>Kode</th>
+          <th>Tanggal</th>
+          <th>Total</th>
+          <th>Cash</th>
+          <th>Kembalian</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody id="riwayat-body"></tbody>
+    </table>
+  </div>
+
+  <script src="js/sidebar.js"></script>
+  <script>
+    async function loadRiwayat() {
+      try {
+        const res = await fetch('http://localhost:5000/api/pemesanan?sudahDibayar=true');
+        const data = await res.json();
+        const tbody = document.getElementById('riwayat-body');
+
+        if (data.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='6' class='text-center text-muted'>Tidak ada transaksi ditemukan.</td></tr>";
+          return;
+        }
+
+        data.forEach(tx => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+          <td>${tx.userId?.username || '-'}</td>
+            <td>${tx.kode}</td>
+            <td>${new Date(tx.tanggal).toLocaleString('id-ID')}</td>
+            <td>Rp ${tx.total.toLocaleString('id-ID')}</td>
+            <td>Rp ${(tx.cash || 0).toLocaleString('id-ID')}</td>
+            <td>Rp ${(tx.kembalian || 0).toLocaleString('id-ID')}</td>
+            <td>
+              <button class="btn-detail" onclick='showDetail(${JSON.stringify(tx.items)})'>Lihat</button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      } catch (err) {
+        console.error("Gagal mengambil data:", err);
+      }
+    }
+
+    function showDetail(items) {
+      let detail = 'Detail Pesanan:\n\n';
+      items.forEach(item => {
+        detail += `${item.name} - ${item.qty} x Rp ${item.price.toLocaleString('id-ID')} = Rp ${(item.qty * item.price).toLocaleString('id-ID')}\n`;
+      });
+      alert(detail);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadRiwayat);
+  </script>
+</body>
+</html>
