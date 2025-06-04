@@ -238,3 +238,13 @@ function addToCartFromDeskripsi(event, productName, price, imageSrc, id) {
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
 }
+
+// search
+      function searchFromHome() {
+        const query = document.getElementById("homeSearchInput").value;
+        if (query.trim() !== "") {
+          window.location.href = `Cust Menu.html?search=${encodeURIComponent(
+            query
+          )}`;
+        }
+      }
