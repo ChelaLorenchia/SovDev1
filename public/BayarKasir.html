@@ -30,56 +30,43 @@
       margin: 40px auto;
       text-align: center;
     }
-
-    .navbar {
-      background-color: #ffcdb2;
-    }
-
-    .footer {
-      background-color: #fef1d3;
-      padding: 60px 20px;
-      text-align: center;
-      width: 100%;
-    }
-
-    .footer img {
-      height: 50px;
-      margin-bottom: 15px;
-    }
-
-    .social-icons a {
-      margin: 0 10px;
-      color: #000;
-      text-decoration: none;
-    }
   </style>
 </head>
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg shadow-sm">
-    <div class="container d-flex justify-content-between align-items-center">
-      <a class="navbar-brand" href="#">
-        <img src="image/Logo.png" alt="Logo" height="50" />
-      </a>
-      <ul class="navbar-nav mx-auto mb-0">
-        <li class="nav-item">
-          <a class="nav-link" href="Cust Home.html">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="Cust Menu.html">Menu</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="AboutUs.html">About Us</a>
-        </li>
-      </ul>
-      <div class="d-flex align-items-center gap-3">
-        <input type="text" class="form-control form-control-sm w-auto" placeholder="Cari menu..." />
-        <a href="Cust Profil.html"><i class="bi bi-person fs-5 text-black"></i></a>
-        <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
+      <nav class="navbar navbar-expand-lg bg-pink shadow-sm">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="#">
+          <img src="image/Logo.png" alt="Logo" height="50" />
+        </a>
+        <ul class="navbar-nav mx-auto mb-0">
+          <li class="nav-item">
+            <a class="nav-link" href="Cust Home.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Cust Menu.html">Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="AboutUs.html">About Us</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <input
+            type="text"
+            class="form-control form-control-sm w-auto"
+            id="homeSearchInput"
+            placeholder="Cari menu..."
+            onkeypress="if(event.key === 'Enter') searchFromHome()"
+          />
+          <a href="Cust Profil.html"
+            ><i class="bi bi-person fs-5 text-black"></i
+          ></a>
+          <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+
 
   <!-- Konten -->
   <div class="container py-5">
@@ -95,20 +82,37 @@
   </div>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="text-center">
-      <img src="image/Logo.png" alt="Logo" />
-      <h5 class="fw-bold mt-3">UNTUK PEMESANAN DIATAS 50 PCS</h5>
+  <footer class="footer mt-5 py-5 text-center">
+      <img src="image/Logo.png" alt="Logo" height="50" class="mb-3" />
+      <h5 class="fw-bold">UNTUK PEMESANAN DIATAS 50 PCS</h5>
       <p>silahkan kunjungi toko kami</p>
-      <button class="btn btn-dark mb-3">Contact Us Now</button>
-      <div class="social-icons mb-3">
-        <a href="#"><i class="bi bi-facebook fs-4"></i></a>
-        <a href="#"><i class="bi bi-instagram fs-4"></i></a>
-        <a href="#"><i class="bi bi-whatsapp fs-4"></i></a>
+      <a
+        href="https://api.whatsapp.com/send/?phone=62818657198&text&type=phone_number&app_absent=0"
+        class="btn btn-dark"
+        target="_blank"
+        >Contact Us Now</a
+      >
+      <div class="social-icons mt-3">
+        <a
+          href="https://www.instagram.com/dapoer.ny.djoe?igsh=MXZwdjRxcTF1ZzExNg=="
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="bi bi-instagram fs-4"></i>
+        </a>
+
+        <a
+          href="https://api.whatsapp.com/send/?phone=62818657198&text&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="bi bi-whatsapp fs-4"></i>
+        </a>
       </div>
-      <p class="text-muted small">© 2025 Ny.Djo Bakery. All rights reserved.</p>
-    </div>
-  </footer>
+      <p class="text-muted small mt-3">© 2025 Ny.Djo Bakery.</p>
+    </footer>
+
+
 <script>
     const data = JSON.parse(localStorage.getItem("lastOrder"));
     if (!data) {
