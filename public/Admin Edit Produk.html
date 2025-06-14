@@ -23,10 +23,15 @@
         </a>
         <ul class="navbar-nav mx-auto mb-0">
           <li class="nav-item">
-            <a class="nav-link" href="Admin Home.html" id="homeLink">Products</a>
+            <a class="nav-link" href="Admin Home.html" id="homeLink"
+              >Products</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Admin Jam Operasional.html" id="operationalLink"
+            <a
+              class="nav-link"
+              href="Admin Jam Operasional.html"
+              id="operationalLink"
               >Operasional Time</a
             >
           </li>
@@ -37,7 +42,9 @@
           </li>
         </ul>
         <div class="d-flex align-items-center gap-3">
-          <a href="Admin Profil.html"><i class="bi bi-person fs-5 text-dark"></i></a>
+          <a href="Admin Profil.html"
+            ><i class="bi bi-person fs-5 text-dark"></i
+          ></a>
         </div>
       </div>
     </nav>
@@ -83,10 +90,23 @@
             name="tipe"
             class="text-muted small form-select"
             required
+            onchange="toggleCustomCategory(this)"
           >
-            <option placeholder="Manis" selected>manis</option>
-            <option placeholder="Asin">asin</option>
+            <option value="manis" selected>Manis</option>
+            <option value="asin">Asin</option>
+            <option value="custom">Lainnya...</option>
           </select>
+        </div>
+
+        <div class="mb-3" id="customCategoryWrapper" style="display: none">
+          <label for="customCategory">Kategori Baru</label>
+          <input
+            type="text"
+            id="customCategory"
+            name="customCategory"
+            class="form-control"
+            placeholder="Masukkan kategori baru"
+          />
         </div>
 
         <div class="mb-3">
@@ -206,7 +226,11 @@
           formData.append("price", form.harga.value);
           formData.append("stock", form.stok.value);
           formData.append("description", form.deskripsi.value);
-          formData.append("category", form.tipe.value);
+          const selectedCategory =
+            form.tipe.value === "custom"
+              ? form.customCategory.value
+              : form.tipe.value;
+          formData.append("category", selectedCategory);
           if (form.image.files[0]) {
             formData.append("image", form.image.files[0]);
           }
@@ -229,7 +253,19 @@
             alert("Terjadi kesalahan saat menyimpan data");
           }
         });
+
+      function toggleCustomCategory(selectElement) {
+        const customWrapper = document.getElementById("customCategoryWrapper");
+        if (selectElement.value === "custom") {
+          customWrapper.style.display = "block";
+          document.getElementById("customCategory").required = true;
+        } else {
+          customWrapper.style.display = "none";
+          document.getElementById("customCategory").required = false;
+        }
+      }
     </script>
+
     <script src="js/Admin.js"></script>
   </body>
 </html>

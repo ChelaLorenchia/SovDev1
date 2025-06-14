@@ -58,45 +58,11 @@
     <!-- Produk Section -->
     <div class="container mt-5">
       <h3 class="fw-bold mb-4">Our Products</h3>
-      <div class="mb-3" id="categoryButtons">
-        <button
-          class="btn btn-dark me-2"
-          data-category="all"
-          onclick="showCategory('all')"
-        >
-          Semua Produk
-        </button>
-        <button
-          class="btn btn-dark me-2"
-          data-category="asin"
-          onclick="showCategory('asin')"
-        >
-          Asin
-        </button>
-        <button
-          class="btn btn-dark"
-          data-category="manis"
-          onclick="showCategory('manis')"
-        >
-          Manis
-        </button>
-      </div>
+      <div class="mb-3" id="categoryButtons"></div>
 
       <!-- Produk Asin -->
-      <div class="product-category asin">
-        <h5 class="fw-semibold">Asin</h5>
-        <div class="product-scroll mb-5">
-          <div class="d-flex flex-nowrap gap-4"></div>
-        </div>
-      </div>
-
-      <!-- Produk Manis -->
-      <div class="product-category manis">
-        <h5 class="fw-semibold">Manis</h5>
-        <div class="product-scroll mb-5">
-          <div class="d-flex flex-nowrap gap-4"></div>
-        </div>
-      </div>
+      <!-- Container untuk semua kategori produk -->
+      <div id="productContainer"></div>
     </div>
 
     <!-- Footer -->
@@ -141,6 +107,8 @@
           renderProducts(data);
           const urlParams = new URLSearchParams(window.location.search);
           const searchQuery = urlParams.get("search");
+          const categories = [...new Set(data.map((item) => item.category))];
+          renderCategoryButtons(categories);
 
           if (searchQuery) {
             const searchInput = document.getElementById("searchInput");
@@ -155,101 +123,126 @@
         })
         .catch((err) => console.error("Gagal memuat produk:", err));
 
+      function renderCategoryButtons(categories) {
+        const container = document.getElementById("categoryButtons");
+        container.innerHTML = "";
+
+        // Tombol Semua Produk
+        const allBtn = document.createElement("button");
+        allBtn.className = "btn btn-dark me-2";
+        allBtn.dataset.category = "all";
+        allBtn.textContent = "Semua Produk";
+        allBtn.onclick = () => showCategory("all");
+        container.appendChild(allBtn);
+
+        // Tombol kategori dari data
+        categories.forEach((cat) => {
+          const btn = document.createElement("button");
+          btn.className = "btn btn-dark me-2 text-capitalize";
+          btn.dataset.category = cat;
+          btn.textContent = cat;
+          btn.onclick = () => showCategory(cat);
+          container.appendChild(btn);
+        });
+      }
+      function showCategory(category) {
+  const sections = document.querySelectorAll(".product-category");
+  sections.forEach((section) => {
+    if (category === "all" || section.classList.contains(category)) {
+      section.style.display = "block";
+    } else {
+      section.style.display = "none";
+    }
+  });
+}
+
+
       function renderProducts(data) {
-        const asinContainer = document.querySelector(
-          ".product-category.asin .d-flex"
-        );
-        const manisContainer = document.querySelector(
-          ".product-category.manis .d-flex"
-        );
+        const productContainer = document.getElementById("productContainer");
+        productContainer.innerHTML = "";
 
-        asinContainer.innerHTML = "";
-        manisContainer.innerHTML = "";
+        // Ambil semua kategori unik
+        const categories = [...new Set(data.map((p) => p.category))];
 
+        categories.forEach((category) => {
+          const section = document.createElement("div");
+          section.className = `product-category ${category}`;
+          section.innerHTML = `
+      <h5 class="fw-semibold text-capitalize">${category}</h5>
+      <div class="product-scroll mb-5">
+        <div class="d-flex flex-nowrap gap-4" id="category-${category}"></div>
+      </div>
+    `;
+          productContainer.appendChild(section);
+        });
+
+        // Render produk per kategori
         data.forEach((product) => {
           const idSafe = product.name.replace(/\s+/g, "");
           const formattedPrice = product.price.toLocaleString("id-ID");
 
           const previewCard = `
-            <div
-              id="preview-${idSafe}"
-              class="product-preview"
-              onclick="toggleDeskripsi('${idSafe}', true)"
-              >
-              <img
-                class="product-img-preview"
-                src="${product.image}"
-                alt="${product.name}"
-              />
-              <div class="desc-preview">
-                <div style="text-align: left">
-                  <h6 style="margin: 0">${product.name}</h6>
-                  <p class="text-muted" style="margin: 0">Harga: Rp ${formattedPrice}</p>
-                </div>
-                <button
-                  class="cart-button-preview"
-                  onclick="toggleDeskripsi('${idSafe}', true, true)"
-                >
-
+      <div id="preview-${idSafe}" class="product-preview" onclick="toggleDeskripsi('${idSafe}', true)">
+        <img class="product-img-preview" src="${product.image}" alt="${product.name}" />
+        <div class="desc-preview">
+          <div style="text-align: left">
+            <h6 style="margin: 0">${product.name}</h6>
+            <p class="text-muted" style="margin: 0">Harga: Rp ${formattedPrice}</p>
+          </div>
+          <button class="cart-button-preview" onclick="toggleDeskripsi('${idSafe}', true, true)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" viewBox="0 0 16 16">
                       <path
                         d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 5H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 13H4a.5.5 0 0 1-.49-.402L1.61 2H.5a.5.5 0 0 1-.5-.5zm3.14 4l1.25 6h7.22l1.25-6H3.14zM5.5 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
                       />
                     </svg>
-                  </button>
-                </div>
-              </div>`;
+          </button>
+        </div>
+      </div>
+    `;
 
           const deskripsiCard = `
-                <div
-                  id="deskripsi-${idSafe}"
-                  class="product-card deskripsi-produk card p-3 d-flex flex-row gap-4 d-none"
-                >
-                  <img
-                    src="${product.image}"
-                    alt="${product.name}"
-                    class="img-deskripsi"
-                    onclick="toggleDeskripsi('${idSafe}', false)"
-                  />
-                  <div class="d-flex flex-column justify-content-between flex-grow-1">
-                    <div>
-                      <h6 class="fw-bold">Deskripsi Produk</h6>
-                      <p class="text-muted small mb-3">${
-                        product.description
-                      }</p>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                      <div class="hstack gap-3">
-                        <div>
-                          <h6 class="mb-0">${product.name}</h6>
-                            <p class="text-muted small mb-0">Harga: Rp ${formattedPrice}</p>
-                            <p class="text-muted small mb-0">Stok: ${
-                              product.stock
-                            }</p>
-                        </div>
-                        <div class="d-flex align-items-center">
-                        <button class="btn btn-sm btn-outline-secondary" onclick="adjustQty(this, -1)">−</button>
-                          <span class="mx-2 qty">0</span>
-                        <button class="btn btn-sm btn-outline-secondary" onclick="adjustQty(this, 1)">+</button>
-                        </div>
-                      </div>
-                        <a 
-                          href="#" 
-                          class="btn btn-sm btn-cart mt-2 mt-md-0 ${product.stock === 0 ? "disabled" : ""}"
-                          onclick="addToCartFromDeskripsi(event, '${product.name}', ${product.price}, '${product.image}', '${idSafe}')"
-                        >
-                          Tambahkan ke Keranjang - Rp 
-                          <span class="price" data-unit-price="${product.price}">0</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  `;
+      <div id="deskripsi-${idSafe}" class="product-card deskripsi-produk card p-3 d-flex flex-row gap-4 d-none">
+        <img src="${product.image}" alt="${
+            product.name
+          }" class="img-deskripsi" onclick="toggleDeskripsi('${idSafe}', false)" />
+        <div class="d-flex flex-column justify-content-between flex-grow-1">
+          <div>
+            <h6 class="fw-bold">Deskripsi Produk</h6>
+            <p class="text-muted small mb-3">${product.description}</p>
+          </div>
+          <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div class="hstack gap-3">
+              <div>
+                <h6 class="mb-0">${product.name}</h6>
+                <p class="text-muted small mb-0">Harga: Rp ${formattedPrice}</p>
+                <p class="text-muted small mb-0">Stok: ${product.stock}</p>
+              </div>
+              <div class="d-flex align-items-center">
+                <button class="btn btn-sm btn-outline-secondary" onclick="adjustQty(this, -1)">−</button>
+                <span class="mx-2 qty">0</span>
+                <button class="btn btn-sm btn-outline-secondary" onclick="adjustQty(this, 1)">+</button>
+              </div>
+            </div>
+            <a href="#" class="btn btn-sm btn-cart mt-2 mt-md-0 ${
+              product.stock === 0 ? "disabled" : ""
+            }"
+              onclick="addToCartFromDeskripsi(event, '${product.name}', ${
+            product.price
+          }, '${product.image}', '${idSafe}')">
+              Tambahkan ke Keranjang - Rp <span class="price" data-unit-price="${
+                product.price
+              }">0</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
 
-          if (product.category === "asin") {
-            asinContainer.innerHTML += previewCard + deskripsiCard;
-          } else if (product.category === "manis") {
-            manisContainer.innerHTML += previewCard + deskripsiCard;
+          const categoryDiv = document.querySelector(
+            `#category-${product.category}`
+          );
+          if (categoryDiv) {
+            categoryDiv.innerHTML += previewCard + deskripsiCard;
           }
         });
       }
