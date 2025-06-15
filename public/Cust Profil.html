@@ -283,15 +283,22 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ oldPassword, newPassword }),
+            credentials: "include"
           })
-            .then((res) => res.json())
-            .then((data) => {
-              alert(data.message || "Password berhasil diubah");
-            })
-            .catch((err) => {
-              console.error(err);
-              alert("Gagal mengubah password");
-            });
+            .then((res) => {
+  if (!res.ok) {
+    return res.json().then(err => { throw new Error(err.error || 'Gagal mengubah password'); });
+  }
+  return res.json();
+})
+.then((data) => {
+  alert(data.message || "Password berhasil diubah");
+})
+.catch((err) => {
+  console.error(err);
+  alert(err.message || "Gagal mengubah password");
+});
+
         });
 
       // Logout
@@ -320,8 +327,86 @@
       }
     </script>
 
+    <script>
+  async function fetchRiwayat() {
+    const tbody = document.getElementById("riwayatBody");
+    const modalBody = document.getElementById("modalBodyDetail");
+    tbody.innerHTML = "";
+
+    try {
+      const [resTunai, resTransfer] = await Promise.all([
+        fetch("http://localhost:5000/api/pemesanan/riwayat/customer", { credentials: "include" }),
+        fetch("http://localhost:5000/api/transfer/customer", { credentials: "include" })
+      ]);
+
+      const tunai = await resTunai.json();
+      const transfer = await resTransfer.json();
+
+      const all = [...tunai.map(p => ({
+        tanggal: new Date(p.tanggal).toLocaleDateString("id-ID"),
+        kode: p.kode,
+        metode: "Tunai",
+        harga: p.total,
+        detail: p.items
+      })), ...transfer.map(t => ({
+        tanggal: new Date(t.tanggal).toLocaleDateString("id-ID"),
+        kode: t.kode,
+        metode: "Transfer",
+        harga: t.total,
+        detail: t.items
+      }))];
+
+      all.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+
+      all.forEach((item, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${item.tanggal}</td>
+          <td>${item.kode}</td>
+          <td>${item.metode}</td>
+          <td>Rp. ${item.harga.toLocaleString("id-ID")}</td>
+          <td><button class="btn btn-detail" data-index="${i}">Detail</button></td>
+        `;
+        tbody.appendChild(tr);
+        // Tambahkan event listener ke tombol Detail
+tr.querySelector(".btn-detail").addEventListener("click", () => {
+  showDetail(item.detail);
+});
+
+      });
+
+    } catch (err) {
+      console.error("Gagal ambil riwayat transaksi:", err);
+      alert("Gagal memuat riwayat transaksi");
+    }
+  }
+
+  function showDetail(detailItems) {
+    const modalBody = document.getElementById("modalBodyDetail");
+    modalBody.innerHTML = "";
+
+    detailItems.forEach((item, i) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${item.name}</td>
+        <td>${item.qty}</td>
+        <td>Rp. ${item.price.toLocaleString("id-ID")}</td>
+      `;
+      modalBody.appendChild(tr);
+    });
+
+    new bootstrap.Modal(document.getElementById("modalDetail")).show();
+  }
+
+  // Panggil saat halaman selesai dimuat
+  document.addEventListener("DOMContentLoaded", fetchRiwayat);
+</script>
+
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
+  <!-- <script>
     const data = [
       {
         no: 1,
@@ -377,7 +462,7 @@
       });
       new bootstrap.Modal(document.getElementById("modalDetail")).show();
     }
-  </script>
+  </script> -->
 
     <script src="js/cust.js"></script>
   </body>

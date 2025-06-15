@@ -77,5 +77,17 @@ router.put("/api/transfer/:id", async (req, res) => {
   }
 });
 
+router.get("/api/transfer/customer", async (req, res) => {
+  try {
+    if (!req.session?.userId) return res.status(401).json({ message: 'Belum login' });
+
+    const transfers = await Transfer.find({ userId: req.session.userId })
+      .sort({ tanggal: -1 });
+
+    res.json(transfers);
+  } catch (err) {
+    res.status(500).json({ error: "Gagal mengambil data transfer user" });
+  }
+});
 
 module.exports = router;

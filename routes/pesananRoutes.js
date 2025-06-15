@@ -79,5 +79,18 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
+router.get('/riwayat/customer', async (req, res) => {
+  try {
+    if (!req.session?.userId) return res.status(401).json({ message: 'Belum login' });
+
+    const pesanan = await Pesanan.find({ userId: req.session.userId })
+      .sort({ tanggal: -1 });
+      
+    res.json(pesanan);
+  } catch (err) {
+    res.status(500).json({ message: 'Gagal mengambil riwayat pesanan' });
+  }
+});
+
 
 module.exports = router;
