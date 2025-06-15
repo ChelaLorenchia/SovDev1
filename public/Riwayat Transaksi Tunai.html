@@ -32,6 +32,11 @@
 <div class="content">
   <div class="title">Riwayat Transaksi Tunai</div>
   <div class="main">
+    <div class="mb-3 px-4">
+  <label for="filterTanggal" class="form-label">Cari berdasarkan Tanggal</label>
+<input type="date" id="filterTanggal" class="form-control" />
+</div>
+
     <table>
       <thead>
         <tr>
@@ -56,60 +61,88 @@
     </div>
 
     <script>
-      function formatRupiah(num) {
-        return num.toLocaleString("id-ID");
+  function formatRupiah(num) {
+    return num.toLocaleString("id-ID");
+  }
+
+  function formatTanggal(isoStr) {
+    const d = new Date(isoStr);
+    return d.toLocaleDateString("id-ID", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+ async function loadRiwayat() {
+  try {
+    const res = await fetch("http://localhost:5000/api/transaksi-tunai");
+    const data = await res.json();
+
+    const inputTanggal = document.getElementById("filterTanggal");
+    const tbody = document.getElementById("riwayat-body");
+
+    function render(dataToRender) {
+      tbody.innerHTML = "";
+
+      if (!dataToRender.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center">Tidak ada transaksi yang cocok.</td></tr>`;
+        return;
       }
 
-      function formatTanggal(isoStr) {
-        const d = new Date(isoStr);
-        return d.toLocaleDateString("id-ID", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        });
-      }
+      dataToRender.forEach((trx, index) => {
+        const itemList = trx.items
+          .map((i) => `<span class="badge-item">${i.item} x${i.qty}</span>`)
+          .join(" ");
 
-      async function loadRiwayat() {
-        try {
-          const res = await fetch("http://localhost:5000/api/transaksi-tunai");
-          const data = await res.json();
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${formatTanggal(trx.tanggal)}</td>
+          <td>${itemList}</td>
+          <td>Rp ${formatRupiah(trx.total)}</td>
+          <td>Rp ${formatRupiah(trx.cash)}</td>
+          <td>Rp ${formatRupiah(trx.kembali)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
 
-          const tbody = document.getElementById("riwayat-body");
-          tbody.innerHTML = "";
+    // Tampilkan semua data awal
+    render(data);
 
-          if (!data.length) {
-            tbody.innerHTML = `<tr><td colspan="6" class="text-center">Belum ada transaksi.</td></tr>`;
-            return;
-          }
+    // Filtering saat tanggal dipilih
+    inputTanggal.addEventListener("input", () => {
+      const selected = new Date(inputTanggal.value);
+      const selectedY = selected.getFullYear();
+      const selectedM = selected.getMonth();
+      const selectedD = selected.getDate();
 
-          data.forEach((trx, index) => {
-            const itemList = trx.items
-              .map((i) => `<span class="badge-item">${i.item} x${i.qty}</span>`)
-              .join(" ");
+      const filtered = data.filter((trx) => {
+        const trxDate = new Date(trx.tanggal);
 
-            const row = document.createElement("tr");
-            row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${formatTanggal(trx.tanggal)}</td>
-            <td>${itemList}</td>
-            <td>Rp ${formatRupiah(trx.total)}</td>
-            <td>Rp ${formatRupiah(trx.cash)}</td>
-            <td>Rp ${formatRupiah(trx.kembali)}</td>
-          `;
-            tbody.appendChild(row);
-          });
-        } catch (err) {
-          console.error("Gagal memuat data:", err);
-          document.getElementById(
-            "riwayat-body"
-          ).innerHTML = `<tr><td colspan="6" class="text-danger text-center">Gagal memuat data</td></tr>`;
-        }
-      }
+        return (
+          trxDate.getFullYear() === selectedY &&
+          trxDate.getMonth() === selectedM &&
+          trxDate.getDate() === selectedD
+        );
+      });
 
-      window.onload = loadRiwayat;
-      </script>
+      render(filtered);
+    });
+  } catch (err) {
+    console.error("Gagal memuat data:", err);
+    document.getElementById(
+      "riwayat-body"
+    ).innerHTML = `<tr><td colspan="6" class="text-danger text-center">Gagal memuat data</td></tr>`;
+  }
+}
+
+  window.onload = loadRiwayat;
+</script>
+
             <script src="js/kasir.js"></script>
 
   </body>

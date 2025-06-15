@@ -59,40 +59,85 @@
 
   <div class="main-content">
     <h2 class="mb-4">Daftar Pesanan Belum Dibayar</h2>
+    <div style="margin-bottom: 20px;">
+  <input type="text" id="searchInput" placeholder="Cari berdasarkan kode..." style="padding: 8px; width: 250px;" />
+  <input type="date" id="dateFilter" style="padding: 8px;" />
+  <button onclick="resetFilters()" style="padding: 8px;">Reset</button>
+</div>
+
     <ul id="daftar-pesanan" class="list-group"></ul>
   </div>
 
   <script src="js/sidebar.js"></script>
   <script>
-    async function loadPesananBelumDibayar() {
-      try {
-        const res = await fetch('http://localhost:5000/api/pemesanan/belum-dibayar');
-        const data = await res.json();
-        const container = document.getElementById('daftar-pesanan');
+  let allOrders = [];
 
-        if (data.length === 0) {
-          container.innerHTML = "<p class='text-muted'>Tidak ada pesanan yang menunggu pembayaran.</p>";
-          return;
-        }
-
-        data.forEach(p => {
-          const li = document.createElement('li');
-          li.className = 'list-group-item';
-          li.innerHTML = `
-            <div>
-              <strong>${p.kode}</strong><br>
-              <small>${new Date(p.tanggal).toLocaleString('id-ID')}</small>
-            </div>
-            <a href="detailPaymentKsr.html?kode=${p.kode}" class="btn btn-success">Lihat</a>
-          `;
-          container.appendChild(li);
-        });
-      } catch (err) {
-        console.error('Gagal memuat pesanan:', err);
-      }
+  async function loadPesananBelumDibayar() {
+    try {
+      const res = await fetch('http://localhost:5000/api/pemesanan/belum-dibayar');
+      const data = await res.json();
+      allOrders = data; // Simpan semua pesanan
+      renderPesanan(allOrders);
+    } catch (err) {
+      console.error('Gagal memuat pesanan:', err);
     }
 
-    document.addEventListener('DOMContentLoaded', loadPesananBelumDibayar);
-  </script>
+    // Pasang event listener untuk filter
+    document.getElementById("searchInput").addEventListener("input", applyFilters);
+    document.getElementById("dateFilter").addEventListener("change", applyFilters);
+  }
+
+  function renderPesanan(data) {
+    const container = document.getElementById('daftar-pesanan');
+    container.innerHTML = '';
+
+    if (data.length === 0) {
+      container.innerHTML = "<p class='text-muted'>Tidak ada pesanan yang sesuai.</p>";
+      return;
+    }
+
+    data.forEach(p => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item';
+      li.innerHTML = `
+        <div>
+          <strong>${p.kode}</strong><br>
+          <small>${new Date(p.tanggal).toLocaleString('id-ID')}</small>
+        </div>
+        <a href="detailPaymentKsr.html?kode=${p.kode}" class="btn btn-success">Lihat</a>
+      `;
+      container.appendChild(li);
+    });
+  }
+
+  function applyFilters() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const date = document.getElementById("dateFilter").value;
+
+    const filtered = allOrders.filter(p => {
+      const matchKode = p.kode.toLowerCase().includes(search);
+
+      if (date) {
+        const orderDate = new Date(p.tanggal);
+        const selectedDate = new Date(date);
+        const sameDay = orderDate.toDateString() === selectedDate.toDateString();
+        return matchKode && sameDay;
+      }
+
+      return matchKode;
+    });
+
+    renderPesanan(filtered);
+  }
+
+  function resetFilters() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("dateFilter").value = "";
+    renderPesanan(allOrders);
+  }
+
+  document.addEventListener('DOMContentLoaded', loadPesananBelumDibayar);
+</script>
+
 </body>
 </html>
