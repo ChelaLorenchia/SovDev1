@@ -64,11 +64,12 @@
                 type="text"
                 class="form-control border-start-0"
                 id="searchInput"
-                placeholder="Search by Tanggal / Kode"
+                placeholder="Cari berdasarkan tanggal / kode..."
               />
             </div>
+
             <div class="table-responsive">
-              <table class="table table-bordered align-middle text-center">
+              <!-- <table class="table table-bordered align-middle text-center">
                 <thead class="table-light">
                   <tr>
                     <th>No</th>
@@ -80,9 +81,60 @@
                   </tr>
                 </thead>
                 <tbody id="transactionTableBody"></tbody>
-              </table>
+              </table> -->
             </div>
-            <nav class="d-flex justify-content-center mt-2">
+            <!-- Tabel Transaksi Tunai -->
+            <h5 class="mt-4">Transaksi Tunai</h5>
+            <table class="table table-bordered text-center" id="tunaiTable">
+              <thead class="table-light">
+                <tr>
+                  <th>No</th>
+                  <th>Tanggal</th>
+                  <th>Metode</th>
+                  <th>Total</th>
+                  <th>Cash</th>
+                  <th>Kembali</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tbody id="tunaiTableBody"></tbody>
+            </table>
+
+            <!-- Tabel Pesanan Sudah Dibayar -->
+            <h5 class="mt-4">Pesanan (Sudah Dibayar)</h5>
+            <table class="table table-bordered text-center" id="pesananTable">
+              <thead class="table-light">
+                <tr>
+                  <th>No</th>
+                  <th>Tanggal</th>
+                  <th>Kode</th>
+                  <th>Metode</th>
+                  <th>Total</th>
+                  <th>Cash</th>
+                  <th>Kembali</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tbody id="pesananTableBody"></tbody>
+            </table>
+
+            <!-- Tabel Transfer -->
+            <h5 class="mt-4">Transaksi Transfer</h5>
+            <table class="table table-bordered text-center" id="transferTable">
+              <thead class="table-light">
+                <tr>
+                  <th>No</th>
+                  <th>Tanggal</th>
+                  <th>Kode</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tbody id="transferTableBody"></tbody>
+            </table>
+
+            <!-- <nav class="d-flex justify-content-center mt-2">
               <ul class="pagination">
                 <li class="page-item">
                   <a class="page-link" href="#" onclick="prevPage()">‹</a>
@@ -94,7 +146,7 @@
                   <a class="page-link" href="#" onclick="nextPage()">›</a>
                 </li>
               </ul>
-            </nav>
+            </nav> -->
           </div>
         </div>
         <div class="col-md-4 mt-4 mt-md-0">
@@ -149,159 +201,301 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-      const transaksiData = [
-        {
-          no: 1,
-          tanggal: "01-08-2025",
-          kode: "TRX-001",
-          metode: "Tunai",
-          harga: 24000,
-          bulan: "Agustus",
-          detailId: 1,
-        },
-        {
-          no: 2,
-          tanggal: "02-08-2025",
-          kode: "TRX-002",
-          metode: "Transfer",
-          harga: 12000,
-          bulan: "Agustus",
-          detailId: 2,
-        },
-        {
-          no: 3,
-          tanggal: "03-08-2025",
-          kode: "TRX-003",
-          metode: "Tunai",
-          harga: 12000,
-          bulan: "Agustus",
-          detailId: 1,
-        },
-        {
-          no: 4,
-          tanggal: "04-08-2025",
-          kode: "TRX-004",
-          metode: "Tunai",
-          harga: 10000,
-          bulan: "Agustus",
-          detailId: 2,
-        },
-        {
-          no: 5,
-          tanggal: "05-08-2025",
-          kode: "TRX-005",
-          metode: "Transfer",
-          harga: 18000,
-          bulan: "Agustus",
-          detailId: 1,
-        },
-        {
-          no: 6,
-          tanggal: "06-08-2025",
-          kode: "TRX-006",
-          metode: "Tunai",
-          harga: 15000,
-          bulan: "Agustus",
-          detailId: 2,
-        },
-        {
-          no: 7,
-          tanggal: "07-08-2025",
-          kode: "TRX-007",
-          metode: "Tunai",
-          harga: 14000,
-          bulan: "Agustus",
-          detailId: 1,
-        },
-        {
-          no: 8,
-          tanggal: "08-08-2025",
-          kode: "TRX-008",
-          metode: "Transfer",
-          harga: 13000,
-          bulan: "Agustus",
-          detailId: 2,
-        },
-        {
-          no: 9,
-          tanggal: "09-08-2025",
-          kode: "TRX-009",
-          metode: "Tunai",
-          harga: 16000,
-          bulan: "Agustus",
-          detailId: 1,
-        },
-        {
-          no: 10,
-          tanggal: "10-08-2025",
-          kode: "TRX-010",
-          metode: "Tunai",
-          harga: 11000,
-          bulan: "Agustus",
-          detailId: 2,
-        },
-      ];
+      let semuaData = {
+        tunai: [],
+        pesanan: [],
+        transfer: [],
+      };
 
-      let currentPage = 1;
-      const rowsPerPage = 5;
       let searchQuery = "";
 
-      function renderTable(page = 1) {
-        const tbody = document.getElementById("transactionTableBody");
+      async function fetchData() {
+        try {
+          const [tunaiRes, pesananRes, transferRes] = await Promise.all([
+            fetch("http://localhost:5000/api/transaksi-tunai"),
+            fetch("http://localhost:5000/api/pemesanan?sudahDibayar=true"),
+            fetch("http://localhost:5000/api/transfer"),
+          ]);
+
+          semuaData.tunai = await tunaiRes.json();
+          semuaData.pesanan = await pesananRes.json();
+          const allTransfer = await transferRes.json();
+          semuaData.transfer = allTransfer.filter(
+            (item) => item.status === "sudah diambil"
+          );
+
+          renderAllTables();
+          hitungIncomePerBulan();
+          hitungTotalIncome();
+        } catch (err) {
+          console.error("Gagal ambil data:", err);
+        }
+      }
+
+      function renderTunaiTable(data) {
+        const tbody = document.getElementById("tunaiTableBody");
         tbody.innerHTML = "";
-
-        // Filter data berdasarkan searchQuery
-        const filteredData = transaksiData.filter((data) => {
-          const tanggal = data.tanggal.toLowerCase();
-          const kode = data.kode.toLowerCase();
-          return tanggal.includes(searchQuery) || kode.includes(searchQuery);
-        });
-
-        const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-        const start = (page - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        const pagedData = filteredData.slice(start, end);
-
-        pagedData.forEach((data) => {
+        data.forEach((item, index) => {
           const tr = document.createElement("tr");
-          tr.setAttribute("data-bulan", data.bulan);
           tr.innerHTML = `
-      <td>${data.no}.</td>
-      <td>${data.tanggal}</td>
-      <td>${data.kode}</td>
-      <td>${data.metode}</td>
-      <td class="harga">Rp. ${data.harga.toLocaleString("id-ID")}</td>
-      <td><button class="btn btn-sm btn-danger" id="button" onclick="showDetail(${
-        data.detailId
-      })">Detail</button></td>
+      <td>${index + 1}</td>
+      <td>${new Date(item.tanggal).toLocaleString()}</td>
+      <td>${item.metode}</td>
+      <td>Rp. ${item.total.toLocaleString()}</td>
+      <td>Rp. ${item.cash.toLocaleString()}</td>
+      <td>Rp. ${item.kembali.toLocaleString()}</td>
+      <td><button class="btn btn-sm btn-danger" onclick='showDetailModal(${JSON.stringify(
+        item.items
+      )})'>Detail</button></td>
+    `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function renderPesananTable(data) {
+        const tbody = document.getElementById("pesananTableBody");
+        tbody.innerHTML = "";
+        data.forEach((item, index) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${new Date(item.tanggal).toLocaleString()}</td>
+      <td>${item.kode}</td>
+      <td>${item.metode}</td>
+      <td>Rp. ${item.total.toLocaleString()}</td>
+      <td>Rp. ${item.cash.toLocaleString()}</td>
+      <td>Rp. ${item.kembalian.toLocaleString()}</td>
+      <td><button class="btn btn-sm btn-danger" onclick='showDetailModal(${JSON.stringify(
+        item.items
+      )})'>Detail</button></td>
+    `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function renderTransferTable(data) {
+        const tbody = document.getElementById("transferTableBody");
+        tbody.innerHTML = "";
+        const filtered = data.filter((item) => item.status === "sudah diambil");
+        filtered.forEach((item, index) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${new Date(item.tanggal).toLocaleString()}</td>
+      <td>${item.kode}</td>
+      <td>${item.status}</td>
+      <td>${item.total}</td>
+      <td><button class="btn btn-sm btn-danger" onclick='showDetailModal(${JSON.stringify(
+        item.items
+      )})'>Detail</button></td>
+    `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function showDetailModal(items) {
+        const tbody = document.getElementById("detailTableBody");
+        tbody.innerHTML = "";
+        items.forEach((item, i) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${item.item || item.name}</td>
+      <td>${item.qty}</td>
+      <td>Rp. ${item.price.toLocaleString("id-ID")}</td>
     `;
           tbody.appendChild(tr);
         });
 
-        document.getElementById("pageNum").textContent = currentPage;
-        hitungTotalIncome();
+        const modal = new bootstrap.Modal(
+          document.getElementById("detailModal")
+        );
+        modal.show();
       }
 
-      function nextPage() {
-        const filteredData = transaksiData.filter((data) => {
-          const tanggal = data.tanggal.toLowerCase();
-          const kode = data.kode.toLowerCase();
-          return tanggal.includes(searchQuery) || kode.includes(searchQuery);
-        });
+      window.addEventListener("DOMContentLoaded", () => {
+        renderTable();
+        hitungIncomePerBulan();
+        fetchData();
 
-        const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-        if (currentPage < totalPages) {
-          currentPage++;
-          renderTable(currentPage);
-        }
+        document
+          .getElementById("searchInput")
+          .addEventListener("input", (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            currentPage = 1;
+            renderTable(currentPage);
+          });
+      });
+
+      function renderAllTables() {
+        renderTunaiTable(semuaData.tunai.filter(filterBySearch));
+        renderPesananTable(semuaData.pesanan.filter(filterBySearch));
+        renderTransferTable(semuaData.transfer.filter(filterBySearch));
       }
 
-      function prevPage() {
-        if (currentPage > 1) {
-          currentPage--;
-          renderTable(currentPage);
-        }
+      function filterBySearch(item) {
+        const query = searchQuery.toLowerCase();
+        const tanggal = new Date(item.tanggal)
+          .toLocaleDateString("id-ID")
+          .toLowerCase();
+        const kode = item.kode ? item.kode.toLowerCase() : ""; // hanya pesanan dan transfer
+        return tanggal.includes(query) || kode.includes(query);
       }
+    </script>
+    <script>
+      // const transaksiData = [
+      //   {
+      //     no: 1,
+      //     tanggal: "01-08-2025",
+      //     kode: "TRX-001",
+      //     metode: "Tunai",
+      //     harga: 24000,
+      //     bulan: "Agustus",
+      //     detailId: 1,
+      //   },
+      //   {
+      //     no: 2,
+      //     tanggal: "02-08-2025",
+      //     kode: "TRX-002",
+      //     metode: "Transfer",
+      //     harga: 12000,
+      //     bulan: "Agustus",
+      //     detailId: 2,
+      //   },
+      //   {
+      //     no: 3,
+      //     tanggal: "03-08-2025",
+      //     kode: "TRX-003",
+      //     metode: "Tunai",
+      //     harga: 12000,
+      //     bulan: "Agustus",
+      //     detailId: 1,
+      //   },
+      //   {
+      //     no: 4,
+      //     tanggal: "04-08-2025",
+      //     kode: "TRX-004",
+      //     metode: "Tunai",
+      //     harga: 10000,
+      //     bulan: "Agustus",
+      //     detailId: 2,
+      //   },
+      //   {
+      //     no: 5,
+      //     tanggal: "05-08-2025",
+      //     kode: "TRX-005",
+      //     metode: "Transfer",
+      //     harga: 18000,
+      //     bulan: "Agustus",
+      //     detailId: 1,
+      //   },
+      //   {
+      //     no: 6,
+      //     tanggal: "06-08-2025",
+      //     kode: "TRX-006",
+      //     metode: "Tunai",
+      //     harga: 15000,
+      //     bulan: "Agustus",
+      //     detailId: 2,
+      //   },
+      //   {
+      //     no: 7,
+      //     tanggal: "07-08-2025",
+      //     kode: "TRX-007",
+      //     metode: "Tunai",
+      //     harga: 14000,
+      //     bulan: "Agustus",
+      //     detailId: 1,
+      //   },
+      //   {
+      //     no: 8,
+      //     tanggal: "08-08-2025",
+      //     kode: "TRX-008",
+      //     metode: "Transfer",
+      //     harga: 13000,
+      //     bulan: "Agustus",
+      //     detailId: 2,
+      //   },
+      //   {
+      //     no: 9,
+      //     tanggal: "09-08-2025",
+      //     kode: "TRX-009",
+      //     metode: "Tunai",
+      //     harga: 16000,
+      //     bulan: "Agustus",
+      //     detailId: 1,
+      //   },
+      //   {
+      //     no: 10,
+      //     tanggal: "10-08-2025",
+      //     kode: "TRX-010",
+      //     metode: "Tunai",
+      //     harga: 11000,
+      //     bulan: "Agustus",
+      //     detailId: 2,
+      //   },
+      // ];
+
+      // let currentPage = 1;
+      // const rowsPerPage = 5;
+      // let searchQuery = "";
+
+      //   function renderTable(page = 1) {
+      //     const tbody = document.getElementById("transactionTableBody");
+      //     tbody.innerHTML = "";
+
+      //     // Filter data berdasarkan searchQuery
+      //     const filteredData = transaksiData.filter((data) => {
+      //       const tanggal = data.tanggal.toLowerCase();
+      //       const kode = data.kode.toLowerCase();
+      //       return tanggal.includes(searchQuery) || kode.includes(searchQuery);
+      //     });
+
+      //     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+      //     const start = (page - 1) * rowsPerPage;
+      //     const end = start + rowsPerPage;
+      //     const pagedData = filteredData.slice(start, end);
+
+      //     pagedData.forEach((data) => {
+      //       const tr = document.createElement("tr");
+      //       tr.setAttribute("data-bulan", data.bulan);
+      //       tr.innerHTML = `
+      //   <td>${data.no}.</td>
+      //   <td>${data.tanggal}</td>
+      //   <td>${data.kode}</td>
+      //   <td>${data.metode}</td>
+      //   <td class="harga">Rp. ${data.harga.toLocaleString("id-ID")}</td>
+      //   <td><button class="btn btn-sm btn-danger" id="button" onclick="showDetail(${
+      //     data.detailId
+      //   })">Detail</button></td>
+      // `;
+      //       tbody.appendChild(tr);
+      //     });
+
+      //     document.getElementById("pageNum").textContent = currentPage;
+      //     hitungTotalIncome();
+      //   }
+
+      //   function nextPage() {
+      //     const filteredData = transaksiData.filter((data) => {
+      //       const tanggal = data.tanggal.toLowerCase();
+      //       const kode = data.kode.toLowerCase();
+      //       return tanggal.includes(searchQuery) || kode.includes(searchQuery);
+      //     });
+
+      //     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+      //     if (currentPage < totalPages) {
+      //       currentPage++;
+      //       renderTable(currentPage);
+      //     }
+      //   }
+
+      //   function prevPage() {
+      //     if (currentPage > 1) {
+      //       currentPage--;
+      //       renderTable(currentPage);
+      //     }
+      //   }
 
       const dataDetail = {
         1: [
@@ -343,80 +537,93 @@
       }
 
       function hitungTotalIncome() {
-        let total = 0;
-        const hargaItems = document.querySelectorAll(".harga");
+  let total = 0;
 
-        hargaItems.forEach((item) => {
-          const text = item.textContent
-            .replace("Rp", "")
-            .replace(/\./g, "")
-            .trim();
-          const number = parseInt(text);
-          total += number;
-        });
+  function ambilTotal(data, totalField) {
+    data.forEach(item => {
+      const val = typeof item[totalField] === "string"
+        ? parseInt(item[totalField].replace(/[^\d]/g, ''))
+        : item[totalField];
+      total += val;
+    });
+  }
 
-        document.getElementById("totalIncome").textContent =
-          formatRupiah(total);
-      }
+  ambilTotal(semuaData.tunai, 'total');
+  ambilTotal(semuaData.pesanan, 'total');
+  ambilTotal(semuaData.transfer, 'total');
+
+  document.getElementById("totalIncome").textContent = total.toLocaleString("id-ID", {
+    style: "currency",
+    currency: "IDR"
+  });
+}
+
 
       function hitungIncomePerBulan() {
-        const rows = document.querySelectorAll("tbody tr");
-        const incomePerBulan = {};
+  const incomePerBulan = {};
 
-        rows.forEach((row) => {
-          const bulan = row.getAttribute("data-bulan");
-          const hargaEl = row.querySelector(".harga");
-          if (!bulan || !hargaEl) return;
+  function tambahkanData(data, totalField, tanggalField = 'tanggal') {
+    data.forEach(item => {
+      const tanggal = new Date(item[tanggalField]);
+      const bulan = tanggal.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+      const total = typeof item[totalField] === "string"
+        ? parseInt(item[totalField].replace(/[^\d]/g, '')) // kalau string "RP 36.000"
+        : item[totalField];
 
-          const harga = parseInt(
-            hargaEl.textContent.replace("Rp", "").replace(/\./g, "").trim()
-          );
-          if (!incomePerBulan[bulan]) {
-            incomePerBulan[bulan] = 0;
+      if (!incomePerBulan[bulan]) incomePerBulan[bulan] = 0;
+      incomePerBulan[bulan] += total;
+    });
+  }
+
+  // Ambil total dari semua jenis transaksi
+  tambahkanData(semuaData.tunai, 'total');
+  tambahkanData(semuaData.pesanan, 'total');
+  tambahkanData(semuaData.transfer, 'total'); // total bisa string seperti "RP 36.000"
+
+  // Buat Chart
+  const labels = Object.keys(incomePerBulan);
+  const data = Object.values(incomePerBulan);
+
+  const chartCanvas = document.getElementById("incomeChart");
+
+  // Hapus chart sebelumnya jika ada
+  if (window.incomeChartInstance) window.incomeChartInstance.destroy();
+
+  window.incomeChartInstance = new Chart(chartCanvas, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Income per Bulan",
+        data: data,
+        backgroundColor: "rgba(255, 99, 132, 0.6)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: (value) => "Rp " + value.toLocaleString("id-ID"),
           }
-          incomePerBulan[bulan] += harga;
-        });
-
-        const labels = Object.keys(incomePerBulan);
-        const data = Object.values(incomePerBulan);
-
-        new Chart(document.getElementById("incomeChart"), {
-          type: "bar",
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: "Income per Bulan",
-                data: data,
-                backgroundColor: "rgba(153, 102, 255, 0.6)",
-                borderColor: "rgba(153, 102, 255, 1)",
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  callback: (value) => "Rp " + value.toLocaleString("id-ID"),
-                },
-              },
-            },
-          },
-        });
+        }
       }
+    }
+  });
+}
+
 
       window.addEventListener("DOMContentLoaded", () => {
-        renderTable();
+        fetchData();
         hitungIncomePerBulan();
 
         document
           .getElementById("searchInput")
           .addEventListener("input", (e) => {
             searchQuery = e.target.value.toLowerCase();
-            currentPage = 1;
-            renderTable(currentPage);
+            renderAllTables();
           });
       });
     </script>
