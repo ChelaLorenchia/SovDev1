@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Riwayat Transaksi Customer</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h2 { margin-top: 40px; }
+    .filters { margin-bottom: 20px; }
+    .card {
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .card h4 { margin: 0 0 10px 0; }
+    .card p { margin: 5px 0; }
+    select { margin-right: 10px; padding: 5px; }
+  </style>
+</head>
+<body>
+
+  <h1>Riwayat Transaksi Customer</h1>
+
+  <div class="filters">
+    <label for="methodFilter">Metode Pembayaran:</label>
+    <select id="methodFilter">
+      <option value="semua">Semua</option>
+      <option value="bca">BCA (Transfer)</option>
+      <option value="kasir">Kasir</option>
+    </select>
+
+    <label for="statusFilter">Status:</label>
+    <select id="statusFilter">
+      <option value="semua">Semua</option>
+      <option value="diambil">Sudah Diambil / Sudah Dibayar</option>
+      <option value="belum">Belum Diambil / Belum Dibayar</option>
+    </select>
+  </div>
+
+  <div id="transaksiContainer"></div>
+
+  <script>
+    const container = document.getElementById("transaksiContainer");
+    const methodFilter = document.getElementById("methodFilter");
+    const statusFilter = document.getElementById("statusFilter");
+
+    async function fetchData() {
+      const [transferRes, pesananRes] = await Promise.all([
+  fetch("http://localhost:5000/api/transfer").then(res => res.json()),
+  fetch("http://localhost:5000/api/pesanan").then(res => res.json()),
+]);
+
+      return { transfer: transferRes, pesanan: pesananRes };
+    }
+
+    function renderTransaksi(data) {
+      container.innerHTML = '';
+
+      const method = methodFilter.value;
+      const status = statusFilter.value;
+
+      // BCA - Transfer
+      if (method === "semua" || method === "bca") {
+        const filtered = data.transfer.filter(item => {
+          if (status === "diambil") return item.status === "diambil";
+          if (status === "belum") return item.status !== "diambil";
+          return true;
+        });
+
+        filtered.forEach(item => {
+          container.innerHTML += `
+            <div class="card">
+              <h4>Transfer - ${item.kode}</h4>
+              <p><strong>User:</strong> ${item.userId?.username || 'Guest'}</p>
+              <p><strong>Total:</strong> Rp${item.total}</p>
+              <p><strong>Status:</strong> ${item.status}</p>
+              <p><strong>Tanggal:</strong> ${new Date(item.tanggal).toLocaleString()}</p>
+              ${item.bukti ? `<p><strong>Bukti Transfer:</strong><br><img src="${item.bukti}" width="150" /></p>` : ''}
+            </div>
+          `;
+        });
+      }
+
+      // Kasir - Pesanan
+      if (method === "semua" || method === "kasir") {
+        const filtered = data.pesanan.filter(item => {
+          if (status === "diambil") return item.status === "sudah dibayar";
+          if (status === "belum") return item.status !== "sudah dibayar";
+          return true;
+        });
+
+        filtered.forEach(item => {
+          container.innerHTML += `
+            <div class="card">
+              <h4>Kasir - ${item.kode || '-'}</h4>
+              <p><strong>User:</strong> ${item.userId?.username || 'Guest'}</p>
+              <p><strong>Total:</strong> Rp${item.total}</p>
+              <p><strong>Status:</strong> ${item.status}</p>
+              <p><strong>Tanggal:</strong> ${new Date(item.tanggal).toLocaleString()}</p>
+            </div>
+          `;
+        });
+      }
+    }
+
+    async function init() {
+      const data = await fetchData();
+      renderTransaksi(data);
+
+      methodFilter.addEventListener("change", () => renderTransaksi(data));
+      statusFilter.addEventListener("change", () => renderTransaksi(data));
+    }
+
+    init();
+  </script>
+</body>
+</html>

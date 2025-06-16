@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Produk - Ny.Djo Bakery</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style/Admin.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-pink shadow-sm">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="#">
+          <img src="image/Logo.png" alt="Logo" height="50" />
+        </a>
+        <ul class="navbar-nav mx-auto mb-0">
+          <li class="nav-item">
+            <a class="nav-link" href="Admin Home.html" id="homeLink"
+              >Products</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="Admin Jam Operasional.html"
+              id="operationalLink"
+              >Operasional Time</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Admin Dashbor.html" id="operationalLink"
+              >Dashbor</a
+            >
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <a href="Admin Profil.html"
+            ><i class="bi bi-person fs-5 text-dark"></i
+          ></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <a href="Admin Home.html" class="text-decoration-none text-dark fs-4">
+          <i class="bi bi-arrow-left"></i>
+        </a>
+        <h2 class="mb-0">Edit Produk</h2>
+      </div>
+
+      <form action="#" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="nama">Nama Produk</label>
+          <input
+            class="text-muted small"
+            type="text"
+            id="nama"
+            name="nama"
+            placeholder="Masukan Nama Produk"
+            class="form-control text-muted small"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="harga">Harga Produk</label>
+          <input
+            type="text"
+            id="harga"
+            name="harga"
+            placeholder="Masukan Harga Produk"
+            class="form-control text-muted small"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="tipe">Tipe Produk</label>
+          <select
+            id="tipe"
+            name="tipe"
+            class="text-muted small form-select"
+            required
+            onchange="toggleCustomCategory(this)"
+          >
+            <option value="manis" selected>Manis</option>
+            <option value="asin">Asin</option>
+            <option value="custom">Lainnya...</option>
+          </select>
+        </div>
+
+        <div class="mb-3" id="customCategoryWrapper" style="display: none">
+          <label for="customCategory">Kategori Baru</label>
+          <input
+            type="text"
+            id="customCategory"
+            name="customCategory"
+            class="form-control"
+            placeholder="Masukkan kategori baru"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="stok">Stok Produk</label>
+          <input
+            class="text-muted small"
+            type="number"
+            id="stok"
+            name="stok"
+            placeholder="Masukan Stok Produk"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="deskripsi">Deskripsi Produk</label>
+          <textarea
+            class="text-muted small form-control"
+            id="deskripsi"
+            name="deskripsi"
+            placeholder="Masukkan Deskripsi Produk"
+            oninput="autoResize(this)"
+            rows="1"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="image">Foto Produk</label><br />
+          <input
+            type="file"
+            id="image"
+            name="image"
+            class="form-control"
+            accept="image/*"
+            onchange="previewImage(event)"
+          />
+          <div
+            id="imagePreviewWrapper"
+            class="image-preview mt-2 position-relative"
+            style="display: none"
+          >
+            <img
+              id="imgPreview"
+              src=""
+              alt="Preview"
+              class="img-thumbnail"
+              width="150"
+            />
+            <button
+              type="button"
+              class="btn btn-sm btn-danger position-absolute top-0 end-0"
+              onclick="removeImage()"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-button">Simpan</button>
+      </form>
+    </div>
+
+    <script>
+      function getProductIdFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("id");
+      }
+
+      async function loadProductData() {
+        const id = getProductIdFromURL();
+        if (!id) return alert("ID produk tidak ditemukan di URL");
+
+        try {
+          const res = await fetch(`http://localhost:5000/api/menus/${id}`);
+          if (!res.ok) throw new Error("Gagal mengambil data produk");
+
+          const data = await res.json();
+          console.log(data); // Debug log untuk melihat apakah data benar
+
+          // Set nilai form berdasarkan data produk
+          document.getElementById("nama").value = data.name;
+          document.getElementById("harga").value = data.price;
+          document.getElementById("stok").value = data.stock;
+          document.getElementById("deskripsi").value = data.description;
+
+          // Set kategori produk
+          const kategoriElement = document.getElementById("tipe");
+          if (data.category && ["manis", "asin"].includes(data.category)) {
+            kategoriElement.value = data.category; // Menetapkan nilai yang valid
+          } else {
+            kategoriElement.value = "manis"; // Set default jika data.category tidak valid
+          }
+
+          // Tampilkan gambar lama
+          const imgPreview = document.getElementById("imgPreview");
+          imgPreview.src = data.image;
+          document.getElementById("imagePreviewWrapper").style.display =
+            "block";
+        } catch (err) {
+          console.error("Error:", err.message);
+          alert("Gagal memuat data produk");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", loadProductData);
+
+      document
+        .querySelector("form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const id = getProductIdFromURL();
+          const form = e.target;
+          const formData = new FormData();
+
+          formData.append("name", form.nama.value);
+          formData.append("price", form.harga.value);
+          formData.append("stock", form.stok.value);
+          formData.append("description", form.deskripsi.value);
+          const selectedCategory =
+            form.tipe.value === "custom"
+              ? form.customCategory.value
+              : form.tipe.value;
+          formData.append("category", selectedCategory);
+          if (form.image.files[0]) {
+            formData.append("image", form.image.files[0]);
+          }
+
+          try {
+            const res = await fetch(`http://localhost:5000/api/menus/${id}`, {
+              method: "PUT",
+              body: formData,
+            });
+
+            if (res.ok) {
+              alert("Produk berhasil diperbarui");
+              window.location.href = "Admin Home.html";
+            } else {
+              const err = await res.json();
+              alert("Gagal menyimpan: " + err.error);
+            }
+          } catch (err) {
+            console.error("Update error:", err);
+            alert("Terjadi kesalahan saat menyimpan data");
+          }
+        });
+
+      function toggleCustomCategory(selectElement) {
+        const customWrapper = document.getElementById("customCategoryWrapper");
+        if (selectElement.value === "custom") {
+          customWrapper.style.display = "block";
+          document.getElementById("customCategory").required = true;
+        } else {
+          customWrapper.style.display = "none";
+          document.getElementById("customCategory").required = false;
+        }
+      }
+    </script>
+
+    <script src="js/Admin.js"></script>
+  </body>
+</html>

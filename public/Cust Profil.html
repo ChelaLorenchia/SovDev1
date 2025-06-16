@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil - Ny.Djo Bakery</title>
+
+    <!-- Bootstrap & Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style/Admin.css" />
+    <link rel="stylesheet" href="style/cust.css" />
+
+    <style>
+      .form-box {
+        border: 1px solid #d99e9e;
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 40px;
+      }
+
+      .position-relative input {
+        padding-right: 35px;
+      }
+
+  .table-custom-bg {
+    background-color: #fff9f5;}
+    .btn-detail {
+      background-color: #d63384;
+      color: white;
+      font-size: 0.8rem;
+      padding: 2px 10px;
+      border-radius: 8px;
+    }
+
+    .btn-detail:hover {
+      background-color: #a52d68;
+    }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-pink shadow-sm">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="#">
+          <img src="image/Logo.png" alt="Logo" height="50" />
+        </a>
+        <ul class="navbar-nav mx-auto mb-0">
+          <li class="nav-item">
+            <a class="nav-link" href="Cust Home.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Cust Menu.html">Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="AboutUs.html">About Us</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+
+          <a href="Cust Profil.html"
+            ><i class="bi bi-person fs-5 text-black"></i
+          ></a>
+          <a href="Cart.html"><i class="bi bi-cart3 fs-5 text-black"></i></a>
+        </div>
+      </div>
+    </nav>
+    <!-- Main Content -->
+    <div class="container mt-5">
+      <h2 class="fw-bold text-dark mb-3">Profil</h2>
+      <div class="form-box">
+        <p><strong>Username :</strong> <span id="customerUsername"></span></p>
+        <p><strong>Email :</strong> <span id="customerEmail"></span></p>
+      </div>
+
+      <h2 class="fw-bold text-dark mb-3">Change Password</h2>
+      <form id="passwordForm" class="form-box">
+        <div class="mb-3 position-relative">
+          <label for="oldPassword" class="form-label">Password Lama</label>
+          <div class="input-group">
+            <input type="password" class="form-control" id="oldPassword" />
+            <span
+              class="input-group-text"
+              onclick="togglePassword('oldPassword', this)"
+            >
+              <i class="bi bi-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="newPassword" class="form-label">Password Baru</label>
+          <div class="input-group">
+            <input type="password" class="form-control" id="newPassword" />
+            <span
+              class="input-group-text"
+              onclick="togglePassword('newPassword', this)"
+            >
+              <i class="bi bi-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label"
+            >Konfirmasi Password</label
+          >
+          <div class="input-group">
+            <input type="password" class="form-control" id="confirmPassword" />
+            <span
+              class="input-group-text"
+              onclick="togglePassword('confirmPassword', this)"
+            >
+              <i class="bi bi-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-button">Ubah Password</button>
+      </form>
+
+      <!-- Riwayat Transaksi -->
+<h2 class="fw-bold text-dark mb-3">Riwayat Transaksi</h2>
+<div class="form-box">
+  <div class="riwayat-box mt-3">
+    <table class="table table-borderless table-custom-bg">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Tanggal</th>
+          <th>Kode Transaksi</th>
+          <th>Metode Pembayaran</th>
+          <th>Total Harga</th>
+          <th>Detail Item</th>
+        </tr>
+      </thead>
+      <tbody id="riwayatBody">
+        <!-- Diisi dengan JavaScript -->
+      </tbody>
+    </table>
+  </div>
+</div>
+      <button
+        id="logoutBtn"
+        type="button"
+        class="submit-button mt-3 mb-5"
+        style="background-color: red; color: white"
+      >
+        Logout
+      </button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalDetail" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content rounded-4">
+        <div class="modal-header">
+          <h5 class="modal-title">Detail Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Produk</th>
+                <th>Jumlah</th>
+                <th>Harga</th>
+              </tr>
+            </thead>
+            <tbody id="modalBodyDetail"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- <a href="riwayat-transaksi.html" class="btn btn-primary">Riwayat Transaksi</a> -->
+
+    </div>
+
+    <footer class="footer mt-5 py-5 text-center">
+      <img src="image/Logo.png" alt="Logo" height="50" class="mb-3" />
+      <h5 class="fw-bold">UNTUK PEMESANAN DIATAS 50 PCS</h5>
+      <p>silahkan kunjungi toko kami</p>
+      <a
+        href="https://api.whatsapp.com/send/?phone=62818657198&text&type=phone_number&app_absent=0"
+        class="btn btn-dark"
+        target="_blank"
+        >Contact Us Now</a
+      >
+      <div class="social-icons mt-3">
+        <a
+          href="https://www.instagram.com/dapoer.ny.djoe?igsh=MXZwdjRxcTF1ZzExNg=="
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="bi bi-instagram fs-4"></i>
+        </a>
+
+        <a
+          href="https://api.whatsapp.com/send/?phone=62818657198&text&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="bi bi-whatsapp fs-4"></i>
+        </a>
+      </div>
+      <p class="text-muted small mt-3">© 2025 Ny.Djo Bakery.</p>
+    </footer>
+    <!-- Script -->
+    <script>
+      function togglePassword(id, spanElement) {
+        const input = document.getElementById(id);
+        const icon = spanElement.querySelector("i");
+        const isPassword = input.type === "password";
+
+        input.type = isPassword ? "text" : "password";
+        icon.classList.toggle("bi-eye", isPassword);
+        icon.classList.toggle("bi-eye-slash", !isPassword);
+      }
+    </script>
+
+    <script>
+      // Ambil profil admin
+      fetch("http://localhost:5000/api/user/profile", {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Gagal ambil data user: " + res.status);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          document.getElementById("customerUsername").textContent =
+            data.username;
+          document.getElementById("customerEmail").textContent = data.email;
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Gagal ambil profil. Mungkin belum login.");
+          window.location.href = "login.html";
+        });
+
+      // Ganti password
+      document
+        .getElementById("passwordForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const oldPassword = document.getElementById("oldPassword").value;
+          const newPassword = document.getElementById("newPassword").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+          if (newPassword !== confirmPassword) {
+            alert("Password baru dan konfirmasi tidak cocok!");
+            return;
+          }
+
+          // Validasi password baru
+          const passwordValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(
+            newPassword
+          );
+          if (!passwordValid) {
+            alert(
+              "Password harus minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka."
+            );
+            return;
+          }
+
+          fetch("http://localhost:5000/api/user/change-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ oldPassword, newPassword }),
+            credentials: "include"
+          })
+            .then((res) => {
+  if (!res.ok) {
+    return res.json().then(err => { throw new Error(err.error || 'Gagal mengubah password'); });
+  }
+  return res.json();
+})
+.then((data) => {
+  alert(data.message || "Password berhasil diubah");
+})
+.catch((err) => {
+  console.error(err);
+  alert(err.message || "Gagal mengubah password");
+});
+
+        });
+
+      // Logout
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", function () {
+          fetch("http://localhost:5000/logout", {
+            method: "POST",
+            credentials: "include",
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              alert(data.message);
+              window.location.href = "login.html"; // arahkan ke login page
+            });
+        });
+
+      // search
+      function searchFromHome() {
+        const query = document.getElementById("homeSearchInput").value;
+        if (query.trim() !== "") {
+          window.location.href = `Cust Menu.html?search=${encodeURIComponent(
+            query
+          )}`;
+        }
+      }
+    </script>
+
+    <script>
+  async function fetchRiwayat() {
+    const tbody = document.getElementById("riwayatBody");
+    const modalBody = document.getElementById("modalBodyDetail");
+    tbody.innerHTML = "";
+
+    try {
+      const [resTunai, resTransfer] = await Promise.all([
+        fetch("http://localhost:5000/api/pemesanan/riwayat/customer", { credentials: "include" }),
+        fetch("http://localhost:5000/api/transfer/customer", { credentials: "include" })
+      ]);
+
+      const tunai = await resTunai.json();
+      const transfer = await resTransfer.json();
+
+      const all = [...tunai.map(p => ({
+        tanggal: new Date(p.tanggal).toLocaleDateString("id-ID"),
+        kode: p.kode,
+        metode: "Tunai",
+        harga: p.total,
+        detail: p.items
+      })), ...transfer.map(t => ({
+        tanggal: new Date(t.tanggal).toLocaleDateString("id-ID"),
+        kode: t.kode,
+        metode: "Transfer",
+        harga: t.total,
+        detail: t.items
+      }))];
+
+      all.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+
+      all.forEach((item, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${item.tanggal}</td>
+          <td>${item.kode}</td>
+          <td>${item.metode}</td>
+          <td>Rp. ${item.harga.toLocaleString("id-ID")}</td>
+          <td><button class="btn btn-detail" data-index="${i}">Detail</button></td>
+        `;
+        tbody.appendChild(tr);
+        // Tambahkan event listener ke tombol Detail
+tr.querySelector(".btn-detail").addEventListener("click", () => {
+  showDetail(item.detail);
+});
+
+      });
+
+    } catch (err) {
+      console.error("Gagal ambil riwayat transaksi:", err);
+      alert("Gagal memuat riwayat transaksi");
+    }
+  }
+
+  function showDetail(detailItems) {
+    const modalBody = document.getElementById("modalBodyDetail");
+    modalBody.innerHTML = "";
+
+    detailItems.forEach((item, i) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${item.name}</td>
+        <td>${item.qty}</td>
+        <td>Rp. ${item.price.toLocaleString("id-ID")}</td>
+      `;
+      modalBody.appendChild(tr);
+    });
+
+    new bootstrap.Modal(document.getElementById("modalDetail")).show();
+  }
+
+  // Panggil saat halaman selesai dimuat
+  document.addEventListener("DOMContentLoaded", fetchRiwayat);
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- <script>
+    const data = [
+      {
+        no: 1,
+        tanggal: "01-08-2025",
+        kode: "TRX-001",
+        metode: "Tunai",
+        harga: 12000,
+        detail: [
+          { nama: "Risol", jumlah: 1, harga: 6000 },
+          { nama: "Pastel", jumlah: 1, harga: 6000 }
+        ]
+      },
+      {
+        no: 2,
+        tanggal: "02-08-2025",
+        kode: "TRX-002",
+        metode: "Transfer",
+        harga: 12000,
+        detail: [
+          { nama: "Choipan", jumlah: 2, harga: 12000 }
+        ]
+      }
+    ];
+
+    const tbody = document.getElementById("riwayatBody");
+    const modalBody = document.getElementById("modalBodyDetail");
+
+    data.forEach((item, i) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${item.no}.</td>
+        <td>${item.tanggal}</td>
+        <td>${item.kode}</td>
+        <td>${item.metode}</td>
+        <td>Rp. ${item.harga.toLocaleString("id-ID")}</td>
+        <td><button class="btn btn-detail" onclick="showDetail(${i})">Detail</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    function showDetail(index) {
+      const items = data[index].detail;
+      modalBody.innerHTML = "";
+      items.forEach((item, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${item.nama}</td>
+          <td>${item.jumlah}</td>
+          <td>Rp. ${item.harga.toLocaleString("id-ID")}</td>
+        `;
+        modalBody.appendChild(tr);
+      });
+      new bootstrap.Modal(document.getElementById("modalDetail")).show();
+    }
+  </script> -->
+
+    <script src="js/cust.js"></script>
+  </body>
+</html>

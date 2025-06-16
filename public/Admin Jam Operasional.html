@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Jam Operasional - Ny.Djo Bakery</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style/Admin.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-pink shadow-sm">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="#">
+          <img src="image/Logo.png" alt="Logo" height="50" />
+        </a>
+        <ul class="navbar-nav mx-auto mb-0">
+          <li class="nav-item">
+            <a class="nav-link" href="Admin Home.html" id="homeLink">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Admin Jam Operasional.html" id="operationalLink"
+              >Operasional Time</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Admin Dashbor.html" id="operationalLink"
+              >Dashbor</a
+            >
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <a href="Admin Profil.html"
+            ><i class="bi bi-person fs-5 text-dark"></i
+          ></a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Operational Time Section -->
+    <div class="container my-5">
+      <h3 class="mb-4">Jam Operasional</h3>
+      <div class="table-responsive">
+        <table class="table text-center">
+          <thead class="table-warning">
+            <tr>
+              <th>Hari</th>
+              <th>Jam Buka</th>
+              <th>Jam Tutup</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyJamOperasional">
+            <!-- Diisi via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+      <div class="text-end mt-4">
+        <a
+          href="Admin Edit Jam Operasional.html"
+          class="btn btn-warning fw-semibold text-dark"
+          >Edit Jam Operasional</a
+        >
+      </div>
+    </div>
+
+    <script>
+      // const data = JSON.parse(localStorage.getItem('jamOperasional'));
+      fetch("http://localhost:5000/api/about")
+        .then((response) => {
+          if (!response.ok) throw new Error("Gagal mengambil data dari server");
+          return response.json();
+        })
+        .then((data) => {
+          const jam = data.openingHours;
+          const tbody = document.getElementById("tbodyJamOperasional");
+
+          if (jam && Object.keys(jam).length > 0) {
+            tbody.innerHTML = "";
+            const urutanHari = [
+              "Senin",
+              "Selasa",
+              "Rabu",
+              "Kamis",
+              "Jumat",
+              "Sabtu",
+              "Minggu",
+            ];
+
+            urutanHari.forEach((hari) => {
+              if (jam[hari]) {
+                const [buka, tutup] = jam[hari];
+                const row = `<tr><td>${hari}</td><td>${buka}</td><td>${tutup}</td></tr>`;
+                tbody.innerHTML += row;
+              }
+            });
+          } else {
+            tbody.innerHTML = `<tr><td colspan="3">Data jam operasional belum tersedia.</td></tr>`;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          document.getElementById(
+            "tbodyJamOperasional"
+          ).innerHTML = `<tr><td colspan="3">Gagal memuat data dari server.</td></tr>`;
+        });
+
+      if (data) {
+        for (const hari in data) {
+          const [buka, tutup] = data[hari];
+          const row = `<tr><td>${hari}</td><td>${buka}</td><td>${tutup}</td></tr>`;
+          tbody.innerHTML += row;
+        }
+      } else {
+        tbody.innerHTML = `<tr><td colspan="3">Data jam operasional belum tersedia.</td></tr>`;
+      }
+    </script>
+
+    <script src="js/Admin.js"></script>
+  </body>
+</html>

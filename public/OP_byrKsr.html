@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kasir Home - NYDJO Bakery</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .list-group-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+      border: none;
+      padding: 6px 12px;
+      color: white;
+      border-radius: 5px;
+    }
+
+    .btn-success:hover {
+      background-color: #218838;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+  <div class="sidebar" id="sidebar">
+    <div class="logo-section">
+      <img src="image/Logo.png" alt="Logo" class="logo" />
+      <nav class="nav-links">
+        <a href="Kasir Home.html" class="active">Transaksi Baru</a>
+        <a href="Online Payment.html">Transaksi Online</a>
+        <a href="Riwayat Transaksi Tunai.html">Transaksi Tunai</a>
+      </nav>
+    </div>
+      <a href="login.html" class="logout" style="color: red;">Logout</a>
+  </div>
+
+  <div class="main-content">
+    <h2 class="mb-4">Daftar Pesanan Belum Dibayar</h2>
+    <div style="margin-bottom: 20px;">
+  <input type="text" id="searchInput" placeholder="Cari berdasarkan kode..." style="padding: 8px; width: 250px;" />
+  <input type="date" id="dateFilter" style="padding: 8px;" />
+  <button onclick="resetFilters()" style="padding: 8px;">Reset</button>
+</div>
+
+    <ul id="daftar-pesanan" class="list-group"></ul>
+  </div>
+
+  <script src="js/sidebar.js"></script>
+  <script>
+  let allOrders = [];
+
+  async function loadPesananBelumDibayar() {
+    try {
+      const res = await fetch('http://localhost:5000/api/pemesanan/belum-dibayar');
+      const data = await res.json();
+      allOrders = data; // Simpan semua pesanan
+      renderPesanan(allOrders);
+    } catch (err) {
+      console.error('Gagal memuat pesanan:', err);
+    }
+
+    // Pasang event listener untuk filter
+    document.getElementById("searchInput").addEventListener("input", applyFilters);
+    document.getElementById("dateFilter").addEventListener("change", applyFilters);
+  }
+
+  function renderPesanan(data) {
+    const container = document.getElementById('daftar-pesanan');
+    container.innerHTML = '';
+
+    if (data.length === 0) {
+      container.innerHTML = "<p class='text-muted'>Tidak ada pesanan yang sesuai.</p>";
+      return;
+    }
+
+    data.forEach(p => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item';
+      li.innerHTML = `
+        <div>
+          <strong>${p.kode}</strong><br>
+          <small>${new Date(p.tanggal).toLocaleString('id-ID')}</small>
+        </div>
+        <a href="detailPaymentKsr.html?kode=${p.kode}" class="btn btn-success">Lihat</a>
+      `;
+      container.appendChild(li);
+    });
+  }
+
+  function applyFilters() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const date = document.getElementById("dateFilter").value;
+
+    const filtered = allOrders.filter(p => {
+      const matchKode = p.kode.toLowerCase().includes(search);
+
+      if (date) {
+        const orderDate = new Date(p.tanggal);
+        const selectedDate = new Date(date);
+        const sameDay = orderDate.toDateString() === selectedDate.toDateString();
+        return matchKode && sameDay;
+      }
+
+      return matchKode;
+    });
+
+    renderPesanan(filtered);
+  }
+
+  function resetFilters() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("dateFilter").value = "";
+    renderPesanan(allOrders);
+  }
+
+  document.addEventListener('DOMContentLoaded', loadPesananBelumDibayar);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pesanan Belum Diambil - NYDJO Bakery</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style/Riwayat Transaksi.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .order-card {
+      background-color: #fff7f0;
+      border: 1px solid #ffcc99;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .order-card strong {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .order-card a {
+      color: #ff9900;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .order-card a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      .sidebar {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+  <div class="sidebar" id="sidebar">
+    <div class="logo-section">
+      <img src="image/Logo.png" alt="Logo" class="logo" />
+      <nav class="nav-links">
+        <a href="Kasir Home.html">Transaksi Baru</a>
+        <a href="Online Payment.html">Transaksi Online</a>
+        <a href="Riwayat Transaksi Tunai.html">Transaksi Tunai</a>
+      </nav>
+    </div>
+      <a href="login.html" class="logout" style="color: red;">Logout</a>
+  </div>
+
+  <!-- Konten utama -->
+  <div class="main-content">
+    <h2>Pesanan Belum Diambil</h2>
+    <div style="margin-bottom: 20px;">
+  <input type="text" id="searchInput" placeholder="Cari berdasarkan nama atau kode..." style="padding: 8px; width: 300px;" />
+  <input type="date" id="dateFilter" style="padding: 8px;" />
+</div>
+
+    <div id="list-belum-diambil"></div>
+  </div>
+
+  <script src="js/sidebar.js"></script>
+  <script>
+  let allOrders = [];
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const container = document.getElementById("list-belum-diambil");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/transfer");
+      const data = await res.json();
+      allOrders = data.filter(p => p.status === "belum diambil");
+
+      renderOrders(allOrders);
+    } catch (err) {
+      container.innerHTML = "<p style='color: red;'>Gagal memuat data.</p>";
+      console.error(err);
+    }
+
+    // Tambahkan event listener untuk input pencarian dan filter tanggal
+    document.getElementById("searchInput").addEventListener("input", applyFilters);
+    document.getElementById("dateFilter").addEventListener("change", applyFilters);
+  });
+
+  function applyFilters() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const date = document.getElementById("dateFilter").value;
+
+    const filtered = allOrders.filter(p => {
+      const matchText = `${p.userId?.username ?? ""} ${p.kode}`.toLowerCase().includes(search);
+
+      if (date) {
+        const orderDate = new Date(p.tanggal);
+        const selectedDate = new Date(date);
+        const sameDay = orderDate.toDateString() === selectedDate.toDateString();
+        return matchText && sameDay;
+      }
+
+      return matchText;
+    });
+
+    renderOrders(filtered);
+  }
+
+  function renderOrders(orders) {
+    const container = document.getElementById("list-belum-diambil");
+    container.innerHTML = "";
+
+    if (orders.length === 0) {
+      container.innerHTML = "<p>Tidak ada pesanan yang sesuai.</p>";
+      return;
+    }
+
+    orders.forEach(p => {
+      const item = document.createElement("div");
+      item.className = "order-card";
+      item.innerHTML = `
+        <strong>${p.userId?.username}</strong>
+        Kode: ${p.kode}<br />
+        Tanggal: ${new Date(p.tanggal).toLocaleString("id-ID")}<br />
+        <a href="detailTf.html?kode=${p.kode}">Lihat Detail</a>
+      `;
+      container.appendChild(item);
+    });
+  }
+</script>
+
+</body>
+</html>

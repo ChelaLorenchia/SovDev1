@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pesanan Sudah Diambil - NYDJO Bakery</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style/Riwayat Transaksi.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    .pesanan-item {
+      margin-bottom: 16px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    .pesanan-item strong {
+      color: #333;
+    }
+
+    .pesanan-item a {
+      display: inline-block;
+      margin-top: 8px;
+      color: #ff9900;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .pesanan-item a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+  <div class="sidebar" id="sidebar">
+    <div class="logo-section">
+      <img src="image/Logo.png" alt="Logo" class="logo" />
+      <nav class="nav-links">
+        <a href="Kasir Home.html">Transaksi Baru</a>
+        <a href="Online Payment.html">Transaksi Online</a>
+        <a href="Riwayat Transaksi Tunai.html">Transaksi Tunai</a>
+      </nav>
+    </div>
+      <a href="login.html" class="logout" style="color: red;">Logout</a>
+  </div>
+
+  <!-- Konten utama -->
+  <div class="main-content">
+    <h2>Pesanan Sudah Diambil</h2>
+    <div style="margin-bottom: 20px;">
+  <input type="text" id="searchInput" placeholder="Cari nama atau kode..." style="padding: 8px; width: 250px;" />
+  <input type="date" id="dateFilter" style="padding: 8px;" />
+  <button onclick="resetFilters()" style="padding: 8px;">Reset</button>
+</div>
+
+    <div id="list-diambil"></div>
+  </div>
+
+  <script src="js/sidebar.js"></script>
+  <script src="js/kasir.js"></script>
+  <script>
+  let semuaPesanan = [];
+
+  async function ambilPesananSudahDiambil() {
+    const container = document.getElementById("list-diambil");
+    try {
+      const res = await fetch("http://localhost:5000/api/transfer");
+      const data = await res.json();
+      semuaPesanan = data.filter(p => p.status === "sudah diambil");
+
+      if (semuaPesanan.length === 0) {
+        container.innerHTML = "<p>Tidak ada pesanan yang sudah diambil.</p>";
+        return;
+      }
+
+      tampilkanPesanan(semuaPesanan);
+
+      document.getElementById("searchInput").addEventListener("input", filterPesanan);
+      document.getElementById("dateFilter").addEventListener("change", filterPesanan);
+    } catch (err) {
+      container.innerHTML = "<p style='color: red;'>Gagal memuat data.</p>";
+      console.error(err);
+    }
+  }
+
+  function tampilkanPesanan(data) {
+    const container = document.getElementById("list-diambil");
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+      container.innerHTML = "<p>Tidak ditemukan pesanan yang sesuai.</p>";
+      return;
+    }
+
+    data.forEach(p => {
+      const item = document.createElement("div");
+      item.className = "pesanan-item";
+      item.innerHTML = `
+        <strong>${p.userId?.username || "User"}</strong> - ${p.kode}<br>
+        ${new Date(p.tanggal).toLocaleString("id-ID")}<br>
+        <a href="detailRiwayat_OP_tf.html?kode=${p.kode}">Lihat Detail</a>
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  function filterPesanan() {
+    const keyword = document.getElementById("searchInput").value.toLowerCase();
+    const tanggal = document.getElementById("dateFilter").value;
+
+    const hasil = semuaPesanan.filter(p => {
+      const nama = p.userId?.username?.toLowerCase() || "";
+      const kode = p.kode.toLowerCase();
+      const cocokKeyword = nama.includes(keyword) || kode.includes(keyword);
+
+      if (tanggal) {
+        const tglPesanan = new Date(p.tanggal).toISOString().split("T")[0];
+        return cocokKeyword && tglPesanan === tanggal;
+      }
+
+      return cocokKeyword;
+    });
+
+    tampilkanPesanan(hasil);
+  }
+
+  function resetFilters() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("dateFilter").value = "";
+    tampilkanPesanan(semuaPesanan);
+  }
+
+  document.addEventListener("DOMContentLoaded", ambilPesananSudahDiambil);
+</script>
+
+</body>
+</html>

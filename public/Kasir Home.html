@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kasir - Ny.Djo Bakery</title>
+    <!-- CSS Library -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/Riwayat Transaksi.css" />
+    <link rel="stylesheet" href="style/Kasir.css" />
+    <style>
+      .btn-custom {
+        background-color: #d98e8e;
+        color: white;
+        border-radius: 20px;
+        padding: 10px 30px;
+        font-weight: bold;
+        border: none;
+      }
+      .table td,
+      .table th {
+        vertical-align: middle;
+      }
+      .card img {
+        height: 120px;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="logo-section text-center mb-4">
+        <img
+          src="image/logo.png"
+          alt="NYDIO Bakery Logo"
+          class="logo img-fluid"
+        />
+      </div>
+      <nav class="nav-links d-flex flex-column gap-2 px-3">
+        <a href="#" class="nav-link text-dark" onclick="loadTransaksiBaruGrid()"
+          >Transaksi Baru</a
+        >
+        <a href="Online Payment.html" class="nav-link text-dark" onclick=""
+          >Transaksi Online</a
+        >
+        <a
+          href="Riwayat Transaksi Tunai.html"
+          class="nav-link text-dark"
+          onclick="loadRiwayatTransaksi()"
+          >Transaksi Tunai</a
+        >
+      </nav>
+      <div class="px-3 mt-auto">
+        <a href="Kasir Profil.html" class="text-danger logout">Logout</a>
+      </div>
+    </div>
+    <div class="content">
+      <div class="container-fluid min-vh-100">
+        <div class="row h-100">
+          <!-- Konten Kanan -->
+          <div class="col d-flex flex-column p-4" id="konten-kanan">
+            <h2 class="mb-4">Selamat Datang di Kasir</h2>
+            <p>Silakan pilih menu di sidebar untuk memulai transaksi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+      let transaksi = [];
+      let produkList = [];
+      let keranjang = {};
+      let metode = "";
+
+      function formatRupiah(num) {
+        return num.toLocaleString("id-ID");
+      }
+
+      async function fetchProdukList() {
+        try {
+          const res = await fetch("http://localhost:5000/api/menus");
+          produkList = await res.json();
+          renderProdukGrid();
+        } catch (err) {
+          console.error("Gagal memuat produk:", err);
+        }
+      }
+
+      function loadTransaksiBaruGrid() {
+        const konten = `
+      <h2 class="mb-4">Transaksi Baru</h2>
+      <div class="row">
+        <div class="col-md-5">
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr><th>Item</th><th>Qty</th><th>Total</th></tr>
+            </thead>
+            <tbody id="ringkasan-pesanan"></tbody>
+            <tfoot>
+              <tr><td colspan="2"><strong>Total</strong></td><td><strong id="total-ringkasan">0</strong></td></tr>
+            </tfoot>
+          </table>
+          <div class="d-flex justify-content-between mb-3">
+            <button id="btnTunai" class="btn btn-warning" onclick="setMetodePembayaran('Tunai')">Tunai</button>
+            <button class="btn btn-danger" onclick="resetKeranjang()">Cancel</button>
+          </div>
+          <div class="text-center">
+            <button class="btn btn-custom" onclick="konfirmasiPembayaran()">Confirm</button>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="row" id="produk-grid"></div>
+        </div>
+      </div>
+    `;
+        document.getElementById("konten-kanan").innerHTML = konten;
+        keranjang = {};
+        metode = "";
+        fetchProdukList();
+        updateRingkasanPesanan();
+      }
+
+      function renderProdukGrid() {
+        const grid = document.getElementById("produk-grid");
+        grid.innerHTML = "";
+        produkList.forEach((produk) => {
+          const qty = keranjang[produk._id]?.qty || 0;
+          const disabled = qty >= produk.stock ? "disabled" : "";
+
+          const card = document.createElement("div");
+          card.className = "col-6 col-lg-4 mb-3";
+          card.innerHTML = `
+        <div class="card h-100 text-center">
+          <img src="${produk.image}" class="card-img-top" alt="${
+            produk.name
+          }" />
+          <div class="card-body p-2">
+            <h6 class="card-title mb-1">${produk.name}</h6>
+            <p class="card-text mb-1">Rp ${produk.price.toLocaleString(
+              "id-ID"
+            )}</p>
+            <p class="text-muted" style="font-size: 0.85em;">Stok: ${
+              produk.stock - qty
+            }</p>
+            <div class="d-flex justify-content-center align-items-center gap-2">
+              <button class="btn btn-sm btn-outline-danger" onclick="kurangiDariKeranjang('${
+                produk._id
+              }')" ${qty === 0 ? "disabled" : ""}>−</button>
+              <span class="fw-bold">${qty}</span>
+              <button class="btn btn-sm btn-outline-success" onclick="tambahKeKeranjang('${
+                produk._id
+              }')" ${disabled}>+</button>
+            </div>
+          </div>
+        </div>
+      `;
+          grid.appendChild(card);
+        });
+      }
+
+      function tambahKeKeranjang(id) {
+        const produk = produkList.find((p) => p._id === id);
+        if (!keranjang[id]) {
+          keranjang[id] = { name: produk.name, qty: 1, price: produk.price };
+        } else {
+          if (keranjang[id].qty >= produk.stock) {
+            return alert("Stok habis untuk produk ini!");
+          }
+          keranjang[id].qty++;
+        }
+        renderProdukGrid();
+        updateRingkasanPesanan();
+      }
+
+      function kurangiDariKeranjang(id) {
+        if (!keranjang[id]) return;
+
+        keranjang[id].qty--;
+
+        if (keranjang[id].qty <= 0) {
+          delete keranjang[id];
+        }
+
+        renderProdukGrid();
+        updateRingkasanPesanan();
+      }
+
+      function updateRingkasanPesanan() {
+        const tbody = document.getElementById("ringkasan-pesanan");
+        let total = 0;
+        tbody.innerHTML = "";
+        for (const id in keranjang) {
+          const item = keranjang[id];
+          const totalItem = item.qty * item.price;
+          total += totalItem;
+          const row = document.createElement("tr");
+          row.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.qty}</td>
+        <td>${totalItem.toLocaleString("id-ID")}</td>
+      `;
+          tbody.appendChild(row);
+        }
+        document.getElementById("total-ringkasan").innerText =
+          total.toLocaleString("id-ID");
+      }
+
+      function setMetodePembayaran(val) {
+        metode = val;
+        alert("Metode dipilih: " + val);
+
+        // Reset semua tombol
+        document.getElementById("btnTunai").classList.remove("metode-selected");
+        document.getElementById("btnQRIS").classList.remove("metode-selected");
+
+        // Tambahkan class ke tombol yang dipilih
+        if (val === "Tunai") {
+          document.getElementById("btnTunai").classList.add("metode-selected");
+        } else if (val === "QRIS") {
+          document.getElementById("btnQRIS").classList.add("metode-selected");
+        }
+      }
+
+      function resetKeranjang() {
+        keranjang = {};
+        metode = "";
+        loadTransaksiBaruGrid();
+      }
+
+      function konfirmasiPembayaran() {
+        if (!Object.keys(keranjang).length) return alert("Keranjang kosong!");
+        if (!metode) return alert("Pilih metode pembayaran!");
+
+        transaksi = Object.entries(keranjang).map(([id, item]) => ({
+          productId: id,
+          item: item.name,
+          qty: item.qty,
+          price: item.price,
+        }));
+
+        if (metode === "Tunai") {
+          localStorage.setItem("transaksiTunai", JSON.stringify(transaksi));
+          window.location.href = "Kasir Transaksi Baru.html";
+        } else {
+          alert("QRIS belum tersedia.");
+        }
+      }
+    </script>
+    <script src="/js/sidebar.js"></script>
+  </body>
+</html>

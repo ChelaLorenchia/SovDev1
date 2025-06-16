@@ -1,0 +1,40 @@
+.main-title {
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+  color: #4a1d1f;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 1rem 0;
+}
+
+.cashier-label {
+  font-size: 5rem;
+  color: #d9d9d9;
+  font-weight: bold;
+  text-align: center;
+}
+
+.metode-selected {
+    background-color: #8bc34a !important;
+    color: white !important;
+  }
+
+@media (max-width: 768px) {
+  .cashier-label {
+    font-size: 3rem;
+  }
+
+  .main-title {
+    font-size: 1.5rem;
+  }
+
+  .sidebar {
+    padding: 1rem;
+  }
+
+  .logo img {
+    max-width: 120px;
+  }
+}

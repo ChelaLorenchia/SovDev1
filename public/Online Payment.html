@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Payment - NYDJO Bakery</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/Riwayat Transaksi.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      /* Tambahkan ini jika sidebar memiliki lebar tetap, misalnya 250px */
+      .main-content {
+        margin-left: 250px; /* sesuaikan dengan lebar sidebar Anda */
+        padding: 20px;
+      }
+
+      .payment-button {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #ff9900;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+
+      .payment-button:hover {
+        background-color: #e68a00;
+      }
+
+      .payment-options {
+        display: flex;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          margin-left: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+    <div class="sidebar" id="sidebar">
+      <div class="logo-section">
+        <img src="image/Logo.png" alt="Logo" class="logo" />
+        <nav class="nav-links">
+          <a href="Kasir Home.html">Transaksi Baru</a>
+          <a href="Online Payment.html">Transaksi Online</a>
+          <a href="Riwayat Transaksi Tunai.html"> Transaksi Tunai </a>
+        </nav>
+      </div>
+      <a href="login.html" class="logout" style="color: red;">Logout</a>
+    </div>
+
+    <!-- Konten utama dengan jarak dari sidebar -->
+    <div class="main-content">
+      <div>
+        <h2>Pilih Metode Pembayaran Customer</h2>
+        <div class="payment-options">
+          <a href="OP_byrKsr.html" class="payment-button">Bayar di Kasir</a>
+          <a href="OP_tf.html" class="payment-button">Transfer</a>
+        </div>
+      </div>
+      <div style="top: 23px;">
+        <h2>Riwayat Pembayaran Customer (website)</h2>
+        <div class="payment-options">
+          <a href="Riwayat_OP_byrKsr.html" class="payment-button">Bayar di Kasir</a>
+          <a href="riwayatOP_tf.html" class="payment-button">Transfer</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/sidebar.js"></script>
+    <!-- <script src="js/kasir.js"></script> -->
+  </body>
+</html>
